@@ -4,8 +4,7 @@
   "description": "Discord Bot made for updating Skyblock Guide",
   "main": "server.js",
   "dependencies": {
-    "discord.js": "^12.4.1",
-    "express": "^4.17.1"
+    "discord.js": "^12.4.1"
   },
   "devDependencies": {},
   "scripts": {
