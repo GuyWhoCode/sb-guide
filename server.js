@@ -1,22 +1,66 @@
-const express = require("express");
-const app = express();
+const Discord = require("discord.js")
+const client = new Discord.Client()
 
-const dreams = [
-  "Find and count some sheep",
-  "Climb a really tall mountain",
-  "Wash the dishes"
-];
+client.once('ready', () => {
+  console.log("Ready!")
+})
 
-app.use(express.static("public"));
+client.on('message', messsage => {
+  console.log(message.content)
+})
 
-app.get("/", (request, response) => {
-  response.sendFile(__dirname + "/views/index.html");
-});
+//https://devcenter.heroku.com/articles/config-vars
+// client.login(process.env.loginToken)
 
-app.get("/dreams", (request, response) => {
-  response.json(dreams);
-});
 
-const listener = app.listen(process.env.PORT, () => {
-  console.log("Your app is listening on port " + listener.address().port);
-});
+//Example of Embed Below
+// const exampleEmbed = {
+// 	color: 0x0099ff,
+// 	title: 'Some title',
+// 	url: 'https://discord.js.org',
+// 	author: {
+// 		name: 'Some name',
+// 		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+// 		url: 'https://discord.js.org',
+// 	},
+// 	description: 'Some description here',
+// 	thumbnail: {
+// 		url: 'https://i.imgur.com/wSTFkRM.png',
+// 	},
+// 	fields: [
+// 		{
+// 			name: 'Regular field title',
+// 			value: 'Some value here',
+// 		},
+// 		{
+// 			name: '\u200b',
+// 			value: '\u200b',
+// 			inline: false,
+// 		},
+// 		{
+// 			name: 'Inline field title',
+// 			value: 'Some value here',
+// 			inline: true,
+// 		},
+// 		{
+// 			name: 'Inline field title',
+// 			value: 'Some value here',
+// 			inline: true,
+// 		},
+// 		{
+// 			name: 'Inline field title',
+// 			value: 'Some value here',
+// 			inline: true,
+// 		},
+// 	],
+// 	image: {
+// 		url: 'https://i.imgur.com/wSTFkRM.png',
+// 	},
+// 	timestamp: new Date(),
+// 	footer: {
+// 		text: 'Some footer text here',
+// 		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+// 	},
+// };
+
+// channel.send({ embed: exampleEmbed });
