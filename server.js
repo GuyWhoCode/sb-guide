@@ -1,6 +1,11 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 
+
+//Commands List
+
+
+
 client.once('ready', () => {
   console.log("Ready!")
 })
@@ -64,3 +69,17 @@ client.on('message', messsage => {
 // };
 
 // channel.send({ embed: exampleEmbed });
+
+
+
+const pingUser = id => {
+  return `<@${id}>`
+}
+
+const randomFunc = () => {
+  let smth = Object.create(suggestionSchema)
+  smth.title = "myTitle"
+  smth.description = "myDescription"
+  smth.user = pingUser(914534857345)
+  console.log(smth)
+}
