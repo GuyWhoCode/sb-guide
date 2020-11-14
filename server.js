@@ -8,7 +8,7 @@ client.once('ready', () => {
 })
 
 client.on('message', message => {
-  if (message.content.startsWith(`${prefix}start`)) {
+  if (message.content.startsWith("g!start")) {
     message.content.send("Bot has started!")
   }
 })
