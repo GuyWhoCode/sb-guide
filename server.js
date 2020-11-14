@@ -1,9 +1,6 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
-
-
-//Commands List
-
+const prefix = 'g!'
 
 
 client.once('ready', () => {
@@ -11,11 +8,12 @@ client.once('ready', () => {
 })
 
 client.on('message', messsage => {
-  console.log(message.content)
+  if (message.content.startsWith(`${prefix}start`)) {
+    message.content.send("Bot has started!")
+  }
 })
 
-//https://devcenter.heroku.com/articles/config-vars
-// client.login(process.env.loginToken)
+client.login(process.env.botToken)
 
 
 //Example of Embed Below
