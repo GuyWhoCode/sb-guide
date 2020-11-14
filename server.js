@@ -7,17 +7,11 @@ client.once('ready', () => {
   console.log("Ready!")
 })
 
-// client.on('message', messsage => {
-//   //.startsWith(`${prefix}start`)
-//   if (message.content === "g!start") {
-//     message.content.send("Bot has started!")
-//   }
-// })
 client.on('message', message => {
-	if (message.content === '!ping') {
-		message.channel.send('Pong.');
-	}
-});
+  if (message.content.startsWith(`${prefix}start`)) {
+    message.content.send("Bot has started!")
+  }
+})
 
 client.login(process.env.botToken)
 
