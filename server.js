@@ -13,7 +13,7 @@ client.once('ready', () => {
   console.log("Ready!")
 })
 
-client.on('message', message => {
+client.on('message', async (message) => {
   if (message.content.startsWith(`${prefix}start`)) {
     message.channel.send("Bot has started!")
   } else if (message.content.startsWith(`${prefix}addcategory`)) {
