@@ -23,7 +23,7 @@ client.on('message', (message) => {
     dbClient.connect( async(err, mongoDB)=> {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
-      message.channel.send("Database output: " + updateTips)
+      message.channel.send("Database output: " + updateTips[0].testingDatabase)
       // updateTips.insertOne({
       //   newCategory: "testing out insertion"   
       // })
