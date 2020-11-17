@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 const prefix = 'g!'
 const mongoClient = require('mongodb').MongoClient;
-const uri = `mongodb+srv://admin:${process.env.password}@scoutingapp.pblik.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const uri = "mongodb+srv://admin:"+ process.env.password + "@scoutingapp.pblik.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
@@ -21,8 +21,8 @@ client.on('message', (message) => {
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
     dbClient.connect( async(err, mongoDB)=> {
-      let db = mongoDB.db("skyblockGuide")
-      const updateTips = db.collection("Skyblock")
+      let database = mongoDB.db("skyblockGuide")
+      const updateTips = database.collection("Skyblock")
       
       updateTips.insertOne({
         newCategory: userSuggestion   
