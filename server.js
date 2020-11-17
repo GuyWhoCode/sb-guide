@@ -21,7 +21,7 @@ client.on('message', (message) => {
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
     dbClient.connect( async(err, client)=> {
-      const updateTips = client.db("skyblockGuide").collection("Skyblock")
+      const updateTips = dbClient.db("skyblockGuide").collection("Skyblock")
       
       updateTips.insertOne({
         newCategory: userSuggestion   
