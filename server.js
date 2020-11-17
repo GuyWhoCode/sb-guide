@@ -1,9 +1,10 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const prefix = 'g!'
-// const MongoClient = require('mongodb').MongoClient;
-// const uri = `mongodb+srv://admin:${process.env.password}@scoutingapp.pblik.mongodb.net/<dbname>?retryWrites=true&w=majority`;
-// const client = new MongoClient(uri, { useNewUrlParser: true });
+const MongoClient = require('mongodb').MongoClient;
+const uri = `mongodb+srv://admin:${process.env.password}@scoutingapp.pblik.mongodb.net/<dbname>?retryWrites=true&w=majority`;
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
 
 // client.connect( async(err, client)=> {
 //   const collection = client.db("test").collection("devices");
