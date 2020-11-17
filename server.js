@@ -27,9 +27,14 @@ client.on('message', (message) => {
       updateTips.insertOne({
         newCategory: userSuggestion   
       })
-});
+    });
+
+    let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblockGuide")
+    
+    skyblockGuide.send(`New category created. ${userSuggestion}`)
+
   }
-  // message.guild.channels
+
 })
 
 client.login(process.env.botToken)
