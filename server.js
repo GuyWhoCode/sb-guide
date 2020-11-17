@@ -29,7 +29,7 @@ client.on('message', (message) => {
       })
     });
 
-    let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblockGuide")
+    let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
     
     skyblockGuide.send(`New category created. ${userSuggestion}`)
 
