@@ -23,10 +23,10 @@ client.on('message', (message) => {
     dbClient.connect( async(err, mongoDB)=> {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
-      
-      updateTips.insertOne({
-        newCategory: "testing out insertion"   
-      })
+      message.channel.send("Database output: " + updateTips)
+      // updateTips.insertOne({
+      //   newCategory: "testing out insertion"   
+      // })
     });
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
