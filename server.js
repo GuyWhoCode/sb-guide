@@ -20,13 +20,13 @@ client.on('message', (message) => {
     let userSuggestion = message.content.split(`${prefix}addcategory`)[1]
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
-    dbClient.connect( async(err, mongoDB)=> {
+    dbClient.connect( async(err)=> {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
-      message.channel.send("Database output: " + updateTips[0].testingDatabase)
-      // updateTips.insertOne({
-      //   newCategory: "testing out insertion"   
-      // })
+      updateTips.insertOne({
+        "newCategory": "testing out insertion",
+        "time": "69 hours"   
+      })
     });
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
