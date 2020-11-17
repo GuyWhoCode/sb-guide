@@ -20,8 +20,8 @@ client.on('message', (message) => {
     let userSuggestion = message.content.split(`${prefix}addcategory`)[1]
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
-    dbClient.connect( async(err, client)=> {
-      const updateTips = dbClient.db("skyblockGuide").collection("Skyblock")
+    dbClient.connect( async(err, mongoDB)=> {
+      const updateTips = mongoDB.db("skyblockGuide").collection("Skyblock")
       
       updateTips.insertOne({
         newCategory: userSuggestion   
