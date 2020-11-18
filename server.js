@@ -78,7 +78,7 @@ client.on('message', (message) => {
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
     // skyblockGuide.send(`New category created. ${userSuggestion}`)
   } else if (message.content.startsWith(`${prefix}embed`)) {
-    channel.send({ embed: exampleEmbed });
+    message.channel.send({ embed: exampleEmbed });
   }
 
 })
