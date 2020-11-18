@@ -2,13 +2,11 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 const prefix = 'g!'
 const mongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@scoutingapp.pblik.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
+const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
 
-
-//Reload Command
 client.once('ready', () => {
   console.log("Ready!")
 })
@@ -20,7 +18,7 @@ client.on('message', (message) => {
     let userSuggestion = message.content.split(`${prefix}addcategory`)[1]
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
-    dbClient.connect( async(err)=> {
+    dbClient.connect( async(err, clientDB)=> {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
       updateTips.insertOne({
