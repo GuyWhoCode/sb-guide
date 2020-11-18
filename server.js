@@ -1,9 +1,9 @@
 const Discord = require("discord.js")
 const client = new Discord.Client()
 const prefix = 'g!'
-const MongoClient = require('mongodb').MongoClient;
+const mongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@scoutingapp.pblik.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
-const dbClient = new MongoClient(uri, { useNewUrlParser: true });
+const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
 
