@@ -12,42 +12,32 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 const exampleEmbed = {
 	color: 0x87d8fa,
-	title: 'Skyblock!',
+	title: 'Common Money Making Methods',
 	author: {
-		name: 'Mason',
-		icon_url: 'https://i.imgur.com/wSTFkRM.png',
-	},
-	description: 'Testing out description placement',
-	thumbnail: {
-		url: 'https://i.imgur.com/wSTFkRM.png',
+		name: 'Skyblock Guide'
 	},
 	fields: [
 		{
-			name: 'Farming',
-			value: 'is absolutely very cool',
+			name: 'Zealots',
+			value: "No one likes it, but we all gotta do this at some point. Self explanatory. Head down to the Dragon's Den at the bottom of the End and start stabbing zealots. Zealots drop summoning eyes, which are big money makers. Don't be angry that you haven't gotten a summoning eye in 600 zealots. People have gone 2,000 without one. Warning: You have at least 10 seconds after your Special Zealot spawns until drop protection for the Summoning Eye is gone. ",
 		},
 		{
-			name: '\u200b',
-			value: '\u200b',
-			inline: false,
+			name: 'Building a Farm',
+			value: "With the Builder's Wand (12k bits from the Community Shop), building a farm has never been easier! Even if you do buy one from the AH instead of the Community Shop, it's a worthwhile investment. ",
 		},
 		{
-			name: 'WOAH THE SAME MESSAGE',
-			value: 'Absolutely POGGERS',
+			name: 'Bazaar and AH Flipping',
+			value: "You buy low, sell high. Look for items that fit this basic description, or have a mod do this for you. Bazaar Analyse (found in #skyblock-resources) will help with bazaar flipping. There is also a bazaar bot in Skyblock Simplified (#partners).",
 		},
 		{
-			name: 'WOAH THE SAME MESSAGE',
-			value: 'Absolutely POGGERS',
-		},
-		{
-			name: 'WOAH THE SAME MESSAGE',
-			value: 'Absolutely POGGERS',
+			name: 'Participating in Events',
+			value: "Do `$cal` in #bot-commands to see when the next event is. ",
 		},
 	],
 	timestamp: new Date(),
 	footer: {
-		text: 'Some footer text here',
-		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+		text: 'Skycomm Guide Bot',
+		icon_url: "./GuidePFP.png",
 	},
 };
 
