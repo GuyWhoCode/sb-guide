@@ -6,9 +6,55 @@ const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
-// skyblock: 87d8fa
+// skyblock: 
 // dungeons: cc0000
 // updates: ffba00
+
+const exampleEmbed = {
+	color: 0x87d8fa,
+	title: 'Skyblock!',
+	author: {
+		name: 'Mason',
+		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+	description: 'Testing out description placement',
+	thumbnail: {
+		url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+	fields: [
+		{
+			name: 'Farming',
+			value: 'is absolutely very cool',
+		},
+		{
+			name: '\u200b',
+			value: '\u200b',
+			inline: false,
+		},
+		{
+			name: 'WOAH THE SAME MESSAGE',
+			value: 'Absolutely POGGERS',
+		},
+		{
+			name: 'WOAH THE SAME MESSAGE',
+			value: 'Absolutely POGGERS',
+		},
+		{
+			name: 'WOAH THE SAME MESSAGE',
+			value: 'Absolutely POGGERS',
+		},
+	],
+	timestamp: new Date(),
+	footer: {
+		text: 'Some footer text here',
+		icon_url: 'https://i.imgur.com/wSTFkRM.png',
+	},
+};
+
+
+
+
+
 
 client.once('ready', () => {
   console.log("Ready!")
@@ -31,65 +77,14 @@ client.on('message', (message) => {
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
     // skyblockGuide.send(`New category created. ${userSuggestion}`)
-
+  } else if (message.content.startsWith(`${prefix}embed`)) {
+    channel.send({ embed: exampleEmbed });
   }
 
 })
 
 client.login(process.env.botToken)
 
-
-//Example of Embed Below
-// const exampleEmbed = {
-// 	color: 0x0099ff,
-// 	title: 'Some title',
-// 	url: 'https://discord.js.org',
-// 	author: {
-// 		name: 'Some name',
-// 		icon_url: 'https://i.imgur.com/wSTFkRM.png',
-// 		url: 'https://discord.js.org',
-// 	},
-// 	description: 'Some description here',
-// 	thumbnail: {
-// 		url: 'https://i.imgur.com/wSTFkRM.png',
-// 	},
-// 	fields: [
-// 		{
-// 			name: 'Regular field title',
-// 			value: 'Some value here',
-// 		},
-// 		{
-// 			name: '\u200b',
-// 			value: '\u200b',
-// 			inline: false,
-// 		},
-// 		{
-// 			name: 'Inline field title',
-// 			value: 'Some value here',
-// 			inline: true,
-// 		},
-// 		{
-// 			name: 'Inline field title',
-// 			value: 'Some value here',
-// 			inline: true,
-// 		},
-// 		{
-// 			name: 'Inline field title',
-// 			value: 'Some value here',
-// 			inline: true,
-// 		},
-// 	],
-// 	image: {
-// 		url: 'https://i.imgur.com/wSTFkRM.png',
-// 	},
-// 	timestamp: new Date(),
-// 	footer: {
-// 		text: 'Some footer text here',
-// 		icon_url: 'https://i.imgur.com/wSTFkRM.png',
-// 	},
-// };
-
-// channel.send({ embed: exampleEmbed });
 
 
 
