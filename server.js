@@ -27,8 +27,8 @@ client.on('message', (message) => {
         "newCategory": "testing out insertion",
         "time": "69 hours"   
       })
-      // let something = await updateTips.findOne({"testingDatabase": 69}).toArray()
-      // message.channel.send("ID Number: " + something._id)
+      let something = await updateTips.findOne({"key": 1234}).toArray()
+      message.channel.send("testDB: " + something.testingDatabase)
     });
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
