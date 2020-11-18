@@ -22,11 +22,8 @@ client.on('message', (message) => {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
       updateTips.insertOne({
-        "newCategory": "testing out insertion",
-        "time": "69 hours"   
+        "newCategory": userSuggestion
       })
-      let something = await updateTips.findOne({"key": 1234}).toArray()
-      message.channel.send("testDB: " + something)
     });
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
