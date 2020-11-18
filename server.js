@@ -6,6 +6,9 @@ const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
+// skyblock: 87d8fa
+// dungeons: cc0000
+// updates: ffba00
 
 client.once('ready', () => {
   console.log("Ready!")
@@ -15,7 +18,7 @@ client.on('message', (message) => {
   if (message.content.startsWith(`${prefix}start`)) {
     message.channel.send("Bot has started!")
   } else if (message.content.startsWith(`${prefix}addcategory`)) {
-    let userSuggestion = message.content.split(`${prefix}addcategory`)[1]
+    let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()
     message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
     dbClient.connect( async(err, clientDB)=> {
@@ -90,14 +93,3 @@ client.login(process.env.botToken)
 
 
 
-const pingUser = id => {
-  return `<@${id}>`
-}
-
-const randomFunc = () => {
-  let smth = Object.create(suggestionSchema)
-  smth.title = "myTitle"
-  smth.description = "myDescription"
-  smth.user = pingUser(914534857345)
-  console.log(smth)
-}
