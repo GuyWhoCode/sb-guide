@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const client = new Discord.Client()
 const prefix = 'g!'
 const mongoClient = require('mongodb').MongoClient;
-const uri = "mongodb+srv://admin:"+ process.env.password + "@scoutingapp.pblik.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
+const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@scoutingapp.pblik.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
@@ -23,12 +23,12 @@ client.on('message', (message) => {
     dbClient.connect( async(err)=> {
       let database = dbClient.db("skyblockGuide")
       const updateTips = database.collection("Skyblock")
-      // updateTips.insertOne({
-      //   "newCategory": "testing out insertion",
-      //   "time": "69 hours"   
-      // })
-      let something = await updateTips.findOne({"testingDatabase": 69}).toArray()
-      message.channel.send("ID Number: " + something._id)
+      updateTips.insertOne({
+        "newCategory": "testing out insertion",
+        "time": "69 hours"   
+      })
+      // let something = await updateTips.findOne({"testingDatabase": 69}).toArray()
+      // message.channel.send("ID Number: " + something._id)
     });
 
     // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
