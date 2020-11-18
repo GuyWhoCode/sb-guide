@@ -35,10 +35,10 @@ const exampleEmbed = {
 		},
 	],
 	timestamp: new Date(),
-	footer: {
-		text: 'Skycomm Guide Bot',
-		icon_url: "./GuidePFP.png",
-	},
+	// footer: {
+	// 	text: 'Skycomm Guide Bot',
+	// 	icon_url: "./GuidePFP.png",
+	// },
 };
 
 
