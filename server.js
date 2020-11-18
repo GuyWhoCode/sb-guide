@@ -6,7 +6,6 @@ const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.
 const dbClient = new mongoClient(uri, { useNewUrlParser: true });
 
 
-// skyblock: 
 // dungeons: cc0000
 // updates: ffba00
 
@@ -35,10 +34,10 @@ const exampleEmbed = {
 		},
 	],
 	timestamp: new Date(),
-	// footer: {
-	// 	text: 'Skycomm Guide Bot',
-	// 	icon_url: "./GuidePFP.png",
-	// },
+	footer: {
+		text: 'Skycomm Guide Bot',
+		icon_url: "https://i.imgur.com/184jyne.png",
+	},
 };
 
 
