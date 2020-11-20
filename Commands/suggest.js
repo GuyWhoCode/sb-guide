@@ -22,30 +22,29 @@ module.exports = {
 	name: 'suggest',
 	description: "Adds a suggestion to update the Skyblock or Dungeons guide.",
 	execute(message, args) {
-    var suggestEmbed = {
-      color: 0xffba00,
-      title: 'Suggestion',
-      description: "",
-      timestamp: new Date(),
-      footer: {
-        text: 'Skycomm Guide Bot',
-        icon_url: "https://i.imgur.com/184jyne.png",
-      },
-    }
-    
-    let userSuggestion = args.split(2, args.length).join(" ")
-    suggestEmbed.description = userSuggestion
+    // var suggestEmbed = {
+    //   color: 0xffba00,
+    //   title: 'Suggestion',
+    //   description: "",
+    //   timestamp: new Date(),
+    //   footer: {
+    //     text: 'Skycomm Guide Bot',
+    //     icon_url: "https://i.imgur.com/184jyne.png",
+    //   },
+    // }
 
-    let user = message.author.username
+    // let userSuggestion = args.split(2, args.length).join(" ")
+    // suggestEmbed.description = userSuggestion
 
-    if (args[1] == "sb") {
-      suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
-    } else if (args[1] == "d") {
-      suggestEmbed.title = `Dungeons Suggestion made by ${user}`
-    }
+    // let user = message.author.username
+
+    // if (args[1] == "sb") {
+    //   suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
+    // } else if (args[1] == "d") {
+    //   suggestEmbed.title = `Dungeons Suggestion made by ${user}`
+    // }
     
-    
-    
-    message.channel.send({ embed: suggestEmbed })
+    // message.channel.send({ embed: suggestEmbed })
+    message.channel.send("This command works!")
 	},
 }
