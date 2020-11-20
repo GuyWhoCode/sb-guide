@@ -59,6 +59,7 @@ client.once('ready', () => {
 })
 
 client.on('message', (message) => {
+	
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 	
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
@@ -67,13 +68,11 @@ client.on('message', (message) => {
 	message.channel.send("Args: " + args + "\nCommand: " + command)
 
 	try {
-		client.commands.get(command).execute(message,args)
+		client.commands.get(command).execute(message, args)
 	} catch (error) {
 		message.reply("There was an error in excuting that command.")
 	}
-	// if (message.content.startsWith(`${prefix}start`)) {
-    // 	message.channel.send("Bot has started!")
-  	// } else if (message.content.startsWith(`${prefix}addcategory`)) {
+	// else if (message.content.startsWith(`${prefix}addcategory`)) {
     // 	let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()
     // 	message.channel.send(`This is your suggestion: ${userSuggestion}`)
     
