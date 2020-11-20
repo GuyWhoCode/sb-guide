@@ -36,7 +36,7 @@ module.exports = {
     // let userSuggestion = args.split(2, args.length).join(" ")
     // suggestEmbed.description = userSuggestion
 
-     suggestEmbed.description = args
+    //  suggestEmbed.description = args
     // let user = message.author.username
 
     // if (args[1] == "sb") {
@@ -45,7 +45,7 @@ module.exports = {
     //   suggestEmbed.title = `Dungeons Suggestion made by ME`
     // }
     
-    message.channel.send({ embed: suggestEmbed })
-    // message.channel.send("This command works!")
+    // message.channel.send({ embed: suggestEmbed })
+    message.channel.send("These are the commands args! " + args)
 	},
 }
