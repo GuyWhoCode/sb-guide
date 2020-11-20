@@ -22,7 +22,7 @@ var suggestEmbed = {
   fields: [
 		{
 			name: 'ID:',
-			value: "Filler",
+			value: "_ _",
 		}],
   timestamp: new Date(),
   footer: {
@@ -40,22 +40,21 @@ module.exports = {
     suggestEmbed.description = userSuggestion
 
     let user = message.author.username
-    // let category = 
+    let category = args[0]
 
-    // if (category != "sb" || category != "d") {
-    //   message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
-    //   return;
-    // }
+    if (category != "sb" || category != "d") {
+      message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+      return;
+    }
 
-    if (args[0] == "sb") {
+    if (category == "sb") {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
-    } else if (args[0] == "d") {
+    } else if (category == "d") {
       suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
     } 
     
-    // suggestEmbed.fields[0].name = `ID: ${message.id}`
+    suggestEmbed.fields[0].name = `ID: ${message.id}`
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed })
-    message.channel.send({embd: suggestEmbed})
 	},
 }
