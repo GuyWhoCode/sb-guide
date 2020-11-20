@@ -33,7 +33,7 @@ module.exports = {
       },
     }
 
-    let userSuggestion = args.split(2, args.length).join(" ")
+    let userSuggestion = args.slice(2, args.length).join(" ")
     // suggestEmbed.description = userSuggestion
 
     //  suggestEmbed.description = args
