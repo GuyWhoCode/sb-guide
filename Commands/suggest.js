@@ -8,12 +8,12 @@ const suggestionSchema = {
 //   return `<@${id}>`
 // }
   
-const createNewEntry = () => {
-  let entry = Object.create(suggestionSchema)
-  entry.title = "myTitle"
-  entry.description = "myDescription"
-  entry.user = pingUser(914534857345)
-}
+// const createNewEntry = () => {
+//   let entry = Object.create(suggestionSchema)
+//   entry.title = "myTitle"
+//   entry.description = "myDescription"
+//   entry.user = pingUser(914534857345)
+// }
 
 var suggestEmbed = {
   color: 0xffba00,
@@ -52,8 +52,6 @@ module.exports = {
     }
     
     suggestEmbed.fields[0].name = `ID: ${message.id}`
-
-
 
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 	  suggestionChannel.send({ embed: suggestEmbed })
