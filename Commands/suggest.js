@@ -39,7 +39,7 @@ module.exports = {
     let userSuggestion = args.slice(1, args.length).join(" ")
     suggestEmbed.description = userSuggestion
 
-    let user = message.author.tag
+    let user = message.author.username
     // let category = 
 
     // if (category != "sb" || category != "d") {
