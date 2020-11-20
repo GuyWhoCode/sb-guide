@@ -33,16 +33,17 @@ module.exports = {
       },
     }
 
-    let userSuggestion = args.split(2, args.length).join(" ")
-    suggestEmbed.description = userSuggestion
+    // let userSuggestion = args.split(2, args.length).join(" ")
+    // suggestEmbed.description = userSuggestion
 
+     suggestEmbed.description = args
     // let user = message.author.username
 
-    if (args[1] == "sb") {
-      suggestEmbed.title = `Skyblock Guide Suggestion made by ME`
-    } else if (args[1] == "d") {
-      suggestEmbed.title = `Dungeons Suggestion made by ME`
-    } //specify context
+    // if (args[1] == "sb") {
+    //   suggestEmbed.title = `Skyblock Guide Suggestion made by ME`
+    // } else if (args[1] == "d") {
+    //   suggestEmbed.title = `Dungeons Suggestion made by ME`
+    // }
     
     message.channel.send({ embed: suggestEmbed })
     // message.channel.send("This command works!")
