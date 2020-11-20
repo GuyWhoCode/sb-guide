@@ -24,7 +24,7 @@ var suggestEmbed = {
 		text: 'Skycomm Guide Bot',
 		icon_url: "https://i.imgur.com/184jyne.png",
 	},
-};
+}
 
 
 module.exports = {
@@ -34,8 +34,8 @@ module.exports = {
     let userSuggestion = args.split(2, args.length).join(" ")
     suggestEmbed.description = userSuggestion
 
-    let user = message.author.username
-    suggestEmbed.title = `Suggestion made by ${user}`
+    // let user = message.author.username
+    // suggestEmbed.title = `Suggestion made by ${user}`
 
     message.channel.send({ embed: suggestEmbed })
 	},
