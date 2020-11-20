@@ -70,7 +70,7 @@ client.on('message', (message) => {
 	try {
 		client.commands.get(command).execute(message, args)
 	} catch (error) {
-		message.reply("There was an error in excuting that command.")
+		message.channel.send("There was an error in excuting that command.")
 	}
 	// else if (message.content.startsWith(`${prefix}addcategory`)) {
     // 	let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()

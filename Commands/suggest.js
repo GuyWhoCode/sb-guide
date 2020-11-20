@@ -8,17 +8,22 @@ const suggestionSchema = {
 //   return `<@${id}>`
 // }
   
-// const randomFunc = () => {
-//   let smth = Object.create(suggestionSchema)
-//   smth.title = "myTitle"
-//   smth.description = "myDescription"
-//   smth.user = pingUser(914534857345)
-// }
+const createNewEntry = () => {
+  let entry = Object.create(suggestionSchema)
+  entry.title = "myTitle"
+  entry.description = "myDescription"
+  entry.user = pingUser(914534857345)
+}
 
 var suggestEmbed = {
   color: 0xffba00,
   title: 'Suggestion',
   description: "Filler Suggestion",
+  fields: [
+		{
+			name: 'ID:',
+			value: "",
+		}],
   timestamp: new Date(),
   footer: {
     text: 'Skycomm Guide Bot',
@@ -35,13 +40,21 @@ module.exports = {
     suggestEmbed.description = userSuggestion
 
     let user = message.author.tag
+    let category = args[0]
 
-    if (args[0] == "sb") {
+    if (category == "sb") {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
-    } else if (args[0] == "d") {
+    } else if (category == "d") {
       suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
+    } else {
+      message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+      return;
     }
     
+    suggestEmbed.fields[0].name = `ID: ${message.id}`
+
+
+
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 	  suggestionChannel.send({ embed: suggestEmbed })
 	},
