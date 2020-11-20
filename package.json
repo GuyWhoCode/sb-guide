@@ -5,6 +5,7 @@
   "main": "server.js",
   "dependencies": {
     "discord.js": "^12.4.1",
+    "fs": "0.0.1-security",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {},

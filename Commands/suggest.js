@@ -16,7 +16,7 @@ const suggestionSchema = {
     console.log(smth)
   }
 
-modules.exports = {
-    name: "suggest",
-    description: "Adds a suggestion"
-}
+// module.exports = {
+//     name: "suggest",
+//     description: "Adds a suggestion"
+// }

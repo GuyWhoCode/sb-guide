@@ -1,10 +1,18 @@
 const Discord = require("discord.js")
+const fs = require("fs")
+const mongoClient = require('mongodb').MongoClient
 const client = new Discord.Client()
 const prefix = 'g!'
-const mongoClient = require('mongodb').MongoClient;
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
-const dbClient = new mongoClient(uri, { useNewUrlParser: true });
+const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
+client.command = new Discord.Collection()
+const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'))
+
+for (const file of commandFiles) {
+	const command = require(`./commands/${file}`)
+	client.commands.set(command.name, command)
+}
 
 // dungeons: cc0000
 // updates: ffba00
@@ -50,30 +58,36 @@ client.once('ready', () => {
 })
 
 client.on('message', (message) => {
-  if (message.content.startsWith(`${prefix}start`)) {
-    message.channel.send("Bot has started!")
-  } else if (message.content.startsWith(`${prefix}addcategory`)) {
-    let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()
-    message.channel.send(`This is your suggestion: ${userSuggestion}`)
-    
-    dbClient.connect( async(err, clientDB)=> {
-      let database = dbClient.db("skyblockGuide")
-      const updateTips = database.collection("Skyblock")
-      updateTips.insertOne({
-        "newCategory": userSuggestion
-      })
-    });
+	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	
+	const args = message.content.slice(prefix.length).trim().split(/ +/);
+	const command = args.shift().toLowerCase();
 
-    // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-    // skyblockGuide.send(`New category created. ${userSuggestion}`)
-  } else if (message.content.startsWith(`${prefix}embed`)) {
-    message.channel.send({ embed: exampleEmbed });
-  }
+	try {
+		client.command.get(command).execute(message,args)
+	} catch (error) {
+		message.reply("There was an error in excuting that command.")
+	}
+	// if (message.content.startsWith(`${prefix}start`)) {
+    // 	message.channel.send("Bot has started!")
+  	// } else if (message.content.startsWith(`${prefix}addcategory`)) {
+    // 	let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()
+    // 	message.channel.send(`This is your suggestion: ${userSuggestion}`)
+    
+    // dbClient.connect( async(err, clientDB)=> {
+    //   let database = dbClient.db("skyblockGuide")
+    //   const updateTips = database.collection("Skyblock")
+    //   updateTips.insertOne({
+    //     "newCategory": userSuggestion
+    //   })
+    // });
+
+	//   // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
+	//   // skyblockGuide.send(`New category created. ${userSuggestion}`)
+	// } else if (message.content.startsWith(`${prefix}embed`)) {
+	//   message.channel.send({ embed: exampleEmbed });
+	// }
 
 })
 
 client.login(process.env.botToken)
-
-
-
-
