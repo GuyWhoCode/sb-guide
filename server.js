@@ -6,7 +6,7 @@ const prefix = 'g!'
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
-client.command = new Discord.Collection()
+client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
 
 for (const file of commandFiles) {
