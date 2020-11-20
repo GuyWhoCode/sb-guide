@@ -63,6 +63,7 @@ client.on('message', (message) => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
+	message.channel.send("Args: " + args + "\nCommand: " + command)
 	try {
 		client.command.get(command).execute(message,args)
 	} catch (error) {
