@@ -13,7 +13,7 @@ const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('
 // 	const command = require(`./Commands/${file}`)
 // 	client.commands.set(command.name, command)
 //}
-const startCmd = require("./Commands/start")
+const startCmd = require("./Commands/start.js")
 client.commands.set(startCmd.name, startCmd)
 
 // dungeons: cc0000
