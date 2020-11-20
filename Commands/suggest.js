@@ -42,10 +42,10 @@ module.exports = {
     let user = message.author.tag
     let category = args[0]
 
-    if (category != "sb" || category != "d") {
-      message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
-      return;
-    }
+    // if (category != "sb" || category != "d") {
+    //   message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+    //   return;
+    // }
 
     if (category == "sb") {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
