@@ -9,10 +9,12 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
 
-for (const file of commandFiles) {
-	const command = require(`./Commands/${file}`)
-	client.commands.set(command.name, command)
-}
+// for (const file of commandFiles) {
+// 	const command = require(`./Commands/${file}`)
+// 	client.commands.set(command.name, command)
+//}
+const startCmd = require("./Commands/start")
+client.commands.set(startCmd.name, startCmd)
 
 // dungeons: cc0000
 // updates: ffba00
@@ -64,6 +66,7 @@ client.on('message', (message) => {
 	const command = args.shift().toLowerCase();
 
 	message.channel.send("Args: " + args + "\nCommand: " + command)
+
 	try {
 		client.commands.get(command).execute(message,args)
 	} catch (error) {
