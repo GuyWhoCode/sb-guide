@@ -19,12 +19,11 @@ var suggestEmbed = {
   color: 0xffba00,
   title: 'Suggestion',
   description: "Filler Suggestion",
-  // ,
-  // fields: [
-	// 	{
-	// 		name: 'ID:',
-	// 		value: "",
-	// 	}],
+  fields: [
+		{
+			name: 'ID:',
+			value: "Filler",
+		}],
   timestamp: new Date(),
   footer: {
     text: 'Skycomm Guide Bot',
