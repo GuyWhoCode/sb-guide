@@ -3,7 +3,7 @@ const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
 const suggestionSchema = {
-    "title": "placeholder",
+    "section": "placeholder",
     "description": "placeholder",
     "user": "placeholder"
 }
@@ -12,9 +12,9 @@ const suggestionSchema = {
 //   return `<@${id}>`
 // }
   
-const createNewEntry = (title, desc, user) => {
+const createNewEntry = (section, desc, user) => {
   let entry = Object.create(suggestionSchema)
-  entry.title = title
+  entry.section = section
   entry.description = desc
   entry.user = user
   return entry
