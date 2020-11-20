@@ -53,7 +53,7 @@ module.exports = {
       suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
     } 
     
-    suggestEmbed.fields[0].name = `ID: ${message.id}`
+    // suggestEmbed.fields[0].name = `ID: ${message.id}`
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 	  suggestionChannel.send({ embed: suggestEmbed })
 	},
