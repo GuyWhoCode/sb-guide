@@ -42,7 +42,7 @@ module.exports = {
     let user = message.author.username
     let category = args[0]
 
-    if (category != "sb" || category != "d") {
+    if (category != "sb" && category != "d") {
       message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
       return;
     }
