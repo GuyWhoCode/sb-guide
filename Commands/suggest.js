@@ -47,15 +47,15 @@ module.exports = {
     //   return;
     // }
 
-    if (args[1] == "sb") {
+    if (args[0] == "sb") {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
-    } else if (args[1] == "d") {
+    } else if (args[0] == "d") {
       suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
     } 
     
     // suggestEmbed.fields[0].name = `ID: ${message.id}`
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed })
-    message.channel.send("This command works! Args: " + args[1])
+    message.channel.send("This command works! Args: " + args[0])
 	},
 }
