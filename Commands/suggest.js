@@ -46,7 +46,7 @@ module.exports = {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
     } else if (category == "d") {
       suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
-    } else {
+    } else if (category != "sb" && category != "d") {
       message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
       return;
     }
