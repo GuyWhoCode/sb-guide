@@ -1,10 +1,7 @@
 const Discord = require("discord.js")
 const fs = require("fs")
-const mongoClient = require('mongodb').MongoClient
 const client = new Discord.Client()
 const prefix = 'g!'
-const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
-const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -13,7 +10,6 @@ for (const file of commandFiles) {
 	const command = require(`./Commands/${file}`)
 	client.commands.set(command.name, command)
 }
-// const startCmd = require("./Commands/ping.js")
 
 // dungeons: cc0000
 // updates: ffba00
