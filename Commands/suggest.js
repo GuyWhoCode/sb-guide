@@ -34,12 +34,12 @@ module.exports = {
     let userSuggestion = args.slice(1, args.length).join(" ")
     suggestEmbed.description = userSuggestion
 
-    let user = message.author.username
+    let user = message.author.tag
 
     if (args[0] == "sb") {
       suggestEmbed.title = `Skyblock Guide Suggestion made by ${user}`
     } else if (args[0] == "d") {
-      suggestEmbed.title = `Dungeons Suggestion made by ${user}`
+      suggestEmbed.title = `Dungeons Guide Suggestion made by ${user}`
     }
     
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
