@@ -65,7 +65,7 @@ client.on('message', (message) => {
 
 	message.channel.send("Args: " + args + "\nCommand: " + command)
 	try {
-		client.command.get(command).execute(message,args)
+		client.commands.get(command).execute(message,args)
 	} catch (error) {
 		message.reply("There was an error in excuting that command.")
 	}
