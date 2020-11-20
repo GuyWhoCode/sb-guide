@@ -1,5 +1,6 @@
 const Discord = require("discord.js")
 const fs = require("fs")
+const { start } = require("repl")
 const mongoClient = require('mongodb').MongoClient
 const client = new Discord.Client()
 const prefix = 'g!'
@@ -14,7 +15,7 @@ const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('
 // 	client.commands.set(command.name, command)
 //}
 const startCmd = require("./Commands/start.js")
-client.commands.set(startCmd.name, startCmd)
+client.commands.set("start", startCmd)
 
 // dungeons: cc0000
 // updates: ffba00
