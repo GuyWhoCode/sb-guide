@@ -33,7 +33,7 @@ module.exports = {
       },
     }
 
-    // let userSuggestion = args.split(2, args.length).join(" ")
+    let userSuggestion = args.split(2, args.length).join(" ")
     // suggestEmbed.description = userSuggestion
 
     //  suggestEmbed.description = args
@@ -46,6 +46,6 @@ module.exports = {
     // }
     
     // message.channel.send({ embed: suggestEmbed })
-    message.channel.send("These are the commands args! " + args)
+    message.channel.send("These is the user suggestion! " + userSuggestion)
 	},
 }
