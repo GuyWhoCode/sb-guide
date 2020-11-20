@@ -33,8 +33,8 @@ module.exports = {
       },
     }
 
-    let userSuggestion = args.slice(2, args.length).join(" ")
-    // suggestEmbed.description = userSuggestion
+    let userSuggestion = args.slice(1, args.length).join(" ")
+    suggestEmbed.description = userSuggestion
 
     //  suggestEmbed.description = args
     // let user = message.author.username
@@ -45,7 +45,7 @@ module.exports = {
     //   suggestEmbed.title = `Dungeons Suggestion made by ME`
     // }
     
-    // message.channel.send({ embed: suggestEmbed })
-    message.channel.send("These is the user suggestion! " + userSuggestion)
+    message.channel.send({ embed: suggestEmbed })
+    // message.channel.send("These is the user suggestion! " + userSuggestion)
 	},
 }
