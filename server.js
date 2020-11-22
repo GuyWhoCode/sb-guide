@@ -60,7 +60,7 @@ client.on('message', (message) => {
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!")
 	
-	if (message.member.roles.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
+	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
