@@ -57,10 +57,14 @@ client.once('ready', () => {
 client.on('message', (message) => {
 	
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
+	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!")
-	
+	//weeds out messages that aren't in the proper channel.
+
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
+	//weeds out messages that are sent by users who have been locked for moderation purposes.
+
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
@@ -71,17 +75,6 @@ client.on('message', (message) => {
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
 	}
-	// else if (message.content.startsWith(`${prefix}addcategory`)) {
-    // 	let userSuggestion = message.content.split(`${prefix}addcategory`)[1].trim()
-    // 	message.channel.send(`This is your suggestion: ${userSuggestion}`)
-    
-    // dbClient.connect( async(err, clientDB)=> {
-    //   let database = dbClient.db("skyblockGuide")
-    //   const updateTips = database.collection("Skyblock")
-    //   updateTips.insertOne({
-    //     "newCategory": userSuggestion
-    //   })
-    // });
 
 })
 
