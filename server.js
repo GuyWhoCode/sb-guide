@@ -62,7 +62,7 @@ client.on('message', (message) => {
 	const command = args.shift().toLowerCase();
 
 	// message.channel.send("Args: " + args + "\nCommand: " + command)
-	if (message.channel.name != "guide-discussion" || message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!").delete({timeout: 5000})
+	if (message.channel.name != "guide-discussion" || message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!").delete({ timeout: 5000 })
 	
 	message.channel.send("This is the channel where the bot is being sent: " + message.channel.name)
 	try {
