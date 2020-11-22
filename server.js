@@ -63,7 +63,7 @@ client.on('message', (message) => {
 	// let lockedRole = message.guild.roles.find("name", "Guide Locked")
 	// if (message.channel.guild(779947579248214047)) return message.channel.send("You have been locked from suggesting anything.")
 
-	message.content.send("Roles that user has: " + message.channel.guildMember.roles.cache)
+	message.content.send("Roles that user has: " + message.channel.guild(779947579248214047))
 	// const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
