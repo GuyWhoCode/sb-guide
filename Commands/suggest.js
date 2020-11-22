@@ -6,11 +6,7 @@ const suggestionSchema = {
     "section": "placeholder",
     "description": "placeholder",
     "user": "placeholder"
-}
-  
-// const pingUser = id => {
-//   return `<@${id}>`
-// }
+} 
   
 const createNewEntry = (section, desc, user) => {
   let entry = Object.create(suggestionSchema)
@@ -41,7 +37,7 @@ module.exports = {
 	name: 'suggest',
 	description: "Adds a suggestion to update the Skyblock or Dungeons guide.",
 	execute(message, args) {
-    let userSuggestion = args.slice(1, args.length).join(" ")
+    let userSuggestion = args.slice(1, args.length).join(" ").trim()
     suggestEmbed.description = userSuggestion
 
     let user = message.author.tag

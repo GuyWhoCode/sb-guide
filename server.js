@@ -61,8 +61,9 @@ client.on('message', (message) => {
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
-	message.channel.send("Args: " + args + "\nCommand: " + command)
+	// message.channel.send("Args: " + args + "\nCommand: " + command)
 
+	message.channel.send("This is the channel where the bot is being sent: " + message.channel)
 	try {
 		client.commands.get(command).execute(message, args)
 	} catch (error) {
@@ -79,12 +80,6 @@ client.on('message', (message) => {
     //     "newCategory": userSuggestion
     //   })
     // });
-
-	//   // let skyblockGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-	//   // skyblockGuide.send(`New category created. ${userSuggestion}`)
-	// } else if (message.content.startsWith(`${prefix}embed`)) {
-	//   message.channel.send({ embed: exampleEmbed });
-	// }
 
 })
 
