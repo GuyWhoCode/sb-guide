@@ -63,7 +63,7 @@ client.on('message', (message) => {
 
 	// message.channel.send("Args: " + args + "\nCommand: " + command)
 
-	message.channel.send("This is the channel where the bot is being sent: " + message.channel)
+	message.channel.send("This is the channel where the bot is being sent: " + message.channel.name)
 	try {
 		client.commands.get(command).execute(message, args)
 	} catch (error) {
