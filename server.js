@@ -57,13 +57,17 @@ client.once('ready', () => {
 client.on('message', (message) => {
 	
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
+
+	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!")
 	
+	let lockedRole = message.guild.roles.find("name", "Guide Locked")
+	if (message.member.roles.has(lockedRole.id)) return message.channel.send("You have been locked from suggesting anything.")
+
 	const args = message.content.slice(prefix.length).trim().split(/ +/);
 	const command = args.shift().toLowerCase();
 
 	message.channel.send("Args: " + args + "\nCommand: " + command)
-	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-commands") return message.channel.send("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!")
-	
+
 	try {
 		client.commands.get(command).execute(message, args)
 	} catch (error) {
