@@ -7,14 +7,14 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 const suggestionSchema = {
     "section": "placeholder",
     "description": "placeholder",
-    "user": "placeholder"
+    "messageID": "placeholder"
 } 
   
 const createNewEntry = (section, desc, user) => {
   let entry = Object.create(suggestionSchema)
   entry.section = section
   entry.description = desc
-  entry.user = user
+  entry.messageID = user
   return entry
 }
 
