@@ -1,3 +1,5 @@
+// const Discord = require('discord.js');
+
 const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
@@ -42,6 +44,7 @@ module.exports = {
 
     let user = message.author.tag
     var category = args[0]
+    var suggestID = ""
 
     if (category != "sb" && category != "d") {
       message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
@@ -58,13 +61,17 @@ module.exports = {
 
     suggestEmbed.fields[0].name = `ID: ${message.id}`
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-    suggestionChannel.send({ embed: suggestEmbed })
+    suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
+      suggestEmbed.fields[0].name = `ID: ${msg.id}`
+      suggestID = msg.id
+      msg.edit({ embed: suggestEmbed})
+    })
     
     dbClient.connect( async(err)=> {
       let database = dbClient.db("skyblockGuide")
       let suggestionsDB = database.collection("suggestions")
       
-      let newEntry = createNewEntry(category, userSuggestion, message.author.id)
+      let newEntry = createNewEntry(category, userSuggestion, suggestID)
       suggestionsDB.insertOne(newEntry)
     })
 	},
