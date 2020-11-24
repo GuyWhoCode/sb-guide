@@ -51,7 +51,7 @@ const exampleEmbed = {
 
 
 client.once('ready', () => {
-	client.user.setActivity("g!help")
+	client.user.setActivity("g!help", {type: "WATCHING"})
 	console.log("Ready!")
 })
 
