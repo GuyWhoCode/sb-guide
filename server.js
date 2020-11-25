@@ -11,7 +11,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-// dungeons: cc0000
+// dungeons: 
 // updates: ffba00
 
 const exampleEmbed = {

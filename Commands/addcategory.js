@@ -30,9 +30,11 @@ module.exports = {
       if (category == "sb") {
         category = "skyblock"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
+        categoryEmbed.color = 0x87d8fa
       } else if (category == "d") {
         category = "dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+        categoryEmbed.color = 0xcc0000
       } 
       
       categoryChannel.send({ embed: categoryEmbed })

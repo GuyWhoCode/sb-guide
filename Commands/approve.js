@@ -15,14 +15,12 @@ module.exports = {
 		// var sectionTitle = args[2] 		
 		// if (category != "sb" && category != "d") return message.channel.send("You did not specify the right category. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		
-		// if (messageID.length != 18) 
 		// let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		// suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		// 	.then(msg => {
 		// 	  msg.first().edit("This fetched message was edited");
 		// 	})
 
-		// if () return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
@@ -30,7 +28,6 @@ module.exports = {
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 
 			message.channel.send("This is what I got back from my database! Suggestion: " + suggestion[0].description)
-			message.channel.send("Message ID: " + messageID + " and type of it: " + typeof(messageID))
 		})
 
 		message.channel.send('Approve command!')
