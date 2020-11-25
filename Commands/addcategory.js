@@ -18,11 +18,12 @@ module.exports = {
     name: "addcategory",
     description: "Adds a new category to <#772942075301068820> or <#772944394542121031>",
     execute(message, args) {
+      var category = args[0]
       if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory [category] [Category Name]`")
       
       let categoryName = args.slice(1, args.length).join(" ").trim()
       var categoryChanel = ""
-      var category = args[0]
+
       
       categoryEmbed.title = categoryName
         
