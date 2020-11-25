@@ -5,14 +5,16 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 const suggestionSchema = {
     "section": "placeholder",
     "description": "placeholder",
-    "messageID": "placeholder"
+    "messageID": "placeholder",
+    "user": "placeholder"
 } 
   
-const createNewEntry = (section, desc, user) => {
+const createNewEntry = (section, desc, msgID, user) => {
   let entry = Object.create(suggestionSchema)
   entry.section = section
   entry.description = desc
-  entry.messageID = user
+  entry.messageID = msgID
+  entry.user = user
   return entry
 }
 
@@ -68,7 +70,7 @@ module.exports = {
       let database = dbClient.db("skyblockGuide")
       let suggestionsDB = database.collection("suggestions")
       
-      let newEntry = createNewEntry(category, userSuggestion, suggestID)
+      let newEntry = createNewEntry(category, userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
 	},
