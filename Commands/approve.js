@@ -16,8 +16,8 @@ module.exports = {
 		// if (category != "sb" && category != "d") return message.channel.send("You did not specify the right category. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		
 		// if (messageID.length != 18) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
-		
-		message.channel.messages.fetch({around: messageID, limit: 1})
+		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
+		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 			.then(msg => {
 			  msg.first().edit("This fetched message was edited");
 			})
