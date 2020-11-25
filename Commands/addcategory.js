@@ -1,10 +1,10 @@
 var categoryEmbed = {
   color: 0xffba00,
   title: 'Suggestion',
-  description: "Filler Suggestion",
+  description: "This is an empty section of the guide. Add some changes to this guide using `g!suggest [category] [Suggestion]` !",
   fields: [
 		{
-			name: 'ID:',
+			name: '_ _',
 			value: "_ _",
 		}],
   timestamp: new Date(),
