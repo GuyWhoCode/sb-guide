@@ -25,7 +25,7 @@ module.exports = {
 		// if () return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-			let suggestion = await suggestionDB.findOne({"messageID": messageID}).toArray()
+			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 
