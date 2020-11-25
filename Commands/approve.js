@@ -1,5 +1,8 @@
-//Takes a user suggestion from #suggested-guide-changes and approves it.
 // Parameters: (MESSAGE ID, guide Name (SB / Dungeons), Category name)
+// const mongoClient = require('mongodb').MongoClient
+// const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
+// const dbClient = new mongoClient(uri, { useNewUrlParser: true })
+
 module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
