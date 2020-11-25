@@ -11,11 +11,11 @@ module.exports = {
 		//Weeds out all bad commands
 
 		// var category = args[0]
-		var messageID = args[1] 
+		var messageID = args[0] 
 		// var sectionTitle = args[2] 		
 		// if (category != "sb" && category != "d") return message.channel.send("You did not specify the right category. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		
-		if (messageID.length != 18) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+		// if (messageID.length != 18) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
 		
 		message.channel.messages.fetch({around: messageID, limit: 1})
 			.then(msg => {
