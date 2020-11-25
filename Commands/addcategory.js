@@ -35,7 +35,10 @@ module.exports = {
         category = "dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
-      } 
+      } else if (category == "u") {
+        category = "updates"
+        
+      }
       
       categoryChannel.send({ embed: categoryEmbed })
       // dbClient.connect( async(err)=> {
