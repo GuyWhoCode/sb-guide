@@ -46,4 +46,3 @@ module.exports = {
       //     message.content.send("yes adds new category")
       }
 }
-  

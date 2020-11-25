@@ -7,10 +7,24 @@ module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
 	execute(message, args) {
+		if (args.length != 2) return message.channel.send("Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+		//Weeds out all bad commands
+
+		var category = args[0]
+		var messageID = args[1] 
+		// var sectionTitle = args[2] 		
+		if (category != "sb" && category != "d") return message.channel.send("You did not specify the right category. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+		
+		if (messageID.length != 18) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+		
+		message.channel.messages.fetch({around: messageID, limit: 1})
+			.then(msg => {
+			  msg.first().edit("This fetched message was edited");
+			})
+
+		// if () return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+
+
 		message.channel.send('Approve command!')
-		// message.channel.messages.fetch({around: "352292052538753025", limit: 1})
-		// .then(messages => {
-		//   messages.first().edit("This fetched message was edited");
-		// });
 	},
 }
