@@ -22,7 +22,7 @@ module.exports = {
       if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory [category] [Category Name]`")
       
       let categoryName = args.slice(1, args.length).join(" ").trim()
-      var categoryChanel = ""
+      var categoryChannel = ""
 
       
       categoryEmbed.title = categoryName
@@ -35,7 +35,7 @@ module.exports = {
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
       } 
       
-      categoryChanel.send({ embed: categoryEmbed })
+      categoryChannel.send({ embed: categoryEmbed })
       // dbClient.connect( async(err)=> {
       //   let database = dbClient.db("skyblockGuide")
       //   let suggestionsDB = database.collection("suggestions")
