@@ -41,7 +41,7 @@ module.exports = {
 	execute(message, args) {
     // var category = args[0]
     // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
-    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest [Suggestion]`")
+    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest <Suggestion>`")
 
     let userSuggestion = args.join(" ").trim()
     suggestEmbed.description = userSuggestion

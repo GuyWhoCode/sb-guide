@@ -40,10 +40,10 @@ module.exports = {
 	description: "Adds a suggestion to update the Skyblock or Dungeons guide.",
 	execute(message, args) {
     var category = args[0]
-    if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+    if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest <Category> <Suggestion>`")
 
     let userSuggestion = args.slice(1, args.length).join(" ").trim()
-    if (userSuggestion.length == 0) return message.channel.send("You need to input a suggestion! See `g!suggest [category] [Suggestion]`")
+    if (userSuggestion.length == 0) return message.channel.send("You need to input a suggestion! See `g!suggest <Category> <Suggestion>`")
     
     suggestEmbed.description = userSuggestion
 

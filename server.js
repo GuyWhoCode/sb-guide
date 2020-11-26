@@ -11,7 +11,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-// dungeons: 
+//    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest [Suggestion]`")
 // updates: ffba00
 
 const exampleEmbed = {
