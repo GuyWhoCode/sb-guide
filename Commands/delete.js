@@ -9,9 +9,10 @@ module.exports = {
 		
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 			.then(msg => {
-			  msg.first().edit("This fetched message was edited")
+			  msg.first().delete()
+			  message.channel.send("Suggestion found and deleted.")
 			})
-			.catch(message.channel.send("There was no message with that Message ID"))
+
 		
 		message.channel.send('Delete command!!')
 	},
