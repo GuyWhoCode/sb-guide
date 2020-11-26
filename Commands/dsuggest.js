@@ -66,5 +66,7 @@ module.exports = {
       let newEntry = createNewEntry("dungeons", userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
+
+    message.chanenl.send("Your suggestion has been submitted!")
 	},
 }

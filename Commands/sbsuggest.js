@@ -66,5 +66,7 @@ module.exports = {
       let newEntry = createNewEntry("skyblock", userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
+
+    message.chanenl.send("Your suggestion has been submitted!")
 	},
 }
