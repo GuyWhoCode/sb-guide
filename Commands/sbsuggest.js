@@ -43,7 +43,7 @@ module.exports = {
     // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest [Suggestion]`")
 
-    let userSuggestion = args.slice(1, args.length).join(" ").trim()
+    let userSuggestion = args.join(" ").trim()
     suggestEmbed.description = userSuggestion
 
     let user = message.author.tag

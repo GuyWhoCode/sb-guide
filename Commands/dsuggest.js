@@ -36,14 +36,14 @@ var suggestEmbed = {
 
 
 module.exports = {
-	name: 'sbsuggest',
+	name: 'dsuggest',
 	description: "Adds a suggestion to update the Dungeons guide.",
 	execute(message, args) {
     // var category = args[0]
     // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest [Suggestion]`")
 
-    let userSuggestion = args.slice(1, args.length).join(" ").trim()
+    let userSuggestion = args.join(" ").trim()
     suggestEmbed.description = userSuggestion
 
     let user = message.author.tag
