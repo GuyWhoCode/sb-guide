@@ -36,29 +36,21 @@ var suggestEmbed = {
 
 
 module.exports = {
-	name: 'suggest',
-	description: "Adds a suggestion to update the Skyblock or Dungeons guide.",
+	name: 'sbsuggest',
+	description: "Adds a suggestion to update the Dungeons guide.",
 	execute(message, args) {
-    var category = args[0]
-    if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+    // var category = args[0]
+    // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
+    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest [Suggestion]`")
 
     let userSuggestion = args.slice(1, args.length).join(" ").trim()
-    if (userSuggestion.length == 0) return message.channel.send("You need to input a suggestion! See `g!suggest [category] [Suggestion]`")
-    
     suggestEmbed.description = userSuggestion
 
     let user = message.author.tag
     var suggestID = ""
-   
+    suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
 
-    if (category == "sb") {
-      suggestEmbed.title = `Skyblock Guide Suggestion by ${user}`
-      category = "skyblock"
-    } else if (category == "d") {
-      suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
-      category = "dungeons"
-    } 
-
+    
     suggestEmbed.fields[0].name = `ID: ${message.id}`
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
@@ -71,7 +63,7 @@ module.exports = {
       let database = dbClient.db("skyblockGuide")
       let suggestionsDB = database.collection("suggestions")
       
-      let newEntry = createNewEntry(category, userSuggestion, suggestID, message.author.id)
+      let newEntry = createNewEntry("dungeons", userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
 	},
