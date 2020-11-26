@@ -1,3 +1,6 @@
+const mongoClient = require('mongodb').MongoClient
+const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
+const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 //Deletes, doubles as a bulk delete command for staff members.
 module.exports = {
 	name: 'delete',
@@ -12,7 +15,11 @@ module.exports = {
 			  msg.first().delete()
 			  message.channel.send("Suggestion found and deleted.")
 			})
-
+		
+		dbClient.connect(async(err) => {
+			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
+			await suggestionDB.deleteOne({"messageID": messageID})
+		})
 		
 		message.channel.send('Delete command!!')
 	},
