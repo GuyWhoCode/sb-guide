@@ -83,7 +83,7 @@ module.exports = {
 
         let categoryList = await categoryDB.find({"identifier": category}).toArray()
         let identifierName = category+"Categories"
-        let oldCategoryList = categoryList[0][identifier]
+        let oldCategoryList = categoryList[0][identifierName]
         
         categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, identifierName: [... oldCategoryList, categoryName]}})
         message.channel.send("Database has been updated!")
