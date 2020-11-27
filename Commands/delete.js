@@ -7,6 +7,7 @@ module.exports = {
 	description: 'Deletes a suggestion or a section from the guide.',
 	execute(message, args) {
 		if (args.length == 0) return message.channel.send("You need to input a Message ID! See `g!delete <Message ID>`")
+		if (message.member.roles.cache.find(role => role.name == "Discord Staff") == false && message.member.roles.cache.find(role => role.name == "Discord Management") == false) return message.channel.send("You have been locked from suggesting anything.")
 		let messageID = args[0]
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		
