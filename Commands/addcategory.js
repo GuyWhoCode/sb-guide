@@ -51,6 +51,6 @@ module.exports = {
 
       //   suggestionsDB.insertOne(newEntry)
       // })
-
+      message.channel.send("Your category has been created!")
       }
 }
