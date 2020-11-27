@@ -67,6 +67,6 @@ module.exports = {
       suggestionsDB.insertOne(newEntry)
     })
 
-    message.chanenl.send("Your suggestion has been submitted!")
+    message.channel.send("Your suggestion has been submitted!")
 	},
 }
