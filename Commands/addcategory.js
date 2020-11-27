@@ -82,9 +82,9 @@ module.exports = {
         categoryDB.insertOne(newEntry)
 
         let categoryList = await categoryDB.find({"identifier": category}).toArray()
-        // [category+"Categories"]
-        
-        message.channel.send("Database Category List: " + categoryList[0].test)
+  
+             
+        message.channel.send("Database Category List: " + categoryList[0] [category+"Categories"])
       })
 
       message.channel.send("Your category has been created!")
