@@ -2,6 +2,10 @@ const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
+
+const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
+const dAlias = ["d", "dungeons", "dung", "Dungeons", "D"]
+
 const categorySchema = {
   "embedMessage": {},
   "categoryTitle": "placeholder",
@@ -14,6 +18,12 @@ const makeNewEntry = (msg, title, id) => {
   entry.categoryTitle = title
   entry.messageID = id
   return entry
+}
+
+const checkAliases = (para, input) => {
+    let returnVal = false
+    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
+    return returnVal
 }
 
 var categoryEmbed = {
@@ -47,12 +57,12 @@ module.exports = {
 
       categoryEmbed.title = categoryName
   
-      if (category == "sb") {
+      if (checkAliases(sbAlias, category)) {
         category = "Skyblock"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
         categoryEmbed.color = 0x87d8fa
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!sbsuggest <Suggestion>`!"
-      } else if (category == "d") {
+      } else if (checkAliases(dAlias, category)) {
         category = "Dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
