@@ -29,26 +29,26 @@ module.exports = {
       categoryEmbed.title = categoryName
         
       if (category == "sb") {
-        category = "skyblock"
+        category = "Skyblock"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
         categoryEmbed.color = 0x87d8fa
       } else if (category == "d") {
-        category = "dungeons"
+        category = "Dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
       } else if (category == "u") {
-        category = "updates"
+        category = "Update Tips"
         
       }
       
       categoryChannel.send({ embed: categoryEmbed })
       // dbClient.connect( async(err)=> {
       //   let database = dbClient.db("skyblockGuide")
-      //   let suggestionsDB = database.collection("suggestions")
-      
-      //   let newEntry = createNewEntry(category, userSuggestion, message.author.id)
+      //   let categoryDB = database.collection(category)
+        
+
       //   suggestionsDB.insertOne(newEntry)
       // })
-      //     message.content.send("yes adds new category")
+
       }
 }
