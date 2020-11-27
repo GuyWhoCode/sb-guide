@@ -49,7 +49,7 @@ module.exports = {
       var categoryChannel = ""
       var msgID = ""
       var category = args[0]
-      if (category != "sb" && category != "d") return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory [category] [Category Name]`")
+      if (checkAliases(sbAlias, category) == false && checkAliases(dAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory [category] [Category Name]`")
       
       let categoryName = args.slice(1, args.length).join(" ").trim()
       if (categoryName.length == 0) return message.channel.send("You need to input a Category Name! See `g!addcategory  [Category Name]`")
