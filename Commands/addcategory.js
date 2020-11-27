@@ -86,6 +86,7 @@ module.exports = {
         let oldCategoryList = categoryList[0][identifier]
         
         categoryDB.updateOne({"identifier": category}, {#set: {"identifier": category, identifierName: [... oldCategoryList, categoryName]}})
+        message.channel.send("Database has been updated!")
       })
 
       message.channel.send("Your category has been created!")
