@@ -4,7 +4,7 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
 
 const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon"]
+const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
 
 const categorySchema = {
   "embedMessage": {},
