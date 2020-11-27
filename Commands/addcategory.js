@@ -80,6 +80,10 @@ module.exports = {
         
         let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID)
         categoryDB.insertOne(newEntry)
+
+        let categoryList = await categoryDB.find({"identifier": category}).toArray()[0][category+"Categories"]
+        
+        message.channel.send("Database Category List: " + categoryList)
       })
 
       message.channel.send("Your category has been created!")
