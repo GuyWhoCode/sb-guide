@@ -81,11 +81,10 @@ module.exports = {
         let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID)
         categoryDB.insertOne(newEntry)
 
-        let categoryList = await categoryDB.find({"identifier": category}).toArray()
-        let identifierName = category+"Categories"
-        let oldCategoryList = categoryList[0][identifierName]
+        let categoryListEntry = await categoryDB.find({"identifier": category}).toArray()
+        let oldCategoryList = categoryListEntry[0].categoriesList
         
-        categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, identifierName: [... oldCategoryList, categoryName]}})
+        categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "categoriesList": [... oldCategoryList, categoryName]}})
         message.channel.send("Database has been updated!")
       })
 
