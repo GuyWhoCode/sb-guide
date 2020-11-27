@@ -73,6 +73,7 @@ client.on('message', (message) => {
 		client.commands.get(command).execute(message, args)
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
+		message.channel.send("Error message: " + error)
 	}
 
 })
