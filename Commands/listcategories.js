@@ -33,7 +33,7 @@ module.exports = {
 			var categoryList = await categoryCollection.find({"identifier": section}).toArray()
 			var categoryMsg = ""
 
-			categoryList[0].categoriesList.map(val => categoryMsg += val + "\n")
+			categoryList[0].categoriesList.map(val => categoryMsg += "`" + val + "`" + "\n")
 			message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
 		})
 		// message.channel.send('Lists categories command!')
