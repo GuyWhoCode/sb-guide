@@ -31,7 +31,8 @@ module.exports = {
 			let categoryCollection = dbClient.db("skyblockGuide").collection(section)
 			let categoryList = await categoryCollection.find({"identifier": section}).toArray()
 			var categoryMsg = ""
-			categoryList[0].categoryList.map(val => categoryMsg += "`" + val + "`" + "\n")
+			
+			categoryList[0].categoryList.map(val => categoryMsg += val + "\n")
 			message.channel.send("List of categories:\n" + categoryMsg)
 		})
 		// message.channel.send('Lists categories command!')
