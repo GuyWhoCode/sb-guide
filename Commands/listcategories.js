@@ -30,12 +30,11 @@ module.exports = {
 
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection(section)
-			var categoryListCollection = await categoryCollection.find({"identifier": section}).toArray()
+			var categoryList = await categoryCollection.find({"identifier": section}).toArray()
 			var categoryMsg = ""
 
-			message.channel.send("DB Output: " + categoryListCollection[0].categoryList)
-			// categoryListCollection[0].categoryList.map(val => categoryMsg += val + "\n")
-			// message.channel.send("List of categories:\n" + categoryMsg)
+			categoryList[0].categoriesList.map(val => categoryMsg += val + "\n")
+			message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
 		})
 		// message.channel.send('Lists categories command!')
 	},
