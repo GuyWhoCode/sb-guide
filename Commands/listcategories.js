@@ -24,9 +24,13 @@ module.exports = {
 		var section = args[0]
 		if (checkAliases(sbAlias, section) == false && checkAliases(dAlias, section) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Section>`')
 		
-		if (checkAliases(sbAlias, section)) section = "Skyblock"
-		if (checkAliases(dAlias, section)) section = "Dungeons"
-
+		if (checkAliases(sbAlias, section)) {
+			section = "Skyblock"
+		} else if (checkAliases(dAlias, section))  {
+			section = "Dungeons"
+		}
+		message.channel.send("I'm up to here now with no errors!")
+		
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection(section)
 			var categoryListCollection = await categoryCollection.find({"identifier": section}).toArray()
