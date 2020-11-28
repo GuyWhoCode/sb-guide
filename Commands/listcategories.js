@@ -26,7 +26,6 @@ module.exports = {
 		
 		if (checkAliases(sbAlias, section)) section = "Skyblock"
 		if (checkAliases(dAlias, section)) section = "Dungeons"
-		message.channel.send("I'm up to here now with no errors!")
 
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection(section)
