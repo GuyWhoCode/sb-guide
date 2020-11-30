@@ -24,11 +24,11 @@ module.exports = {
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (sectionName.length == 0) return message.channel.send("You need to input a Category Name! See `g!addcategory <Category> <Category Name>`")
         
-        if (checkAliases(sbAlias, section)) section = "Skyblock"
-		if (checkAliases(dAlias, section)) section = "Dungeons"
+        if (checkAliases(sbAlias, category)) category = "Skyblock"
+		if (checkAliases(dAlias, category)) category = "Dungeons"
 
 		// dbClient.connect(async (err) => {
-		// 	let categoryCollection = dbClient.db("skyblockGuide").collection(section)
+		// 	let categoryCollection = dbClient.db("skyblockGuide").collection(category)
 		// 	var categoryList = await categoryCollection.find({"identifier": section}).toArray()
 		// 	var categoryMsg = ""
 
