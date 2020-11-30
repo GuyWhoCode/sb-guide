@@ -2,30 +2,15 @@ const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
-
-const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
-
-const checkAliases = (para, input) => {
-    let returnVal = false
-    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
-    return returnVal
-}
-
 module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
-        if (args.length == 0) return message.channel.send("`g!addsection <Category> <Section Name>`")
-        
-        var category = args[0]
-        if (checkAliases(sbAlias, category) == false && checkAliases(dAlias, category) == false) return message.channel.send("Please specify the category. `g!addsection <Category> <Section Name>`")
+        if (args.length == 0) return message.channel.send("`g!addsection <Message ID> <Section Name>`")
         
         let sectionName = args.slice(1, args.length).join(" ").trim()
-        if (sectionName.length == 0) return message.channel.send("You need to input a Category Name! See `g!addcategory <Category> <Category Name>`")
+        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addcategory <Message ID> <Category Name>`")
         
-        if (checkAliases(sbAlias, category)) category = "Skyblock"
-		if (checkAliases(dAlias, category)) category = "Dungeons"
 
 		// dbClient.connect(async (err) => {
 		// 	let categoryCollection = dbClient.db("skyblockGuide").collection(category)
