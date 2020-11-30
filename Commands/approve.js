@@ -3,6 +3,15 @@ const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
+const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
+const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
+
+const checkAliases = (para, input) => {
+    let returnVal = false
+    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
+    return returnVal
+}
+
 module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
@@ -21,13 +30,13 @@ module.exports = {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
-			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Category Name]`")
+			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve [category] [suggestion ID] [Section Name]`")
 
-					// let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-		// suggestionChannel.messages.fetch({around: messageID, limit: 1})
-		// 	.then(msg => {
-		// 	  msg.first().edit("This fetched message was edited");
-		// 	})
+			// let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
+			// suggestionChannel.messages.fetch({around: messageID, limit: 1})
+			// 	.then(msg => {
+			// 	  msg.first().edit("This fetched message was edited");
+			// 	})
 			message.channel.send("This is what I got back from my database! Suggestion: " + suggestion[0].description)
 		})
 
