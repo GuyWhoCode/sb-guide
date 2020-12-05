@@ -12,7 +12,6 @@ for (const file of commandFiles) {
 }
 
 //    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest [Suggestion]`")
-// updates: ffba00
 
 const exampleEmbed = {
 	color: 0x87d8fa,

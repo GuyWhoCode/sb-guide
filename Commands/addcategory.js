@@ -5,6 +5,7 @@ const dbClient = new mongoClient(uri, { useNewUrlParser: true })
 
 const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
 const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
+const uAlias = ["u", "update", "UPDATE", "Update", "U"]
 
 const categorySchema = {
   "embedMessage": {},
@@ -63,14 +64,18 @@ module.exports = {
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
         categoryEmbed.color = 0x87d8fa
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!sbsuggest <Suggestion>`!"
+      
       } else if (checkAliases(dAlias, category)) {
         category = "Dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!dsuggest <Suggestion>`!"
-      } else if (category == "u") {
+      
+      } else if (checkAliases(uAlias, category)) {
         category = "Update Tips"
-        
+        categoryChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
+        categoryEmbed.color = 0xffba00
+        categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!update <Update Tip>`!"
       }
       
       categoryChannel.send({ embed: categoryEmbed }).then(msg => msgID = msg.id)
