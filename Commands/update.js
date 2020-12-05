@@ -12,7 +12,7 @@ module.exports = {
 
         dbClient.connect(async (err) => {
             let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
-            let findUpdateMsg = await updateDB.findOne({"identifier": "Update Tips"}).toArray()
+            let findUpdateMsg = await updateDB.find({"identifier": "Update Tips"}).toArray()
 
             let updateMsg = findUpdateMsg[0].msgObject
             message.channel.send({embed: updateMsg})
