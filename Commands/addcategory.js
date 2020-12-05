@@ -50,7 +50,7 @@ module.exports = {
       var categoryChannel = ""
       var msgID = ""
       var category = args[0]
-      if (checkAliases(sbAlias, category) == false && checkAliases(dAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <Category> <Category Name>`")
+      if (checkAliases(sbAlias, category) == false && checkAliases(dAlias, category) == false && checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <Category> <Category Name>`")
       
       //Limit the category name / Inform the user to do `g!sbsuggest / g!dsuggest`
       let categoryName = args.slice(1, args.length).join(" ").trim()
