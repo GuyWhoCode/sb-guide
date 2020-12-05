@@ -88,7 +88,7 @@ module.exports = {
         categoryDB.insertOne(newEntry)
 
         var updateEntry = ""
-        category == "Update Tips" ? updateEntry = await categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID}}) : undefined
+        category == "Update Tips" ? updateEntry = await categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}}) : undefined
         
 
         // let categoryListEntry = await categoryDB.find({"identifier": category}).toArray()
