@@ -87,10 +87,10 @@ module.exports = {
         let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID)
         categoryDB.insertOne(newEntry)
 
-        let categoryListEntry = await categoryDB.find({"identifier": category}).toArray()
-        let oldCategoryList = categoryListEntry[0].categoriesList
+        // let categoryListEntry = await categoryDB.find({"identifier": category}).toArray()
+        // let oldCategoryList = categoryListEntry[0].categoriesList
         
-        categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "categoriesList": [... oldCategoryList, categoryName]}})
+        // categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "categoriesList": [... oldCategoryList, categoryName]}})
       })
 
       message.channel.send("Your category has been created!")
