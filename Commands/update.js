@@ -1,5 +1,9 @@
 const {dbClient} = require("../mongodb.js")
 
+const entrySchema = {
+    "name": "_ _",
+    "value": "_ _"
+}
 module.exports = {
     name: "update",
     description: "The latest and greatest for updates coming out!",
@@ -8,14 +12,30 @@ module.exports = {
         
         let updateSuggestion = args.join(" ").trim()
 
+
         dbClient.connect(async (err) => {
             let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
             let findUpdateMsg = await updateDB.find({"identifier": "Update Tips"}).toArray()
 
-            let updateMsg = findUpdateMsg[0].msgObject
-            message.channel.send({embed: updateMsg})
-        })
+            var updateMsg = findUpdateMsg[0].msgObject
+            let msgId = findUpdateMsg[0].currentMsgId
 
+            if (updateMsg.fields.length == 0) {
+                updateMsg.fields[0].value = updateSuggestion
+            } else {
+                let entry = Object.create(entrySchema)
+                entry.value = updateSuggestion
+                updateMsg.fields.push(entry)
+            }
+
+            let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
+		    updateChannel.messages.fetch({around: msgId, limit: 1})
+			.then(msg => {
+			  msg.first().edit({embed: updateMsg})
+            })
+            await updateDB.updateOne({"identifier": "Update Tips"}, $set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg})
+        })
+		
         message.channel.send("User output: " + updateSuggestion)
     }
 }
