@@ -5,26 +5,38 @@ module.exports = {
 	name: 'delete',
 	description: 'Deletes a suggestion or a section from the guide.',
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("You need to input a Message ID! See `g!delete <Message ID> <Channel>`")
+		if (args.length == 0) return message.channel.send("See `g!delete <Message ID> <Channel>`")
 		if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {
-			//https://www.reddit.com/r/Discordjs/comments/fy1b6j/v12_finding_channel_by_id_returning_undefined/
 			let messageID = args[0]
 			var channelID = args[1]
 			channelID = channelID.split("").slice(2,channelID.length-1).join("")
+			
+			if (channelID.length == 0) return message.channel.send("Please specify a channel where the intended deleted message is. `g!delete <Message ID> <Channel>`")
 
-			let deleteChanel = message.guild.channels.cache.find(ch => ch.id === channelID)
+			let deleteChannel = message.guild.channels.cache.find(ch => ch.id === channelID)
 			
-			deleteChanel.send("I found my intended channel!")
-			// suggestionChannel.messages.fetch({around: messageID, limit: 1})
-			// 	.then(msg => {
-			// 	  msg.first().delete()
-			// 	  message.channel.send("Suggestion found and deleted.")
-			// 	})
+			if (deleteChannel.name === "suggested-guide-changes") {
+				deleteChannel.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+					msg.first().delete()
+					message.channel.send("Message found and deleted.")
+				})
+				
+				dbClient.connect(async(err) => {
+					let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
+					await suggestionDB.deleteOne({"messageID": messageID})
+				})
+			} else if (deleteChannel.name === "update-tips") {
+				dbClient.connect(async (err) => {
+					let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
+					
+					let findUpdateMsg = await updateDB.find({"currentMsgId": messageID}).toArray()
+
+					message.channel.send({embed: findUpdateMsg[0].msgObject})
+				})
+			}
 			
-			// dbClient.connect(async(err) => {
-			// 	let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-			// 	await suggestionDB.deleteOne({"messageID": messageID})
-			// })
+
 		} else {
 			message.channel.send("You don't have permission to use this command!")
 		}
