@@ -82,19 +82,17 @@ module.exports = {
 
       dbClient.connect( async(err)=> {
         let database = dbClient.db("skyblockGuide")
-        let categoryDB = database.collection(category)
-        
-        let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID)
-        categoryDB.insertOne(newEntry)
+        let guideDB = database.collection("Guides")
+        let updateDB = database.collection("Update Tips")
 
-        var updateEntry = ""
-        category == "Update Tips" ? updateEntry = await categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}}) : undefined
-        
+        let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID, category)
 
-        // let categoryListEntry = await categoryDB.find({"identifier": category}).toArray()
-        // let oldCategoryList = categoryListEntry[0].categoriesList
-        
-        // categoryDB.updateOne({"identifier": category}, {$set: {"identifier": category, "categoriesList": [... oldCategoryList, categoryName]}})
+        if (category == "Update Tips") {
+          updateDB.insertOne(newEntry)
+          await updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
+        } else {
+          guideDB.insertOne(newEntry)
+        }
       })
 
       message.channel.send("Your category has been created!")
