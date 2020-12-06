@@ -69,7 +69,8 @@ client.on('message', (message) => {
 	const command = args.shift().toLowerCase();
 
 	try {
-		client.commands.get(command).execute(message, args)
+		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
+		userCmd.execute(message, args)
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
 		message.channel.send("Error message: " + error)
