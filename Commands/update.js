@@ -28,13 +28,14 @@ module.exports = {
                 entry.value = updateSuggestion
                 updateMsg.fields.push(entry)
             }
+            await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg}})
 
             let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
 		    updateChannel.messages.fetch({around: msgId, limit: 1})
 			.then(msg => {
 			  msg.first().edit({embed: updateMsg})
             })
-            await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg}})
+
         })
 		
         message.channel.send("Your update tip has been created! Check it out at <#779467383604772874>")
