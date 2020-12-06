@@ -20,7 +20,7 @@ var helpEmbed = {
 		},
 		{
 			name: 'Add Category `g!addcategory <Category> <Category Name>`',
-			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung\n<#779467383604772874> Alises: `u, update, U, Update, UPDATE``',
+			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Alises: `u, update, U, Update, UPDATE``',
 		}
 		// ,
 		// {
