@@ -28,12 +28,12 @@ module.exports = {
 		if (checkAliases(dAlias, section)) section = "Dungeons"
 
 		dbClient.connect(async (err) => {
-			let categoryCollection = dbClient.db("skyblockGuide").collection(section)
+			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"identifier": section}).toArray()
-			var categoryMsg = ""
-
-			categoryList[0].categoriesList.map(val => categoryMsg += "`" + val + "`" + "\n")
-			message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
+			// var categoryMsg = ""
+			message.channel.send("List of categories: " + categoryList)
+			// categoryList[0].categoriesList.map(val => categoryMsg += "`" + val + "`" + "\n")
+			// message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
 		})
 	},
 }
