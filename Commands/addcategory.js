@@ -10,14 +10,16 @@ const uAlias = ["u", "update", "UPDATE", "Update", "U"]
 const categorySchema = {
   "embedMessage": {},
   "categoryTitle": "placeholder",
-  "messageID": "placeholder"
+  "messageID": "placeholder",
+  "category": "placeholder"
 }
 
-const makeNewEntry = (msg, title, id) => {
+const makeNewEntry = (msg, title, id, category) => {
   let entry = Object.create(categorySchema)
   entry.embedMessage = msg
   entry.categoryTitle = title
   entry.messageID = id
+  entry.category = category
   return entry
 }
 
