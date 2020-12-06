@@ -35,7 +35,7 @@ module.exports = {
 					var tipsMsg = ""
 
 					embedMsg.map((val, index) => {
-						tipsMsg += "`" + index + ":" + val.value.split(" ").slice(0,5).join(" ") + "..." + "`\n"  
+						tipsMsg += "`" + index + "`:" + val.value.split(" ").slice(0,5).join(" ") + "..." + "\n"  
 					})
 
 					message.channel.send(tipsMsg)
