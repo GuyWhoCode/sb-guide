@@ -22,6 +22,7 @@ module.exports = {
 
             if (updateMsg.fields.length == 0) {
                 updateMsg.fields[0].value = updateSuggestion
+                delete updateMsg.description 
             } else {
                 let entry = Object.create(entrySchema)
                 entry.value = updateSuggestion
