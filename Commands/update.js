@@ -20,7 +20,7 @@ module.exports = {
             var updateMsg = findUpdateMsg[0].msgObject
             let msgId = findUpdateMsg[0].currentMsgId
 
-            if (updateMsg.fields.length == 0) {
+            if (updateMsg.fields[0].value = "_ _") {
                 updateMsg.fields[0].value = updateSuggestion
                 delete updateMsg.description 
             } else {
