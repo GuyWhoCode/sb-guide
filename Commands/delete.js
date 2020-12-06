@@ -29,10 +29,16 @@ module.exports = {
 			} else if (deleteChannel.name === "update-tips") {
 				dbClient.connect(async (err) => {
 					let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
-					
 					let findUpdateMsg = await updateDB.find({"currentMsgId": messageID}).toArray()
 
-					message.channel.send({embed: findUpdateMsg[0].msgObject})
+					let embedMsg = findUpdateMsg[0].msgObject.fields
+					var tipsMsg = ""
+
+					embedMsg.map((val, index) => {
+						tipsMsg += "`" + index + ":" + val.split(" ").slice(0,5).join(" ") + "..." + "`"  
+					})
+					
+					message.channel.send(tipsMsg)
 				})
 			}
 			
