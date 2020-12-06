@@ -30,6 +30,7 @@ module.exports = {
                 updateMsg.fields.push(entry)
             }
             await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg}})
+            await updateDB.updateOne({"messageID": msgId}, {$set: {"messageID": msgId, "categoryTitle": updateMsg.title, "embedMessage": updateMsg}})
 
             let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
 		    updateChannel.messages.fetch({around: msgId, limit: 1})
