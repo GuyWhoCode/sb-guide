@@ -37,6 +37,6 @@ module.exports = {
             await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg}})
         })
 		
-        message.channel.send("User output: " + updateSuggestion)
+        message.channel.send("Your update tip has been created! Check it out at <#779467383604772874>")
     }
 }
