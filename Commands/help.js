@@ -19,23 +19,23 @@ var helpEmbed = {
 			value: 'Post tips in <#779467383604772874> whenever a new Skyblock Update is out.',
 		},
 		{
-			name: 'List Categories `g!listcategories <Category>`',
-			value: 'Lists all of the Guide Categories available based on the given general category. See Add Category for Category Alises.',
+			name: 'Add Category `g!addcategory <Guide> <Category Name>`',
+			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Guide Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Guide Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Guide Alises: `u, update, U, Update, UPDATE`',
+		},
+		{
+			name: 'Add Section `g!addsection <Guide> <Message ID>`',
+			value: 'Adds a new subtitle to a Category Message. See Guide alises above.',
+		},
+		{
+			name: 'List Categories `g!listcategories <Guide>`',
+			value: 'Lists all of the Guide Categories available based on the given general category. See Add Category for Guide Alises.',
 		},
 		{
 			name: 'Search `g!search <Query>`',
-			value: 'Searches the guides that best match your query. Recommend to do `g!listcategories <Category>` first to narrow search.',
+			value: 'Searches the guides that best match your query. Recommend to do `g!listcategories <Guide>` first to narrow search.',
 		},
 		{
-			name: 'Add Category `g!addcategory <Category> <Category Name>`',
-			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Category Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Category Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Category Alises: `u, update, U, Update, UPDATE`',
-		},
-		{
-			name: 'Add Section `g!addsection <Category> <Message ID>`',
-			value: 'Adds a new subtitle to a Category Message. See Category alises above.',
-		},
-		{
-			name: 'Approve `g!approve <Suggestion Message ID>`',
+			name: 'Approve `g!approve <Suggestion Message ID> <Category Name>`',
 			value: 'Approves any suggestion made in <#772944441643630602> and edits the message in the Skyblock or Dungeons Guide.',
 		},
 		{

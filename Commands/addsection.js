@@ -5,10 +5,10 @@ module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
-        if (args.length == 0) return message.channel.send("`g!addsection <Message ID> <Section Name>`")
+        if (args.length == 0) return message.channel.send("`g!addsection <Message ID> <Category Name>`")
         
         let sectionName = args.slice(1, args.length).join(" ").trim()
-        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addcategory <Message ID> <Category Name>`")
+        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Message ID> <Category Name>`")
         
 
 		// dbClient.connect(async (err) => {

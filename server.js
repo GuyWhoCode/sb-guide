@@ -13,42 +13,6 @@ for (const file of commandFiles) {
 
 //    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest [Suggestion]`")
 
-const exampleEmbed = {
-	color: 0x87d8fa,
-	title: 'Common Money Making Methods',
-	author: {
-		name: 'Skyblock Guide'
-	},
-	fields: [
-		{
-			name: 'Zealots',
-			value: "No one likes it, but we all gotta do this at some point. Self explanatory. Head down to the Dragon's Den at the bottom of the End and start stabbing zealots. Zealots drop summoning eyes, which are big money makers. Don't be angry that you haven't gotten a summoning eye in 600 zealots. People have gone 2,000 without one. Warning: You have at least 10 seconds after your Special Zealot spawns until drop protection for the Summoning Eye is gone. ",
-		},
-		{
-			name: 'Building a Farm',
-			value: "With the Builder's Wand (12k bits from the Community Shop), building a farm has never been easier! Even if you do buy one from the AH instead of the Community Shop, it's a worthwhile investment. ",
-		},
-		{
-			name: 'Bazaar and AH Flipping',
-			value: "You buy low, sell high. Look for items that fit this basic description, or have a mod do this for you. Bazaar Analyse (found in #skyblock-resources) will help with bazaar flipping. There is also a bazaar bot in Skyblock Simplified (#partners).",
-		},
-		{
-			name: 'Participating in Events',
-			value: "Do `$cal` in #bot-commands to see when the next event is. ",
-		},
-	],
-	timestamp: new Date(),
-	footer: {
-		text: 'Skycomm Guide Bot',
-		icon_url: "https://i.imgur.com/184jyne.png",
-	},
-};
-
-
-
-
-
-
 client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
 	console.log("Ready!")
