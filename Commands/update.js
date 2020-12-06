@@ -33,7 +33,7 @@ module.exports = {
 			.then(msg => {
 			  msg.first().edit({embed: updateMsg})
             })
-            await updateDB.updateOne({"identifier": "Update Tips"}, $set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg})
+            await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": msgId, "identifier": "Update Tips", "msgObject": updateMsg}})
         })
 		
         message.channel.send("User output: " + updateSuggestion)
