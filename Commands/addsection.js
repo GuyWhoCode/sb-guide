@@ -8,18 +8,18 @@ module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
-        if (args.length == 0) return message.channel.send("`g!addsection <Guide Message ID> <Section Name>`")
+        if (args.length == 0) return message.channel.send("`g!addsection <Category Name> <Section Name>`")
         
-        let msgId = args[0]
-        if (msgId.length != 18) return message.channel.send("You need to input a Message ID from the Skyblock/Dungeons Guide! See `g!addsection <Guide Message ID> <Section Name>`")
+        let categoryName = args[0]
+        if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category Name> <Section Name>`")
         
         let sectionName = args.slice(1, args.length).join(" ").trim()
-        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Guide Message ID> <Section Name>`")
+        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Category Name> <Section Name>`")
         
 
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
-			let categoryMsg = await guideCollection.find({"messageID": msgId}).toArray()
+			let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
             let msgEmbed = categoryMsg[0].embedMessage
             
             var newEntry = Object.create(entrySchema)

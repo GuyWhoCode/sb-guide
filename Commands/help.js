@@ -23,7 +23,7 @@ var helpEmbed = {
 			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Guide Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Guide Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Guide Alises: `u, update, U, Update, UPDATE`\n _ _\n',
 		},
 		{
-			name: 'Add Section `g!addsection <Guide Message ID> <Section Name>`',
+			name: 'Add Section `g!addsection <Category Name> <Section Name>`',
 			value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n _ _\n',
 		},
 		{
