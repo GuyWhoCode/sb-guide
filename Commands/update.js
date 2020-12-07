@@ -4,6 +4,7 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
+//Fields Limit is 25 for Embeds
 
 module.exports = {
     name: "update",
