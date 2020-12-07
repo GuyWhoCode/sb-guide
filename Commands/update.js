@@ -1,7 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 
 const entrySchema = {
-    "name": "_ _",
+    // "name": "_ _",
     "value": "_ _"
 }
 module.exports = {
