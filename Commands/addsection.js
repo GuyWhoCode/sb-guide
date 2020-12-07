@@ -11,7 +11,7 @@ module.exports = {
         if (args.length == 0) return message.channel.send("`g!addsection <Guide Message ID> <Section Name>`")
         
         let msgId = args[0]
-        if (msgId.length == 0) return message.channel.send("You need to input a Message ID from the Skyblock/Dungeons Guide! See `g!addsection <Guide Message ID> <Section Name>`")
+        if (msgId.length != 18) return message.channel.send("You need to input a Message ID from the Skyblock/Dungeons Guide! See `g!addsection <Guide Message ID> <Section Name>`")
         
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Guide Message ID> <Section Name>`")
