@@ -31,14 +31,16 @@ module.exports = {
 					let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
 					let findUpdateMsg = await updateDB.find({"currentMsgId": messageID}).toArray()
 
-					let embedMsg = findUpdateMsg[0].msgObject.fields
-					var tipsMsg = ""
+					// let embedMsg = findUpdateMsg[0].msgObject.fields
+					// var tipsMsg = ""
 
-					embedMsg.map((val, index) => {
-						tipsMsg += "`" + index + "`: " + val.value.split(" ").slice(0,5).join(" ") + "..." + "\n"  
-					})
+					// embedMsg.map((val, index) => {
+					// 	tipsMsg += "`" + index + "`: " + val.value.split(" ").slice(0,5).join(" ") + "..." + "\n"  
+					// })
 
-					message.channel.send(tipsMsg)
+					// message.channel.send(tipsMsg)
+					message.channel.send({embed: findUpdateMsg[0].msgObject})
+
 					//Needs to await numbers for 15 seconds.
 					
 				})
