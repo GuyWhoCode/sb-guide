@@ -4,47 +4,47 @@ var helpEmbed = {
 	fields: [
 		{
 			name: 'Help `g!help`',
-			value: 'Brings up this help list',
+			value: 'Brings up this help list\n',
 		},
 		{
 			name: 'Skyblock Guide Suggestion `g!sbsuggest <Suggestion>`',
-			value: 'Adds your suggestion to <#772944441643630602> to be approved by a Contributor.',		
+			value: 'Adds your suggestion to <#772944441643630602> to be approved by a Contributor.\n',		
 		},
 		{
 			name: 'Dungeons Guide Suggestion `g!dsuggest <Suggestion>`',
-			value: 'Adds your suggestion to <#772944441643630602> to be approved by a Contributor.',
+			value: 'Adds your suggestion to <#772944441643630602> to be approved by a Contributor.\n',
 		},
 		{
 			name: 'Update Tips `g!update <Update Tips>`',
-			value: 'Post tips in <#779467383604772874> whenever a new Skyblock Update is out.',
+			value: 'Post tips in <#779467383604772874> whenever a new Skyblock Update is out.\n',
 		},
 		{
 			name: 'Add Category `g!addcategory <Guide> <Category Name>`',
-			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Guide Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Guide Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Guide Alises: `u, update, U, Update, UPDATE`',
+			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Guide Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Guide Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Guide Alises: `u, update, U, Update, UPDATE`\n',
 		},
 		{
 			name: 'Add Section `g!addsection <Guide> <Message ID>`',
-			value: 'Adds a new subtitle to a Category Message. See Guide alises above.',
+			value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n',
 		},
 		{
 			name: 'List Categories `g!listcategories <Guide>`',
-			value: 'Lists all of the Guide Categories available based on the given general category. See Add Category for Guide Alises.',
+			value: 'Lists all of the Guide Categories available based on the given general category. See Add Category for Guide Alises.\n',
 		},
 		{
 			name: 'Search `g!search <Query>`',
-			value: 'Searches the guides that best match your query. Recommend to do `g!listcategories <Guide>` first to narrow search.',
+			value: 'Searches the guides that best match your query. **Recommended** to do `g!listcategories <Guide>` first to narrow search.\n',
 		},
 		{
 			name: 'Approve `g!approve <Suggestion Message ID> <Category Name>`',
-			value: 'Approves any suggestion made in <#772944441643630602> and edits the message in the Skyblock or Dungeons Guide.',
+			value: 'Approves any suggestion made in <#772944441643630602> and edits the message in the Skyblock or Dungeons Guide.\n',
 		},
 		{
 			name: 'Delete `g!delete <Message ID> <#Channel>`',
-			value: 'Deletes suggestions from <#772944441643630602> and deletes specific sections from any of the Guides.',
+			value: 'Deletes suggestions from <#772944441643630602> and deletes specific sections from any of the Guides.\n',
 		},
 		{
 			name: 'Edit `g!edit <Message ID> <#Channel>`',
-			value: 'Edits a Section of the Guide based on the Message ID supplied.',
+			value: 'Edits a Section of the Guide based on the Message ID supplied.\n',
 		},
 
 	],

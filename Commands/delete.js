@@ -41,7 +41,6 @@ module.exports = {
 					message.channel.send(tipsMsg)
 				})
 			}
-			
 
 		} else {
 			message.channel.send("You don't have permission to use this command!")
