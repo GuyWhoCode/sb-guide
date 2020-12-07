@@ -39,6 +39,8 @@ module.exports = {
 					})
 
 					message.channel.send(tipsMsg)
+					//Needs to await numbers for 15 seconds.
+					
 				})
 			}
 

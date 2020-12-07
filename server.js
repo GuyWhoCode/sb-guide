@@ -11,7 +11,7 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-//    if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest [Suggestion]`")
+//    if (args.length == 0) return message.channel.send("You need! See `g! <Suggestion>`")
 
 client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
