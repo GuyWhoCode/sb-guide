@@ -46,8 +46,8 @@ module.exports = {
 					collector.on('collect', msg => {
 						let deleteID = parseInt(msg.content.split("Deleted Tip ID:")[1].trim())
 						embedMsg.splice(deleteID, 1)
-						await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": embedMsg}})
-            			await updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": embedMsg.title, "embedMessage": embedMsg}})
+						// await updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": embedMsg}})
+            			// await updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": embedMsg.title, "embedMessage": embedMsg}})
 					})
 
 				})
