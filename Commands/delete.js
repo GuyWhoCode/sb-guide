@@ -48,8 +48,8 @@ module.exports = {
 					collector.on('collect', msg => {
 						let deleteID = parseInt(msg.content.split("Deleted Tip ID:")[1].trim())
 						embedMsg.splice(deleteID, 1)
-						// updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": findUpdateMsg[0].msgObject}})
-						// updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": findUpdateMsg[0].msgObject.title, "embedMessage": findUpdateMsg[0].msgObject}})
+						updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": findUpdateMsg[0].msgObject}})
+						updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": findUpdateMsg[0].msgObject.title, "embedMessage": findUpdateMsg[0].msgObject}})
 						
 						let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
 		    			updateChannel.messages.fetch({around: messageID, limit: 1}).then(m => {
