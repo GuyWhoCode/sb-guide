@@ -40,8 +40,13 @@ module.exports = {
 
 					message.channel.send(tipsMsg)
 					message.channel.send("Copy the format below and type in the number that corresponds to the tip that is going to be deleted.\n`Deleted Tip ID: `")
-					//Needs to await numbers for 15 seconds.
-					
+
+					const filer = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) >= 0 && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) >= embedMsg.length-1
+					const collector = message.channel.createMessageCollector(filter, {time: 15000})
+					collector.on('collect', msg => {
+						message.channel.send("I got this number! " + msg.content)
+					})
+
 				})
 			}
 
