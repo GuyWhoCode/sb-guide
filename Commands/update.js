@@ -4,7 +4,6 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
-//Fields Limit is 25 for Embeds
 
 module.exports = {
     name: "update",
@@ -26,7 +25,11 @@ module.exports = {
             if (updateMsg.description != undefined) {
                 updateMsg.fields[0].value = updateSuggestion
                 delete updateMsg.description 
-            } else {
+            } 
+            // else if (updateMsg.fields.length >= 24){
+                //create a new update embed and add it to db
+            // }
+            else {
                 let entry = Object.create(entrySchema)
                 entry.value = updateSuggestion
                 updateMsg.fields.push(entry)

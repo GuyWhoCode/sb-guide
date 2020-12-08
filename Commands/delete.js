@@ -39,6 +39,7 @@ module.exports = {
 					})
 
 					message.channel.send(tipsMsg)
+					message.channel.send("Copy the format below and type in the number that corresponds to the tip that is going to be deleted.\n`Deleted Tip ID: `")
 					//Needs to await numbers for 15 seconds.
 					
 				})
