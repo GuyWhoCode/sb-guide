@@ -54,7 +54,8 @@ module.exports = {
 		    			updateChannel.messages.fetch({around: messageID, limit: 1})
 						.then(msg => {
 						  msg.first().edit({embed: embedMsg})
-            			})
+						})
+						message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
 					})
 					
 
