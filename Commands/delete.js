@@ -42,22 +42,22 @@ module.exports = {
 					message.channel.send(tipsMsg)
 					message.channel.send("Copy the format below and type in the number that corresponds to the tip that is going to be deleted.\n`Deleted Tip ID: `")
 
-					// const filter = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) <= embedMsg.length-1
-					// const collector = message.channel.createMessageCollector(filter, {time: 5000})
+					const filter = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) <= embedMsg.length-1
+					const collector = message.channel.createMessageCollector(filter, {time: 5000})
 					
-					// collector.on('collect', msg => {
-					// 	let deleteID = parseInt(msg.content.split("Deleted Tip ID:")[1].trim())
-					// 	embedMsg.splice(deleteID, 1)
-					// 	updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": embedMsg}})
-					// 	updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": embedMsg.title, "embedMessage": embedMsg}})
+					collector.on('collect', msg => {
+						let deleteID = parseInt(msg.content.split("Deleted Tip ID:")[1].trim())
+						embedMsg.splice(deleteID, 1)
+						updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": findUpdateMsg[0].msgObject}})
+						updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": findUpdateMsg[0].msgObject.title, "embedMessage": findUpdateMsg[0].msgObject}})
 						
-					// 	let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
-		    		// 	updateChannel.messages.fetch({around: messageID, limit: 1}).then(m => {
-					// 	  m.first().edit({embed: embedMsg})
-					// 	})
+						let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
+		    			updateChannel.messages.fetch({around: messageID, limit: 1}).then(m => {
+						  m.first().edit({embed: embedMsg})
+						})
 
-					// 	message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
-					// })
+						message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
+					})
 					
 
 				})
