@@ -51,10 +51,10 @@ module.exports = {
 						updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": embedMsg.title, "embedMessage": embedMsg}})
 						
 						let updateChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
-		    			updateChannel.messages.fetch({around: messageID, limit: 1})
-						.then(msg => {
+		    			updateChannel.messages.fetch({around: messageID, limit: 1}).then(msg => {
 						  msg.first().edit({embed: embedMsg})
 						})
+						
 						message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
 					})
 					
