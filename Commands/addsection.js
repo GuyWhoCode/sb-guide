@@ -20,7 +20,7 @@ module.exports = {
         
         var categoryName = args[0]
         if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category Name> <Section Name>`")
-        categoryName += translateCategoryName(categoryName)
+        categoryName = translateCategoryName(categoryName)
 
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Category Name> <Section Name>`")
