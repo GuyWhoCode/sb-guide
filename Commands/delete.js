@@ -40,13 +40,13 @@ module.exports = {
 					})
 
 					message.channel.send(tipsMsg)
-					message.channel.send("Copy the format below and type in the number that corresponds to the tip that is going to be deleted.\n`Deleted Tip ID: `")
+					message.channel.send("Type in the number that corresponds to the tip that is going to be deleted.")
 
-					const filter = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.split("Deleted Tip ID:")[1].trim()) <= embedMsg.length-1
+					const filter = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.trim()) <= embedMsg.length-1
 					const collector = message.channel.createMessageCollector(filter, {time: 10000})
 					
 					collector.on('collect', msg => {
-						let deleteID = parseInt(msg.content.split("Deleted Tip ID:")[1].trim())
+						let deleteID = parseInt(msg.content.trim())
 						embedMsg.splice(deleteID, 1)
 						updateDB.updateOne({"identifier": "Update Tips"}, {$set: {"currentMsgId": messageID, "identifier": "Update Tips", "msgObject": findUpdateMsg[0].msgObject}})
 						updateDB.updateOne({"messageID": messageID}, {$set: {"messageID": messageID, "categoryTitle": findUpdateMsg[0].msgObject.title, "embedMessage": findUpdateMsg[0].msgObject}})
