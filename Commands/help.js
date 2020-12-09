@@ -1,5 +1,5 @@
 var helpEmbed = {
-	color: 0x07f276,
+	color: 0x4ea8de,
 	title: 'List of Commands',
 	fields: [
 		{
