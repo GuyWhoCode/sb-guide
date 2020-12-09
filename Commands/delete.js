@@ -60,18 +60,17 @@ module.exports = {
 					})
 					
 				})
-			} else if (deleteChannel.name == "skyblock-guide" || deleteChannel.name == "dungeon-guide-n-tips") {
-				message.channel.send("I did not mess up on my if statements!")
-				// deleteChannel.messages.fetch({around: messageID, limit: 1})
-				// .then(msg => {
-				// 	msg.first().delete()
-				// 	message.channel.send("Message found and deleted.")
-				// })
+			} else if (deleteChannel.name === "skyblock-guide" || deleteChannel.name === "dungeons-guide-n-tips") {
+				deleteChannel.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+					msg.first().delete()
+					message.channel.send("Message found and deleted.")
+				})
 				
-				// dbClient.connect(async(err) => {
-				// 	let guideDB = dbClient.db("skyblockGuide").collection("Guides")
-				// 	await guideDB.deleteOne({"messageID": messageID})
-				// })
+				dbClient.connect(async(err) => {
+					let guideDB = dbClient.db("skyblockGuide").collection("Guides")
+					await guideDB.deleteOne({"messageID": messageID})
+				})
 			}
 
 		// } else {
