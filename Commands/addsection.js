@@ -32,7 +32,7 @@ module.exports = {
             delete msgEmbed.description
 
             let channelName = categoryMsg[0].category
-            await guideCollection.updateOne({"categoryTitle": categoryName}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
+            guideCollection.updateOne({"categoryTitle": categoryName}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
 
             if (channelName === "Skyblock") {
                 let sbGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
