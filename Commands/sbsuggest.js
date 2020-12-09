@@ -61,7 +61,7 @@ module.exports = {
       let database = dbClient.db("skyblockGuide")
       let suggestionsDB = database.collection("suggestions")
       
-      let newEntry = createNewEntry("skyblock", userSuggestion, suggestID, message.author.id)
+      let newEntry = createNewEntry("Skyblock", userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
 
