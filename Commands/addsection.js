@@ -10,6 +10,8 @@ const translateCategoryName = name => {
         return name.split("-").join(" ")
     } else if (name.includes("_")) {
         return name.split("_").join(" ")
+    } else {
+        return name
     }
 }
 module.exports = {
