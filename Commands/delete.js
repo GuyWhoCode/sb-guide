@@ -42,7 +42,7 @@ module.exports = {
 					message.channel.send(tipsMsg)
 					message.channel.send("Type in the number that corresponds to the tip that is going to be deleted.")
 
-					const filter = msg => msg.content.includes("Deleted Tip ID:") && parseInt(msg.content.trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.trim()) <= embedMsg.length-1
+					const filter = msg => parseInt(msg.content.trim()) >= 0 && msg.author.id === message.author.id && parseInt(msg.content.trim()) <= embedMsg.length-1
 					const collector = message.channel.createMessageCollector(filter, {time: 10000})
 					
 					collector.on('collect', msg => {
