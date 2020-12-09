@@ -6,7 +6,7 @@ module.exports = {
 	description: 'Deletes a suggestion or a section from the guide.',
 	execute(message, args) {
 		if (args.length == 0) return message.channel.send("See `g!delete <Message ID> <Channel>`")
-		if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {
+		// if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {
 			let messageID = args[0]
 			var channelID = args[1]
 			channelID = channelID.split("").slice(2,channelID.length-1).join("")
@@ -59,13 +59,12 @@ module.exports = {
 						message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
 					})
 					
-
 				})
 			}
 
-		} else {
-			message.channel.send("You don't have permission to use this command!")
-		}
+		// } else {
+		// 	message.channel.send("You don't have permission to use this command!")
+		// }
 		
 	},
 
