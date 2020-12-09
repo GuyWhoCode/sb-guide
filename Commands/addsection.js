@@ -19,7 +19,9 @@ module.exports = {
 
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
-			let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
+            let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
+            if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
+            
             let msgEmbed = categoryMsg[0].embedMessage
             
             var newEntry = Object.create(entrySchema)
@@ -30,13 +32,14 @@ module.exports = {
             delete msgEmbed.description
 
             let channelName = categoryMsg[0].category
-            
+            await guideCollection.updateOne({"categoryTitle": categoryName}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
+
             if (channelName === "Skyblock") {
                 let sbGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
                 sbGuide.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
 				.then(msg => {
 					msg.first().edit({embed: msgEmbed})
-				})
+                })
             } else {
                 let dGuide = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
                 dGuide.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
