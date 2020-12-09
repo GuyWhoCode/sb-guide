@@ -9,10 +9,10 @@ module.exports = {
 		// if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {
 			let messageID = args[0]
 			var channelID = args[1]
+			if (channelID.length == 0) return message.channel.send("Please specify a channel where the intended deleted message is. `g!delete <Message ID> <Channel>`")
+			
 			channelID = channelID.split("").slice(2,channelID.length-1).join("")
 			
-			if (channelID.length == 0) return message.channel.send("Please specify a channel where the intended deleted message is. `g!delete <Message ID> <Channel>`")
-
 			let deleteChannel = message.guild.channels.cache.find(ch => ch.id === channelID)
 			
 			if (deleteChannel.name === "suggested-guide-changes") {
@@ -61,16 +61,17 @@ module.exports = {
 					
 				})
 			} else if (deleteChannel.name == "skyblock-guide" || deleteChannel.name == "dungeon-guide-n-tips") {
-				deleteChannel.messages.fetch({around: messageID, limit: 1})
-				.then(msg => {
-					msg.first().delete()
-					message.channel.send("Message found and deleted.")
-				})
+				message.channel.send("I did not mess up on my if statements!")
+				// deleteChannel.messages.fetch({around: messageID, limit: 1})
+				// .then(msg => {
+				// 	msg.first().delete()
+				// 	message.channel.send("Message found and deleted.")
+				// })
 				
-				dbClient.connect(async(err) => {
-					let suggestionDB = dbClient.db("skyblockGuide").collection("Guides")
-					await suggestionDB.deleteOne({"messageID": messageID})
-				})
+				// dbClient.connect(async(err) => {
+				// 	let guideDB = dbClient.db("skyblockGuide").collection("Guides")
+				// 	await guideDB.deleteOne({"messageID": messageID})
+				// })
 			}
 
 		// } else {
