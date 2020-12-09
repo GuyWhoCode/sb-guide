@@ -4,15 +4,24 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
+
+const translateCategoryName = name => {
+    if (name.includes("-")) {
+        return name.split("-").join(" ")
+    } else if (name.includes("_")) {
+        return name.split("_").join(" ")
+    }
+}
 module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
         if (args.length == 0) return message.channel.send("`g!addsection <Category Name> <Section Name>`")
         
-        let categoryName = args[0]
+        var categoryName = args[0]
         if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category Name> <Section Name>`")
-        
+        categoryName += translateCategoryName(categoryName)
+
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Category Name> <Section Name>`")
         
