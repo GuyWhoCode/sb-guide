@@ -15,6 +15,8 @@ const getAllSectionNames = msg => {
     msg.embedMessage.fields.filter(val => val.name != "_ _").map(val => returnArr.push(val.name))
     return returnArr
 }
+
+
 module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
@@ -42,10 +44,14 @@ module.exports = {
 
 			if (suggestion[0].section === "skyblock" || suggestion[0].section === "Skyblock") {
 				let allGuideMsgs = await guidesDB.find({"category": "Skyblock"}).toArray()
-				// allGuideMsgs.map()
+				var foundMessage = ""
+				allGuideMsgs.map(val, index => {
+					getAllSectionNames(val).some(sectionName => sectionName === sectionTitle) ? (foundMessage = allGuideMsgs[index]): undefined
+				})
 
+				message.channel.send("I found this category title: " + foundMessage.categoryTitle)
 			} else if (suggestion[0].section === "dungeons" || suggestion[0].section === "Dungeons") {
-				let allGuideMsgs = await guidesDB.find({"category": "Skyblock"}).toArray()
+				let allGuideMsgs = await guidesDB.find({"category": "Dungeons"}).toArray()
 			}
 		})
 
