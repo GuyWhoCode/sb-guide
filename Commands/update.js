@@ -4,7 +4,7 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
-
+// https://github.com/Rapptz/discord.py/issues/643
 module.exports = {
     name: "update",
     description: "The latest and greatest for updates coming out!",

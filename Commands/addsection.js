@@ -33,7 +33,8 @@ module.exports = {
             let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
             
             let msgEmbed = categoryMsg[0].embedMessage
-            if (msgEmbed == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
+            message.channel.send(msgEmbed)
+            // if (msgEmbed == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
             
             var newEntry = Object.create(entrySchema)
             newEntry.name = sectionName
