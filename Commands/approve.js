@@ -9,12 +9,6 @@ const checkAliases = (para, input) => {
     return returnVal
 }
 
-const getAllSectionNames = msg => {
-    let returnArr = []
-    msg.embedMessage.fields.filter(val => val.name != "_ _").map(val => returnArr.push(val.name))
-    return returnArr
-}
-
 const translateCategoryName = name => {
     if (name.includes("-")) {
         return name.split("-").join(" ")
@@ -29,13 +23,13 @@ module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section Name>`")
+		if (args.length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands
 
 		var messageID = args[0] 
 		var categoryTitle = translateCategoryName(args[1]) 
-		var sectionTitle = args[2] 		
-		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
+		var sectionTitle = translateCategoryName(args[2])
+		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
 
 		dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
@@ -51,9 +45,28 @@ module.exports = {
 				})
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
-			message.channel.send({embed: categoryMsg[0].embedMessage})
-		})
+			let embedMessage = categoryMsg[0].embedMessage
+			
+			embedMessage.fields.map(val => {
+				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += suggestion[0].description + "\n\u200b"): undefined
+			})
+			
+			if (categoryMsg[0].category === "Skyblock") {
+				let guideMessage = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
+				guideMessage.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+				  msg.first().edit({embed: embedMessage});
+				})
+			} else if (categoryMsg[0].category === "Dungeons") {
+				let guideMessage = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+				guideMessage.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+				  msg.first().edit({embed: embedMessage});
+				})
+			}
 
-		message.channel.send('Approve command!')
+			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].section, "user": suggestion[0].user, "status": "Approved"}})
+			guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+		})
 	},
 }
