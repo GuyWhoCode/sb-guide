@@ -23,7 +23,7 @@ var helpEmbed = {
 			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> Guide Alises: `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> Guide Alises: `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> Guide Alises: `u, update, U, Update, UPDATE`\n _ _\n',
 		},
 		{
-			name: 'Add Section `g!addsection <Category Name> <Section Name>`',
+			name: 'Add Section `g!addsection <Category-Name> <Section Name>`',
 			value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n _ _\n',
 		},
 		{
@@ -35,7 +35,7 @@ var helpEmbed = {
 			value: 'Searches the guides that best match your query. **Recommended** to do `g!listcategories <Guide>` first to narrow search.\n _ _\n',
 		},
 		{
-			name: 'Approve `g!approve <Suggestion Message ID> <Category Name>`',
+			name: 'Approve `g!approve <Suggestion Message ID> <Category-Name> <Section Name>`',
 			value: 'Approves any suggestion made in <#772944441643630602> and edits the message in the Skyblock or Dungeons Guide.\n _ _\n',
 		},
 		{

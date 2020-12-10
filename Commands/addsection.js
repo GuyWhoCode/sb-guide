@@ -18,14 +18,13 @@ module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
-        if (args.length == 0) return message.channel.send("`g!addsection <Category Name> <Section Name>`")
+        if (args.length == 0) return message.channel.send("`g!addsection <Category-Name> <Section Name>`")
         
-        var categoryName = args[0]
-        if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category Name> <Section Name>`")
-        categoryName = translateCategoryName(categoryName)
+        var categoryName = translateCategoryName(categoryName)
+        if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category-Name> <Section Name>`")
 
         let sectionName = args.slice(1, args.length).join(" ").trim()
-        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Category Name> <Section Name>`")
+        if (sectionName.length == 0) return message.channel.send("You need to input a Section Name! See `g!addsection <Category-Name> <Section Name>`")
         
 
 		dbClient.connect(async (err) => {

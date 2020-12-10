@@ -1,4 +1,3 @@
-// Parameters: (MESSAGE ID, guide Name (SB / Dungeons), Category name)
 const {dbClient} = require("../mongodb.js")
 
 const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
@@ -16,15 +15,26 @@ const getAllSectionNames = msg => {
     return returnArr
 }
 
+const translateCategoryName = name => {
+    if (name.includes("-")) {
+        return name.split("-").join(" ")
+    } else if (name.includes("_")) {
+        return name.split("_").join(" ")
+    } else {
+        return name
+    }
+}
+
 module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Section Name>`")
+		if (args.length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section Name>`")
 		//Weeds out all bad commands
 
 		var messageID = args[0] 
-		var sectionTitle = args[1] 		
+		var categoryTitle = translateCategoryName(args[1]) 
+		var sectionTitle = args[2] 		
 
 
 		dbClient.connect( async(err) => {
@@ -40,7 +50,8 @@ module.exports = {
 				  msg.first().edit("This suggestion has been approved!");
 				})
 
-			let categoryMsg = await guidesDB.find({"categoryTitle": "Skyblock"}).toArray()
+			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
+			message.channel.send({embed: categoryMsg[0].embedMessage})
 		})
 
 		message.channel.send('Approve command!')
