@@ -16,7 +16,6 @@ const getAllSectionNames = msg => {
     return returnArr
 }
 
-
 module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
@@ -40,19 +39,8 @@ module.exports = {
 				.then(msg => {
 				  msg.first().edit("This suggestion has been approved!");
 				})
-			// message.channel.send("This is what I got back from my database! Suggestion: " + suggestion[0].description)
 
-			if (suggestion[0].section === "skyblock" || suggestion[0].section === "Skyblock") {
-				let allGuideMsgs = await guidesDB.find({"category": "Skyblock"}).toArray()
-				var foundMessage = ""
-				allGuideMsgs.map(val, index => {
-					getAllSectionNames(val).some(sectionName => sectionName === sectionTitle) ? (foundMessage = allGuideMsgs[index]): undefined
-				})
-
-				message.channel.send("I found this category title: " + foundMessage.categoryTitle)
-			} else if (suggestion[0].section === "dungeons" || suggestion[0].section === "Dungeons") {
-				let allGuideMsgs = await guidesDB.find({"category": "Dungeons"}).toArray()
-			}
+			let categoryMsg = await guidesDB.find({"categoryTitle": "Skyblock"}).toArray()
 		})
 
 		message.channel.send('Approve command!')

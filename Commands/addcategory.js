@@ -8,16 +8,14 @@ const uAlias = ["u", "update", "UPDATE", "Update", "U"]
 const categorySchema = {
   "embedMessage": {},
   "categoryTitle": "placeholder",
-  "messageID": "placeholder",
-  "category": "placeholder"
+  "messageID": "placeholder"
 }
 
-const makeNewEntry = (msg, title, id, category) => {
+const makeNewEntry = (msg, title, id) => {
   let entry = Object.create(categorySchema)
   entry.embedMessage = msg
   entry.categoryTitle = title
   entry.messageID = id
-  entry.category = category
   return entry
 }
 
@@ -60,13 +58,11 @@ module.exports = {
       categoryEmbed.title = categoryName
   
       if (checkAliases(sbAlias, category)) {
-        category = "Skyblock"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
         categoryEmbed.color = 0x87d8fa
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!sbsuggest <Suggestion>`!"
       
       } else if (checkAliases(dAlias, category)) {
-        category = "Dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!dsuggest <Suggestion>`!"
@@ -85,7 +81,7 @@ module.exports = {
         let guideDB = database.collection("Guides")
         let updateDB = database.collection("Update Tips")
 
-        let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID, category)
+        let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID)
 
         if (category == "Update Tips") {
           updateDB.insertOne(newEntry)
