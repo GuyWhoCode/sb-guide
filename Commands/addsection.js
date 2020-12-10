@@ -31,10 +31,9 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
             let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
-            message.channel.send(categoryMsg[0])
+            if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
 
             // let msgEmbed = categoryMsg[0].embedMessage
-            // if (msgEmbed == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
             
             // var newEntry = Object.create(entrySchema)
             // newEntry.name = sectionName
