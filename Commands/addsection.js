@@ -19,7 +19,6 @@ module.exports = {
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
         if (args.length == 0) return message.channel.send("`g!addsection <Category-Name> <Section Name>`")
-        if (args.length >= 3) return message.channel.send("I received more parameters (>2) than I can work with. If there are more than 2 words in the Category name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE.\nEx. My-Category-Name")
 
         var categoryName = translateCategoryName(args[0])
         if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category-Name> <Section Name>`")
@@ -31,7 +30,7 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
             let categoryMsg = await guideCollection.find({"categoryTitle": categoryName}).toArray()
-            if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you type it wrong?")
+            if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens? It's CaSe SeNsItIvE.")
 
             let msgEmbed = categoryMsg[0].embedMessage
             
