@@ -19,8 +19,9 @@ module.exports = {
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
     execute(message, args) {
         if (args.length == 0) return message.channel.send("`g!addsection <Category-Name> <Section Name>`")
-        
-        var categoryName = translateCategoryName(categoryName)
+        if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
+
+        var categoryName = translateCategoryName(args[0])
         if (categoryName.length == 0) return message.channel.send("You need to input a Category name from the Skyblock/Dungeons Guide! See `g!addsection <Category-Name> <Section Name>`")
 
         let sectionName = args.slice(1, args.length).join(" ").trim()
