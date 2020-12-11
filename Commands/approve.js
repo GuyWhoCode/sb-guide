@@ -37,7 +37,7 @@ module.exports = {
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
-			if (suggestion.status === "Approved") return message.channel.send("That suggestion has already been approved!")
+			if (suggestion[0].status === "Approved") return message.channel.send("That suggestion has already been approved!")
 
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 			suggestionChannel.messages.fetch({around: messageID, limit: 1})
