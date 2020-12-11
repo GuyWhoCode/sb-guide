@@ -38,7 +38,6 @@ module.exports = {
             newEntry.name = sectionName
             msgEmbed.fields.push(newEntry)
             
-            msgEmbed.fields.push(entrySchema)
             delete msgEmbed.description
 
             let channelName = categoryMsg[0].category
