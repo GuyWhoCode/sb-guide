@@ -20,7 +20,6 @@ module.exports = {
 		var messageID = args[0] 
 		var categoryTitle = translateCategoryName(args[1]) 
 		var sectionTitle = translateCategoryName(args[2])
-		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
 
 		dbClient.connect( async(err) => {
