@@ -5,11 +5,11 @@ module.exports = {
 	name: 'delete',
 	description: 'Deletes a suggestion or a section from the guide.',
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("See `g!delete <Message ID> <Channel>`")
+		if (args.length == 0) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
 		// if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {
 			let messageID = args[0]
 			var channelID = args[1]
-			if (channelID.length == 0 || channelID.length == undefined) return message.channel.send("Please specify a channel where the intended deleted message is. `g!delete <Message ID> <Channel>`")
+			if (channelID == undefined) return message.channel.send("Please specify a channel where the intended deleted message is. `g!delete <Message ID> <#Channel>`")
 			
 			channelID = channelID.split("").slice(2,channelID.length-1).join("")
 			
