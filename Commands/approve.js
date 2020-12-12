@@ -14,7 +14,7 @@ module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
 	execute(message, args) {
-		if (args.length == 0 || args[1].length == 0 || args[2].length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
+		if (args.length == 0 || args[1].length == undefined || args[2].length == undefined) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands
 
 		var messageID = args[0] 
