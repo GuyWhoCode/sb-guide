@@ -14,12 +14,13 @@ module.exports = {
 	name: 'approve',
 	description: 'Approves a suggestion.',
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
+		if (args.length == 0 || args[1].length == 0 || args[2].length == 0) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands
 
 		var messageID = args[0] 
 		var categoryTitle = translateCategoryName(args[1]) 
 		var sectionTitle = translateCategoryName(args[2])
+		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
 
 		dbClient.connect( async(err) => {
@@ -32,8 +33,7 @@ module.exports = {
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
-			// if (categoryMsg.length == 0) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
-			return message.channel.send("Edge case: " + categoryMsg.length)
+			if (categoryMsg == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
 			var foundSection = false
 			embedMessage.fields.map(val => {
