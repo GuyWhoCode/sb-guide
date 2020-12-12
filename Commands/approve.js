@@ -38,11 +38,14 @@ module.exports = {
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
-			
+			if (categoryMsg.length == 0) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+
+			var foundSection = false
 			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += suggestion[0].description + "\n\u200b"): undefined
+				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += suggestion[0].description + "\n\u200b", foundSection = true): undefined
 			})
-			
+			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+
 			if (categoryMsg[0].category === "Skyblock") {
 				let guideMessage = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
 				guideMessage.messages.fetch({around: messageID, limit: 1})
