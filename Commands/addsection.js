@@ -56,8 +56,8 @@ module.exports = {
 					msg.first().edit({embed: msgEmbed})
 				})
             }
-
+            message.channel.send("Your section has been added!")
 		})
-        message.channel.send("Your section has been added!")
+        
     }
 }
