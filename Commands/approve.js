@@ -32,7 +32,8 @@ module.exports = {
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
-			if (categoryMsg.length == 0) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			// if (categoryMsg.length == 0) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			return message.channel.send("Edge case: " + categoryMsg.length)
 
 			var foundSection = false
 			embedMessage.fields.map(val => {
@@ -40,7 +41,7 @@ module.exports = {
 			})
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
-			
+
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 			suggestionChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
