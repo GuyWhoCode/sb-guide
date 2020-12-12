@@ -30,12 +30,6 @@ module.exports = {
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 
-			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-			suggestionChannel.messages.fetch({around: messageID, limit: 1})
-				.then(msg => {
-				  msg.first().edit("This suggestion has been approved!");
-				})
-
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
 			if (categoryMsg.length == 0) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
@@ -45,6 +39,13 @@ module.exports = {
 				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += suggestion[0].description + "\n\u200b", foundSection = true): undefined
 			})
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+
+			
+			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
+			suggestionChannel.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+				  msg.first().edit("This suggestion has been approved!");
+				})
 
 			if (categoryMsg[0].category === "Skyblock") {
 				let guideMessage = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
