@@ -1,14 +1,5 @@
 const {dbClient} = require("../mongodb.js")
 
-const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
-
-const checkAliases = (para, input) => {
-    let returnVal = false
-    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
-    return returnVal
-}
-
 const translateCategoryName = name => {
     if (name.includes("-")) {
         return name.split("-").join(" ")
