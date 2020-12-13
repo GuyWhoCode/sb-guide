@@ -44,7 +44,7 @@ module.exports = {
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
 			if (suggestion[0].section === categoryMsg[0].category || capitalizeString(suggestion[0].section) === categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide")
-
+			return message.channel.send("Suggestion: " + suggestion[0].section + "\nCategory: " + categoryMsg[0].category)
 
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 			suggestionChannel.messages.fetch({around: messageID, limit: 1})
