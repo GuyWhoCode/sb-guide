@@ -33,8 +33,8 @@ module.exports = {
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			// let embedMessage = categoryMsg[0].embedMessage
 			// if (categoryMsg == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
-			return message.channel.send(categoryMsg[0])
-
+			return message.channel.send("Nothing crashed up to this point!")
+			//categoryMsg[0]
 			var foundSection = false
 			embedMessage.fields.map(val => {
 				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
