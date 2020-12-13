@@ -31,8 +31,9 @@ module.exports = {
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
-			let embedMessage = categoryMsg[0].embedMessage
-			if (embedMessage == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			// let embedMessage = categoryMsg[0].embedMessage
+			// if (categoryMsg == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			return message.channel.send(categoryMsg[0])
 
 			var foundSection = false
 			embedMessage.fields.map(val => {
