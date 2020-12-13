@@ -6,10 +6,10 @@ const entrySchema = {
 }
 
 const translateCategoryName = name => {
-    if (name.includes("-")) {
-        return name.split("-").join(" ")
-    } else if (name.includes("_")) {
+    if (name.includes("_")) {
         return name.split("_").join(" ")
+    } else if (name.includes("-")) {
+        return name.split("-").join(" ")
     } else {
         return name
     }
