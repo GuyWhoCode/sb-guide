@@ -36,7 +36,7 @@ module.exports = {
 
 			var foundSection = false
 			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += suggestion[0].description + "\n\u200b", foundSection = true): undefined
+				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b\n\u200b": val.value += suggestion[0].description + "\n\u200b\n\u200b", foundSection = true): undefined
 			})
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
