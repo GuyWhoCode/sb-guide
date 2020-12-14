@@ -1,3 +1,5 @@
+const {dbClient} = require("../mongodb.js")
+
 //Changes something on the guide.
 // Flow: Brings the original message in a code block, along with the message id. Then awaits message from user. Must confirm change like Interwoven.
 module.exports = {
