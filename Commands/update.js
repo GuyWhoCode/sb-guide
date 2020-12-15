@@ -22,6 +22,8 @@ module.exports = {
             var updateMsg = findUpdateMsg[0].msgObject
             let msgId = findUpdateMsg[0].currentMsgId
 
+            updateMsg.timestamp = new Date()
+            
             if (updateMsg.description != undefined) {
                 updateMsg.fields[0].value = updateSuggestion
                 delete updateMsg.description 
