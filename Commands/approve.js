@@ -53,9 +53,12 @@ module.exports = {
 			
 			guideMessage.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
-				  msg.first().edit({embed: embedMessage});
+				  msg.first().delete();
 				})
-
+			
+			guideMessage.send({embed: embedMessage}).then(msg => {
+				messageID = msg.id
+			})
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 			message.channel.send("That suggestion has been approved!")
