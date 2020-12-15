@@ -14,13 +14,14 @@ module.exports = {
             guideMessage.timestamp = new Date()
 
             var guideChannel = ""
-            if (categoryMsg[0].category === "Skyblock") {
+            if (guide[0].category === "Skyblock") {
 				guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-			} else if (categoryMsg[0].category === "Dungeons") {
+			} else if (guide[0].category === "Dungeons") {
 				guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			}
 			
-			guideChannel.send({embed: guideMessage})
+            guideChannel.send({embed: guideMessage})
+            message.channel.send("Category posted.")
         })
     }
 }
