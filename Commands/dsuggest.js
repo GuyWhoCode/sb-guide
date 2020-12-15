@@ -10,7 +10,6 @@ var suggestEmbed = {
 			name: 'ID:',
 			value: "_ _",
 		}],
-  timestamp: new Date(),
   footer: {
     text: 'Skycomm Guide Bot',
     icon_url: "https://i.imgur.com/184jyne.png",
@@ -31,7 +30,7 @@ module.exports = {
     let user = message.author.tag
     var suggestID = ""
     suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
-
+    suggestEmbed.timestamp = new Date()
     
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
