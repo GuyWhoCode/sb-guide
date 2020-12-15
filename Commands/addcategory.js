@@ -1,25 +1,9 @@
 const {dbClient} = require("../mongodb.js")
-
+const globalFunctions = require("../globalfuncions.js")
 
 const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
 const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
 const uAlias = ["u", "update", "UPDATE", "Update", "U"]
-
-const categorySchema = {
-  "embedMessage": {},
-  "categoryTitle": "placeholder",
-  "messageID": "placeholder",
-  "category": "placeholder"
-}
-
-const makeNewEntry = (msg, title, id, category) => {
-  let entry = Object.create(categorySchema)
-  entry.embedMessage = msg
-  entry.categoryTitle = title
-  entry.messageID = id
-  entry.category = category
-  return entry
-}
 
 const checkAliases = (para, input) => {
     let returnVal = false
@@ -85,7 +69,7 @@ module.exports = {
         let guideDB = database.collection("Guides")
         let updateDB = database.collection("Update Tips")
 
-        let newEntry = makeNewEntry(categoryEmbed, categoryName, msgID, category)
+        let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
 
         if (category == "Update Tips") {
           updateDB.insertOne(newEntry)

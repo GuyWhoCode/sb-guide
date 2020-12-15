@@ -1,20 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-
-const suggestionSchema = {
-    "section": "placeholder",
-    "description": "placeholder",
-    "messageID": "placeholder",
-    "user": "placeholder"
-} 
-  
-const createNewEntry = (section, desc, msgID, user) => {
-  let entry = Object.create(suggestionSchema)
-  entry.section = section
-  entry.description = desc
-  entry.messageID = msgID
-  entry.user = user
-  return entry
-}
+const globalFunctions = require("../globalfuncions.js")
 
 var suggestEmbed = {
   color: 0xffba00,
@@ -32,12 +17,10 @@ var suggestEmbed = {
   },
 }
 
-
 module.exports = {
 	name: 'sbsuggest',
 	description: "Adds a suggestion to update the Skyblock guide.",
 	execute(message, args) {
-    // var category = args[0]
     // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
 
@@ -57,10 +40,9 @@ module.exports = {
     })
     
     dbClient.connect( async(err)=> {
-      let database = dbClient.db("skyblockGuide")
-      let suggestionsDB = database.collection("suggestions")
+      let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
       
-      let newEntry = createNewEntry("Skyblock", userSuggestion, suggestID, message.author.id)
+      let newEntry = globalFunctions.createNewEntry("Skyblock", userSuggestion, suggestID, message.author.id)
       suggestionsDB.insertOne(newEntry)
     })
 

@@ -1,14 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-
-const translateCategoryName = name => {
-    if (name.includes("-")) {
-        return name.split("-").join(" ")
-    } else if (name.includes("_")) {
-        return name.split("_").join(" ")
-    } else {
-        return name
-    }
-}
+const globalFunctions = require("../globalfuncions.js")
 
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)
@@ -21,8 +12,8 @@ module.exports = {
 		//Weeds out all bad commands
 
 		var messageID = args[0] 
-		var categoryTitle = translateCategoryName(args[1]) 
-		var sectionTitle = translateCategoryName(args[2])
+		var categoryTitle = globalFunctions.translateCategoryName(args[1]) 
+		var sectionTitle = globalFunctions.translateCategoryName(args[2])
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
 
 		dbClient.connect( async(err) => {

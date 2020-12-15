@@ -1,3 +1,16 @@
+const suggestionSchema = {
+    "section": "placeholder",
+    "description": "placeholder",
+    "messageID": "placeholder",
+    "user": "placeholder"
+} 
+const categorySchema = {
+    "embedMessage": {},
+    "categoryTitle": "placeholder",
+    "messageID": "placeholder",
+    "category": "placeholder"
+}
+  
 module.exports = {
     translateCategoryName(name) {
         if (name.includes("_")) {
@@ -7,5 +20,21 @@ module.exports = {
         } else {
             return name
         }
-    }
+    },
+    createNewEntry(section, desc, msgID, user) {
+        let entry = Object.create(suggestionSchema)
+        entry.section = section
+        entry.description = desc
+        entry.messageID = msgID
+        entry.user = user
+        return entry
+    },
+    makeNewEntry(msg, title, id, category) {
+        let entry = Object.create(categorySchema)
+        entry.embedMessage = msg
+        entry.categoryTitle = title
+        entry.messageID = id
+        entry.category = category
+        return entry
+    },
 }

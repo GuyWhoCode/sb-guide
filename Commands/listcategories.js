@@ -1,6 +1,6 @@
 const { CategoryChannel } = require('discord.js');
 const {dbClient} = require("../mongodb.js")
-
+const globalFunctions = require("../globalfuncions.js")
 
 const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
 const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
