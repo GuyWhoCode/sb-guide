@@ -48,7 +48,6 @@ var helpEmbed = {
 		},
 
 	],
-	timestamp: new Date(),
 	footer: {
 		text: 'Skycomm Guide Bot',
 		icon_url: "https://i.imgur.com/184jyne.png",
@@ -59,6 +58,7 @@ module.exports = {
 	name: 'help',
 	description: 'Provides help menu embed',
 	execute(message, args) {
+		helpEmbed.timestamp = new Date()
 		message.channel.send({embed: helpEmbed})
 	},
 }

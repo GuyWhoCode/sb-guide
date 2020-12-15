@@ -20,7 +20,6 @@ var categoryEmbed = {
 			name: '_ _',
 			value: "_ _",
 		}],
-  timestamp: new Date(),
   footer: {
     text: 'Skycomm Guide Bot',
     icon_url: "https://i.imgur.com/184jyne.png",
@@ -42,6 +41,7 @@ module.exports = {
       
 
       categoryEmbed.title = categoryName
+      categoryEmbed.timestamp = new Date()
   
       if (checkAliases(sbAlias, category)) {
         category = "Skyblock"
