@@ -5,7 +5,6 @@ const entrySchema = {
     "value": "_ _"
 }
 
-
 module.exports = {
     name: "addsection",
     description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
@@ -25,7 +24,8 @@ module.exports = {
             if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens? It's CaSe SeNsItIvE.")
 
             let msgEmbed = categoryMsg[0].embedMessage
-            
+            msgEmbed.timestamp = new Date()
+
             var newEntry = Object.create(entrySchema)
             newEntry.name = sectionName
             msgEmbed.fields.push(newEntry)

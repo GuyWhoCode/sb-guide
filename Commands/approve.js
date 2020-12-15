@@ -36,6 +36,8 @@ module.exports = {
 
 			if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide")
 
+			embedMessage.timestamp = new Date()
+
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 			suggestionChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
