@@ -28,10 +28,13 @@ client.on('message', (message) => {
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/)
+	var args = message.content.slice(prefix.length).trim().split(/ +/)
 	var command = args.shift().toLowerCase()
 
-	if (command.includes("\n")) command = command.split("\n")[0]
+	if (command.includes("\n"))  {
+		command = command.split("\n")[0]
+		args.unshift(command.split("\n")[1])
+	}
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
