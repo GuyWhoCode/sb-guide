@@ -4,7 +4,6 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
-// https://github.com/Rapptz/discord.py/issues/643
 module.exports = {
     name: "update",
     description: "The latest and greatest for updates coming out!",
@@ -13,7 +12,6 @@ module.exports = {
         if (args.length == 0) return message.channel.send("You need to input something! See `g!update <Update Tip>`")
         
         let updateSuggestion = args.join(" ").trim()
-
 
         dbClient.connect(async (err) => {
             let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")

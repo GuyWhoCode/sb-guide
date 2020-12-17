@@ -15,7 +15,6 @@ for (const file of commandFiles) {
 
 client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
-	console.log("Ready!")
 })
 
 client.on('message', (message) => {
@@ -30,7 +29,10 @@ client.on('message', (message) => {
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
 
 	const args = message.content.slice(prefix.length).trim().split(/ +/)
-	const command = args.shift().toLowerCase();
+	var command = args.shift().toLowerCase()
+
+	if (command.includes("\n")) command = command.split("\n")[0]
+	
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
