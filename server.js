@@ -32,7 +32,6 @@ client.on('message', (message) => {
 	var command = args.shift().toLowerCase()
 
 	if (command.includes("\n")) command = command.split("\n")[0]
-	
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
