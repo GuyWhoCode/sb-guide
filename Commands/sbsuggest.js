@@ -20,7 +20,6 @@ module.exports = {
 	name: 'sbsuggest',
   alises: ["Sbsuggest", "suggestsb", "SkyblockSuggestion", "skyblockSuggestion", "skyblockSuggest", "SkyblockSuggest", "skyblocksuggest", "sbsug", "sbs"],
 	execute(message, args) {
-    return message.channel.send(args)
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
 
     let userSuggestion = args.join(" ").trim()
