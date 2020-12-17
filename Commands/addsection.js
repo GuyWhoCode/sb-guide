@@ -7,7 +7,7 @@ const entrySchema = {
 
 module.exports = {
     name: "addsection",
-    description: "Adds a section to either a Skyblock Guide or a Dungeons Guide",
+    alises: ["as", "Addsection", "Adds", "AddSection", "As"],
     execute(message, args) {
         if (args.length == 0) return message.channel.send("`g!addsection <Category-Name> <Section Name>`")
 

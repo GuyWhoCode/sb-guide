@@ -6,7 +6,7 @@ const capitalizeString = str => {
 }
 module.exports = {
 	name: 'approve',
-	description: 'Approves a suggestion.',
+	alises: ["a", "Approve"],
 	execute(message, args) {
 		if (args.length == 0 || args[1] == undefined || args[2] == undefined) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands

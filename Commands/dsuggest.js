@@ -19,7 +19,7 @@ var suggestEmbed = {
 
 module.exports = {
 	name: 'dsuggest',
-	description: "Adds a suggestion to update the Dungeons guide.",
+  alises: ["suggestd", "dungeonsSuggest", "DungeonsSuggest", "DungeonSuggest", "dungeonsuggest", "dungeonsuggestion", "ds", "Ds", "DS"],
 	execute(message, args) {
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest <Suggestion>`")
 

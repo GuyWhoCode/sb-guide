@@ -5,7 +5,7 @@ const globalFunctions = require("../globalfuncions.js")
 //Fetches values from database and lists it to users.
 module.exports = {
 	name: 'listcategories',
-	description: 'Lists categories',
+	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
 	execute(message, args) {
 		if (args.length == 0) return message.channel.send('You did not specify a section! See `g!listcategories <Section>`')
 		

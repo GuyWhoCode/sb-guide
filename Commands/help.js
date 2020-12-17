@@ -56,7 +56,7 @@ var helpEmbed = {
 
 module.exports = {
 	name: 'help',
-	description: 'Provides help menu embed',
+	alises: ["h", "Help", "H"],
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
 		message.channel.send({embed: helpEmbed})

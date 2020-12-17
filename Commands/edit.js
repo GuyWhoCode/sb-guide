@@ -4,7 +4,7 @@ const {dbClient} = require("../mongodb.js")
 // Flow: Brings the original message in a code block, along with the message id. Then awaits message from user. Must confirm change like Interwoven.
 module.exports = {
 	name: 'edit',
-	description: 'Edits something on the guide',
+	alises: ["e", "E", "Edit"],
 	execute(message, args) {
 		if (args.length == 0 || args[0] == undefined || args[1] == undefined) return message.channel.send("Please use the right format. `g!edit <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands

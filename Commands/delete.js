@@ -3,7 +3,7 @@ const {dbClient} = require("../mongodb.js")
 //Deletes, doubles as a bulk delete command for staff members.
 module.exports = {
 	name: 'delete',
-	description: 'Deletes a suggestion or a section from the guide.',
+	alises: ["d", "Delete", "del"],
 	execute(message, args) {
 		if (args.length == 0) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
 		// if (message.member.roles.cache.find(role => role.name == "Discord Staff") || message.member.roles.cache.find(role => role.name == "Discord Management")) {

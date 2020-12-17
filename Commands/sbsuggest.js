@@ -18,7 +18,7 @@ var suggestEmbed = {
 
 module.exports = {
 	name: 'sbsuggest',
-	description: "Adds a suggestion to update the Skyblock guide.",
+  alises: ["Sbsuggest", "suggestsb", "SkyblockSuggestion", "skyblockSuggestion", "skyblockSuggest", "SkyblockSuggest", "skyblocksuggest", "sbsug", "sbs"],
 	execute(message, args) {
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
 

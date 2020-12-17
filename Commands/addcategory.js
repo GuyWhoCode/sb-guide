@@ -19,7 +19,7 @@ var categoryEmbed = {
 
 module.exports = {
     name: "addcategory",
-    description: "Adds a new category to <#772942075301068820> or <#772944394542121031>",
+    alises: ["ac", "addc", "AC", "Ac", "addC", "Addcategory", "AddCategory"],
     execute(message, args) {
       var categoryChannel = ""
       var msgID = ""
