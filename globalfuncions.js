@@ -1,15 +1,4 @@
-const suggestionSchema = {
-    "section": "placeholder",
-    "description": "placeholder",
-    "messageID": "placeholder",
-    "user": "placeholder"
-} 
-const categorySchema = {
-    "embedMessage": {},
-    "categoryTitle": "placeholder",
-    "messageID": "placeholder",
-    "category": "placeholder"
-}
+const {categorySchema, suggestionSchema} = require("./constants.js")
   
 module.exports = {
     translateCategoryName(name) {

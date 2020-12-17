@@ -1,4 +1,3 @@
-const { CategoryChannel } = require('discord.js');
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfuncions.js")
 

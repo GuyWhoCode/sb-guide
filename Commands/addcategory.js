@@ -1,9 +1,6 @@
 const {dbClient} = require("../mongodb.js")
+const {sbAlias, dAlias, uAlias} = require("../constants.js")
 const globalFunctions = require("../globalfuncions.js")
-
-const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
-const uAlias = ["u", "update", "UPDATE", "Update", "U"]
 
 const checkAliases = (para, input) => {
     let returnVal = false

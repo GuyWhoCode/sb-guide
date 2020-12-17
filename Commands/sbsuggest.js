@@ -20,9 +20,7 @@ module.exports = {
 	name: 'sbsuggest',
 	description: "Adds a suggestion to update the Skyblock guide.",
 	execute(message, args) {
-    // if (category != "sb") return message.channel.send("You are missing an argument! Please use the right format. `g!suggest [category] [suggestion]`")
     if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
-    return message.channel.send("Args: " + args)
 
     let userSuggestion = args.join(" ").trim()
     suggestEmbed.description = userSuggestion
