@@ -2,12 +2,6 @@ const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias, uAlias} = require("../constants.js")
 const globalFunctions = require("../globalfuncions.js")
 
-const checkAliases = (para, input) => {
-    let returnVal = false
-    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
-    return returnVal
-}
-
 var categoryEmbed = {
   color: 0xffba00,
   title: 'Suggestion',
@@ -30,9 +24,8 @@ module.exports = {
       var categoryChannel = ""
       var msgID = ""
       var category = args[0]
-      if (checkAliases(sbAlias, category) == false && checkAliases(dAlias, category) == false && checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <Guide> <Category Name>`")
+      if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false && globalFunctions.checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <Guide> <Category Name>`")
       
-      //Limit the category name / Inform the user to do `g!sbsuggest / g!dsuggest`
       let categoryName = args.slice(1, args.length).join(" ").trim()
       if (categoryName.length == 0) return message.channel.send("You need to input a Guide Name! See `g!addcategory <Guide> <Category Name>`")
       
@@ -40,19 +33,19 @@ module.exports = {
       categoryEmbed.title = categoryName
       categoryEmbed.timestamp = new Date()
   
-      if (checkAliases(sbAlias, category)) {
+      if (globalFunctions.checkAliases(sbAlias, category)) {
         category = "Skyblock"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
         categoryEmbed.color = 0x87d8fa
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!sbsuggest <Suggestion>`!"
       
-      } else if (checkAliases(dAlias, category)) {
+      } else if (globalFunctions.checkAliases(dAlias, category)) {
         category = "Dungeons"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         categoryEmbed.color = 0xcc0000
         categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!dsuggest <Suggestion>`!"
       
-      } else if (checkAliases(uAlias, category)) {
+      } else if (globalFunctions.checkAliases(uAlias, category)) {
         category = "Update Tips"
         categoryChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
         categoryEmbed.color = 0xffba00

@@ -26,4 +26,9 @@ module.exports = {
         entry.category = category
         return entry
     },
+    checkAliases(para, input) {
+        let returnVal = false
+        para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
+        return returnVal
+    }
 }
