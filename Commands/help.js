@@ -19,20 +19,20 @@ var helpEmbed = {
 			value: 'Post tips in <#779467383604772874> whenever a new Skyblock Update is out.\n\u200b',
 		},
 		{
-			name: 'Add Category `g!addcategory <Guide> <Category Name>`',
-			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> **Guide Alises:** `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> **Guide Alises:** `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> **Guide Alises:** `u, update, U, Update, UPDATE`\n\u200b',
-		},
-		{
-			name: 'Add Section `g!addsection <Category-Name> <Section Name>`',
-			value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n\u200b',
-		},
-		{
 			name: 'List Categories `g!listcategories <Guide>`',
 			value: 'Lists all of the Guide Categories available based on the given general category. See Add Category for Guide Alises.\n\u200b',
 		},
 		{
 			name: 'Search `g!search <Query>`',
 			value: 'Searches the guides that best match your query. **Recommended** to do `g!listcategories <Guide>` first to narrow search.\n\u200b',
+		},
+		{
+			name: 'Add Category `g!addcategory <Guide> <Category Name>`',
+			value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820> **Guide Alises:** `sb, skyblock, Skyblock, SB, SkyBlock`\n<#772944394542121031> **Guide Alises:** `d, dungeons, dung, Dungeons, D, dungeon, Dungeon, Dung`\n<#779467383604772874> **Guide Alises:** `u, update, U, Update, UPDATE`\n\u200b',
+		},
+		{
+			name: 'Add Section `g!addsection <Category-Name> <Section Name>`',
+			value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n\u200b',
 		},
 		{
 			name: 'Approve `g!approve <Suggestion Message ID> <Category-Name> <Section Name>`',
@@ -59,6 +59,10 @@ module.exports = {
 	alises: ["h", "Help", "H"],
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
-		message.channel.send({embed: helpEmbed})
+
+		// if (message.member.roles.cache.find(role => role.name == "Guide Locked") ||)
+
+		// message.channel.send({embed: helpEmbed})
+		message.channel.send(message.member.roles.cache.find(role => role.name == "Discord Management"))
 	},
 }
