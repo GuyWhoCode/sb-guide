@@ -31,12 +31,12 @@ client.on('message', (message) => {
 	var args = message.content.slice(prefix.length).trim().split(/ +/)
 	var command = args.shift().toLowerCase()
 
-	// if (command.includes("\n")) {
-	// 	command = command.split("\n")[0]
-	// 	// args.unshift(command.split("\n")[1])
-	// }
+	if (command.includes("\n")) {
+		command = command.split("\n")[0]
+		args.splice(0,0, command.split("\n")[1])
+	}
 
-	message.channel.send("`" + command.split("\n")[1] + "`")
+	message.channel.send(args)
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 		userCmd.execute(message, args)
