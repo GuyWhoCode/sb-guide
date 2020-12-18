@@ -34,11 +34,8 @@ module.exports = {
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {max: 2, time: 20000})
 			var received = false
+			var newMsg = ""
 			collector.on('collect', msg => {
-				received = true
-				var newMsg = msg.content
-				message.channel.send("Please confirm the new message with `yes`: " + "`" + newMsg + "`")
-				
 				if (received && globalFunction.checkAliases(yesAlias, msg)) {
 					// var guideChannel = ""
 					// if (categoryMsg[0].category === "Skyblock") {
@@ -51,6 +48,10 @@ module.exports = {
 					//   m.first().edit({embed: embedMessage})
 					// })
 					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
+				} else {
+					received = true
+					newMsg = msg.content
+					message.channel.send("Please confirm the new message with `yes`: " + "`" + newMsg + "`")
 				}
 					
 			})
