@@ -32,8 +32,9 @@ client.on('message', (message) => {
 	var command = args.shift().toLowerCase()
 
 	if (command.includes("\n")) {
+		let splitCmd = command.split("\n")[1]
 		command = command.split("\n")[0]
-		args = [command.split("\n")[1], ...args]
+		args = [splitCmd, ...args]
 	}
 
 	message.channel.send(args)
