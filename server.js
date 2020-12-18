@@ -37,7 +37,6 @@ client.on('message', (message) => {
 		args = [splitCmd, ...args]
 	}
 
-	message.channel.send(args)
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 		userCmd.execute(message, args)
