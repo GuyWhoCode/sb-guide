@@ -59,10 +59,8 @@ module.exports = {
 	alises: ["h", "Help", "H"],
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
-
-		// if (message.member.roles.cache.find(role => role.name == "Guide Locked") ||)
-
-		// message.channel.send({embed: helpEmbed})
-		message.channel.send(message.member.roles.cache.find(role => role.name == "Discord Management"))
+		var foundRole = false
+		message.member.roles.cache.find(role => role.name === "Discord Management" ? foundRole = true : role)
+		if (foundRole) message.channel.send({embed: helpEmbed})
 	},
 }
