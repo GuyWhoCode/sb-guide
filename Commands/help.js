@@ -59,8 +59,7 @@ module.exports = {
 	alises: ["h", "Help", "H"],
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
-		var foundRole = false
-		message.member.roles.cache.find(role => role.name === "MVP+" ? foundRole = true : role)
-		if (foundRole) message.channel.send({embed: helpEmbed})
+		// var foundRole = false
+		message.member.roles.cache.find(role => role.name === "MVP+" ? message.channel.send({embed: helpEmbed}) : role)
 	},
 }
