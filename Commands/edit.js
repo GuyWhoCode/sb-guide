@@ -37,7 +37,8 @@ module.exports = {
 
 			collector.on('collect', msg => {
 				received = true
-				var newMsg = msg
+				collector.stop()
+				var newMsg = msg.content
 				message.channel.send("Please confirm the new message with `yes`.\n" + "`" + newMsg + "`")
 				
 				const confirmFilter = m => m.author.id === message.author.id && m.content.length != 0 && globalFunction.checkAliases(yesAlias, m)
