@@ -3,7 +3,7 @@ const globalFunctions = require("../globalfuncions.js")
 
 module.exports = {
     name: "post",
-    alises: ['p', 'P', 'Post'],
+    alises: ['p'],
     execute(message, args) {
         var categoryName = globalFunctions.translateCategoryName(args[0])
         dbClient.connect(async (err) => {
