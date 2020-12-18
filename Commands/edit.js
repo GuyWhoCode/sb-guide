@@ -36,7 +36,7 @@ module.exports = {
 			var received = false
 			var newMsg = ""
 			collector.on('collect', msg => {
-				if (received && globalFunction.checkAliases(yesAlias, msg)) {
+				if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
 					// var guideChannel = ""
 					// if (categoryMsg[0].category === "Skyblock") {
 					// 	guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
