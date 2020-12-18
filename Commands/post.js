@@ -19,8 +19,12 @@ module.exports = {
 			} else if (guide[0].category === "Dungeons") {
 				guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			}
-			
-            guideChannel.send({embed: guideMessage})
+            
+            guideChannel.send({embed: guideMessage}).then(msg => {
+				newMsgId = msg.id
+				guidesDB.updateOne({"categoryTitle": categoryName}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
+			})
+            
             message.channel.send("Category posted.")
         })
     }
