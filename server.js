@@ -36,7 +36,7 @@ client.on('message', (message) => {
 		args.unshift(command.split("\n")[1])
 	}
 
-	message.channel.send(command.split("\n")[1])
+	message.channel.send(command.split("\n"))
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 		userCmd.execute(message, args)
