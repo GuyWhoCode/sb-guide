@@ -62,7 +62,7 @@ module.exports = {
 		
 		if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Guide Updates")) message.channel.send({embed: helpEmbed})
 		else {
-			helpEmbed.fields = helpEmbed.fields.slice(0,5)
+			helpEmbed.fields = helpEmbed.fields.slice(0,6)
 			message.channel.send({embed: helpEmbed})
 		}
 	},
