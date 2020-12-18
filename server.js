@@ -29,14 +29,14 @@ client.on('message', (message) => {
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
 
 	var args = message.content.slice(prefix.length).trim().split(/ +/)
-	// var command = args.shift().toLowerCase()
+	var command = args.shift().toLowerCase()
 
 	// if (command.includes("\n")) {
 	// 	command = command.split("\n")[0]
 	// 	// args.unshift(command.split("\n")[1])
 	// }
 
-	message.channel.send(args)
+	message.channel.send("`" + command + "`")
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 		userCmd.execute(message, args)
