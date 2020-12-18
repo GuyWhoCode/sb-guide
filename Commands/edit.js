@@ -3,6 +3,9 @@ const globalFunction = require("../globalfuncions.js")
 //Changes something on the guide.
 // Flow: Brings the original message in a code block, along with the message id. Then awaits message from user. Must confirm change like Interwoven.
 const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
+const noAlias = ["no", "NO", "No", "n", "N"]
+const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
+
 module.exports = {
 	name: 'edit',
 	alises: ["e", "E", "Edit"],
@@ -48,10 +51,13 @@ module.exports = {
 					//   m.first().edit({embed: embedMessage})
 					// })
 					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
+				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(noAlias, msg.content.trim())) {
+					collector.stop()
+					message.channel.send("Process canceled.")
 				} else {
 					received = true
 					newMsg = msg.content
-					message.channel.send("Please confirm the new message with `yes`: " + "`" + newMsg + "`")
+					message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
 				}
 					
 			})
