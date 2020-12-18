@@ -35,7 +35,7 @@ module.exports = {
 			message.channel.send("Please post the edited version below. This message will expire in 20 seconds. Run the command again if you run out of time.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 			
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-			const collector = message.channel.createMessageCollector(filter, {max: 2, time: 20000})
+			const collector = message.channel.createMessageCollector(filter, {time: 20000})
 			var received = false
 			var newMsg = ""
 			collector.on('collect', msg => {
@@ -51,6 +51,10 @@ module.exports = {
 					//   m.first().edit({embed: embedMessage})
 					// })
 					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
+				
+				} else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
+					message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
+				
 				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(noAlias, msg.content.trim())) {
 					collector.stop()
 					message.channel.send("Process canceled.")
@@ -63,7 +67,7 @@ module.exports = {
 			})
 
 			collector.on('end', msg => {
-				if (received == false) message.channel.send("The message has expired and I have received no output.")
+				if (received == false) message.channel.send("The message has expired with no output.")
 			})
 		})
 
