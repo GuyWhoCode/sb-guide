@@ -9,8 +9,8 @@ module.exports = {
 		if (args.length == 0 || args[0] == undefined || args[1] == undefined) return message.channel.send("Please use the right format. `g!edit <Category-Name> <Section-Name>`")
 		//Weeds out all bad commands
 
-		var categoryTitle = translateCategoryName(args[0]) 
-		var sectionTitle = translateCategoryName(args[1])
+		var categoryTitle = globalFunction.translateCategoryName(args[0]) 
+		var sectionTitle = globalFunction.translateCategoryName(args[1])
 		if (args.length >= 3) return message.channel.send("I received more parameters (>2) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
 
 		dbClient.connect( async(err) => {
