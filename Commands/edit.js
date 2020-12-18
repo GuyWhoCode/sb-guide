@@ -26,9 +26,10 @@ module.exports = {
 			
 			var foundSection = false
 			var oldMessage = ""
+			var oldMsgID = 0
 
-			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (oldMessage = val.value , foundSection = true) : undefined
+			embedMessage.fields.map((val, index) => {
+				val.name === sectionTitle ? (oldMessage = val.value , foundSection = true, oldMsgID = index) : undefined
 			})
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
@@ -38,21 +39,26 @@ module.exports = {
 			const collector = message.channel.createMessageCollector(filter, {time: 20000})
 			var received = false
 			var newMsg = ""
+
 			collector.on('collect', msg => {
 				if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
-					// var guideChannel = ""
-					// if (categoryMsg[0].category === "Skyblock") {
-					// 	guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-					// } else if (categoryMsg[0].category === "Dungeons") {
-					// 	guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-					// }
-					// embedMessage.timestamp = new Date()
-		    		// guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
-					//   m.first().edit({embed: embedMessage})
-					// })
-					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
-				
-				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(noAlias, msg.content.trim())) {
+					
+					embedMessage.fields[oldMsgID].value = newMsg
+					var guideChannel = ""
+					if (categoryMsg[0].category === "Skyblock") {
+						guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
+					} else if (categoryMsg[0].category === "Dungeons") {
+						guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+					}
+
+					embedMessage.timestamp = new Date()
+		    		guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
+						m.first().edit({embed: embedMessage})
+					})
+					
+					guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+
+				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
 					collector.stop()
 					message.channel.send("Process canceled.")
 				
