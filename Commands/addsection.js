@@ -35,19 +35,13 @@ module.exports = {
             let channelName = categoryMsg[0].category
             guideCollection.updateOne({"categoryTitle": categoryName}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
 
-            if (channelName === "Skyblock") {
-                let sbGuide = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-                sbGuide.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
+            var guideChannel = ""
+            channelName === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+            guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
 				.then(msg => {
 					msg.first().edit({embed: msgEmbed})
                 })
-            } else {
-                let dGuide = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-                dGuide.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
-				.then(msg => {
-					msg.first().edit({embed: msgEmbed})
-				})
-            }
+            
             message.channel.send("Your section has been added!")
 		})
         

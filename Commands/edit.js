@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-
+const globalFunction = require("../globalfuncions.js")
 //Changes something on the guide.
 // Flow: Brings the original message in a code block, along with the message id. Then awaits message from user. Must confirm change like Interwoven.
 module.exports = {
@@ -21,12 +21,14 @@ module.exports = {
 			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 			
 			var foundSection = false
+			var oldMessage = ""
+
 			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
+				val.name === sectionTitle ? (oldMessage = val.value , foundSection = true) : undefined
 			})
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 
-			
+			message.channel.send("Please post the edited version of the desired section below. This message will expire in 20 seconds. Run the command again to change it if you run out of time.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 		})
 
 	},
