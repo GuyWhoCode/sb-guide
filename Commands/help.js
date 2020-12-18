@@ -60,7 +60,7 @@ module.exports = {
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
 		var foundRole = false
-		message.member.roles.cache.find(role => role.name === "Discord Management" ? foundRole = true : role)
+		message.member.roles.cache.find(role => role.name === "MVP+" ? foundRole = true : role)
 		if (foundRole) message.channel.send({embed: helpEmbed})
 	},
 }
