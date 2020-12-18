@@ -52,12 +52,13 @@ module.exports = {
 					// })
 					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
 				
-				} else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
-					message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
-				
 				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(noAlias, msg.content.trim())) {
 					collector.stop()
 					message.channel.send("Process canceled.")
+				
+				} else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
+					message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
+				
 				} else {
 					received = true
 					newMsg = msg.content
