@@ -41,11 +41,11 @@ module.exports = {
 				var newMsg = msg.content
 				message.channel.send("Please confirm the new message with `yes`: " + "`" + newMsg + "`")
 				
-				// const confirmFilter = m => m.author.id === message.author.id && m.content.length != 0 && globalFunction.checkAliases(yesAlias, m)
-				// const confirmCollector = message.channel.createMessageCollector(confirmFilter, {time: 10000})
+				const confirmFilter = m => m.author.id === message.author.id && m.content.length != 0 && globalFunction.checkAliases(yesAlias, m)
+				const confirmCollector = message.channel.createMessageCollector(confirmFilter, {time: 10000})
 				
 				// var guideChannel = ""
-				// confirmCollector.on('collect', confirmMsg => {
+				confirmCollector.on('collect', confirmMsg => {
 					// if (categoryMsg[0].category === "Skyblock") {
 					// 	guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
 					// } else if (categoryMsg[0].category === "Dungeons") {
@@ -56,8 +56,8 @@ module.exports = {
 		    		// guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
 					//   m.first().edit({embed: embedMessage})
 					// })
-				// 	message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
-				// })	
+					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
+				})	
 			})
 
 			collector.on('end', msg => {
