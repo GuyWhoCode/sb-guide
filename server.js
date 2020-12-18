@@ -33,7 +33,7 @@ client.on('message', (message) => {
 
 	if (command.includes("\n")) {
 		command = command.split("\n")[0]
-		args.splice(0,0, command.split("\n")[1])
+		args = [command.split("\n")[1], ...args]
 	}
 
 	message.channel.send(args)
