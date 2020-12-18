@@ -10,8 +10,8 @@ const categorySchema = {
     "messageID": "placeholder",
     "category": "placeholder"
 }
-const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
+const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock', "<#772942075301068820>"]
+const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung", "<#772944394542121031>"]
 const uAlias = ["u", "update", "UPDATE", "Update", "U"]
 
 module.exports = {

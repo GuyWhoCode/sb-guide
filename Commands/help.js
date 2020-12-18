@@ -44,7 +44,7 @@ var helpEmbed = {
 		},
 		{
 			name: 'Edit `g!edit <Message ID> <#Channel>`',
-			value: 'Edits a Section of the Guide based on the Message ID supplied.\n\u200b',
+			value: 'Edits a Section of the Guide based on the Message ID supplied.',
 		},
 
 	],
