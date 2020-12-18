@@ -32,18 +32,15 @@ module.exports = {
 			message.channel.send("Please post the edited version below. This message will expire in 20 seconds. Run the command again if you run out of time.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 			
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-			const collector = message.channel.createMessageCollector(filter, {max: 1, time: 20000})
+			const collector = message.channel.createMessageCollector(filter, {max: 2, time: 20000})
 			var received = false
 			collector.on('collect', msg => {
 				received = true
 				var newMsg = msg.content
 				message.channel.send("Please confirm the new message with `yes`: " + "`" + newMsg + "`")
 				
-				const confirmFilter = m => m.author.id === message.author.id && m.content.length != 0 && globalFunction.checkAliases(yesAlias, m)
-				const confirmCollector = message.channel.createMessageCollector(confirmFilter, {max: 1, time: 10000})
-				
-				// var guideChannel = ""
-				confirmCollector.on('collect', confirmMsg => {
+				if (received && globalFunction.checkAliases(yesAlias, msg)) {
+					// var guideChannel = ""
 					// if (categoryMsg[0].category === "Skyblock") {
 					// 	guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
 					// } else if (categoryMsg[0].category === "Dungeons") {
@@ -54,10 +51,9 @@ module.exports = {
 					//   m.first().edit({embed: embedMessage})
 					// })
 					message.channel.send("I got this for the final change:\n" + "`" + newMsg + "`")
-				})	
+				}
+					
 			})
-
-			
 
 			collector.on('end', msg => {
 				if (received == false) message.channel.send("The message has expired and I have received no output.")
