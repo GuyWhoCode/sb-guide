@@ -29,7 +29,7 @@ module.exports = {
       let categoryName = args.slice(1, args.length).join(" ").trim()
       if (categoryName.length == 0) return message.channel.send("You need to input a Guide Name! See `g!addcategory <Guide> <Category Name>`")
       
-
+          
       categoryEmbed.title = categoryName
       categoryEmbed.timestamp = new Date()
   
