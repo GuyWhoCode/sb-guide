@@ -42,7 +42,8 @@ module.exports = {
 
 			collector.on('collect', msg => {
 				if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
-					
+					collector.stop()
+
 					embedMessage.fields[oldMsgID].value = newMsg + "\n\u200b"
 					var guideChannel = ""
 					if (categoryMsg[0].category === "Skyblock") {
