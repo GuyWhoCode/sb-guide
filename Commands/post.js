@@ -5,6 +5,8 @@ module.exports = {
     name: "post",
     alises: ['p'],
     execute(message, args) {
+        if (args.length == 0) return message.channel.send("See `g!post <Category-Name>`")
+        
         var categoryName = globalFunctions.translateCategoryName(args[0])
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
