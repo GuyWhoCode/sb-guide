@@ -2,6 +2,8 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
+const {cmdAlias} = require("./constants.js")
+const globalFunction = require("./globalfuncions.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -39,7 +41,13 @@ client.on('message', (message) => {
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
-		userCmd.execute(message, args)
+		if (globalFunction.checkAliases(cmdAlias, userCmd.name)) {
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) userCmd.execute(message, args)
+			else message.channel.send("You do not have permission to run this command!")
+		} else {
+			userCmd.execute(message, args)
+		}
+		
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
 		message.channel.send("Error message: " + error)
