@@ -9,10 +9,10 @@ module.exports = {
     name: "addsection",
     alises: ["as", "Addsection", "Adds", "AddSection", "As"],
     execute(message, args) {
-        var categoryName = globalFunction.translateCategoryName(args[0])
         let sectionName = args.slice(1, args.length).join(" ").trim()
-        if (args.length == 0 || categoryName.length == 0 || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
+        if (args.length == 0 || args[0] == undefined || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
         //checks if there is any bad input
+        var categoryName = globalFunction.translateCategoryName(args[0])
 
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
