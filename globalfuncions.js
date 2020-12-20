@@ -30,5 +30,8 @@ module.exports = {
         let returnVal = false
         aliasList.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
         return returnVal
+    },
+    linkEmbedConstructor(link) {
+        if (link.includes("https://") && link.includes("attachments")) return {url: link}
     }
 }
