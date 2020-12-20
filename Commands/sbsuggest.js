@@ -30,9 +30,7 @@ module.exports = {
     suggestEmbed.title = `Skyblock Guide Suggestion by ${user}`
     suggestEmbed.timestamp = new Date()
     
-    var objURL = ""
-    args.map(val => typeof(globalFunctions.linkEmbedConstructor(val)) === "object" ? objURL = globalFunctions.linkEmbedConstructor(val) : undefined)
-    suggestEmbed.image = objURL
+    suggestEmbed.image = globalFunctions.linkEmbedConstructor(args)
 
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
