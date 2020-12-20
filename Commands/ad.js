@@ -3,8 +3,8 @@ const adEmbed = {
 	title: 'Skyblock Community Guides',
 	fields: [
 		{
-			name: 'Suggesting:',
-			value: "Want to help improve the guide? Use `g!sbsuggest` to suggest a change to the Skyblock Guide\nUse `g!dsuggest` to suggest a change to the Dungeons Guide.",
+			name: 'Want to help improve the guide?',
+			value: "Use `g!sbsuggest` to suggest a change to the Skyblock Guide\nUse `g!dsuggest` to suggest a change to the Dungeons Guide.",
         },
         {
             name: 'Using Bot:',
