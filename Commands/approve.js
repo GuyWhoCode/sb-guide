@@ -8,13 +8,14 @@ module.exports = {
 	name: 'approve',
 	alises: ["a", "Approve"],
 	execute(message, args) {
-		if (args.length == 0 || args[1] == undefined || args[2] == undefined) return message.channel.send("Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
-		//Weeds out all bad commands
+		if (args.length == 0 || args[1] == undefined || args[2] == undefined) return message.channel.send("See `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
+		//checks if there is any bad input
 
 		var messageID = args[0] 
 		var categoryTitle = globalFunctions.translateCategoryName(args[1]) 
 		var sectionTitle = globalFunctions.translateCategoryName(args[2])
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
+		//returns an error if Category name or Section Name is not formatted correctly
 
 		dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
@@ -22,20 +23,24 @@ module.exports = {
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
+			//returns an error if the provided message ID did not match anything in the database
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
+			//returns an error if the retrieved message from the database was already approved
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
 			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
-			
+			//returns an error if the Category Title did not match anything in the database
+
 			var foundSection = false
 			embedMessage.fields.map(val => {
 				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
 			})
+			//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
-
+			//returns an error if the provided Section Name did not match anything in the Guide message
 			if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide")
-
+			//edge case when the suggestion trying to be approved is in the wrong section
 			embedMessage.timestamp = new Date()
 
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
@@ -44,17 +49,13 @@ module.exports = {
 				  msg.first().edit("This suggestion has been approved!");
 				})
 
-			var guideMessage = ""
-			if (categoryMsg[0].category === "Skyblock") {
-				guideMessage = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide")
-			} else if (categoryMsg[0].category === "Dungeons") {
-				guideMessage = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-			}
-			
-			guideMessage.messages.fetch({around: messageID, limit: 1})
+			var guideChannel = ""
+			categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+			guideChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
 				  msg.first().delete();
 				})
+			
 			var newMsgId = ""
 			guideMessage.send({embed: embedMessage}).then(msg => {
 				newMsgId = msg.id

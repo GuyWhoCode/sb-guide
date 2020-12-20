@@ -2,26 +2,27 @@ const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias} = require("../constants.js")
 const globalFunctions = require("../globalfuncions.js")
 
-//Fetches values from database and lists it to users.
 module.exports = {
 	name: 'listcategories',
 	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send('You did not specify a section! See `g!listcategories <Section>`')
+		var guide = args[0]
+		if (args.length == 0 || guide == undefined) return message.channel.send('See `g!listcategories <Section>`')
+		//checks if there is any bad input
 		
-		var section = args[0]
-		if (globalFunctions.checkAliases(sbAlias, section) == false && globalFunctions.checkAliases(dAlias, section) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Section>`')
-		
-		if (globalFunctions.checkAliases(sbAlias, section)) section = "Skyblock"
-		if (globalFunctions.checkAliases(dAlias, section)) section = "Dungeons"
+		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Guide>`')
+		//checks if provided Guide matches alias list
+
+		if (globalFunctions.checkAliases(sbAlias, guide)) guide = "Skyblock"
+		if (globalFunctions.checkAliases(dAlias, guide)) guide = "Dungeons"
 
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-			var categoryList = await categoryCollection.find({"category": section}).toArray()
+			var categoryList = await categoryCollection.find({"category": guide}).toArray()
 			var categoryMsg = ""
 
 			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" + "\n")
-			message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
+			message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)
 		})
 	},
 }

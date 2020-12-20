@@ -13,8 +13,6 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-//    if (args.length == 0) return message.channel.send("You need! See `g! <Suggestion>`")
-
 client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
 })
@@ -38,6 +36,8 @@ client.on('message', (message) => {
 		command = command.split("\n")[0]
 		args = [splitCmd, ...args]
 	}
+	//edge case when a user includes a new line when they enter a cmd
+	//ex. g!sbsuggest\nMy New suggestion!
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
@@ -47,7 +47,8 @@ client.on('message', (message) => {
 		} else {
 			userCmd.execute(message, args)
 		}
-		
+		//checking roles to allow users with certain roles (Contributor or Discord Staff) to access those exclusive commands
+
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
 		message.channel.send("Error message: " + error)
