@@ -31,6 +31,8 @@ module.exports = {
     suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
     suggestEmbed.timestamp = new Date()
     
+    suggestEmbed.image = globalFunctions.linkEmbedConstructor(args)
+
     let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
     suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
       suggestEmbed.fields[0].name = `ID: ${msg.id}`
