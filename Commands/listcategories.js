@@ -25,7 +25,7 @@ module.exports = {
 		// const makeMsgLink = msgID => {
 		// 	message.channel.send("https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID)
 		// }
-
+		message.channel.send("Everything is working up to here!")
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
