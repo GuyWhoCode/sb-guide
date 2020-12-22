@@ -20,11 +20,9 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
-			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" + `https://discord.com/channels/587765474297905158/${channelID}/${val.messageID}` + "\n")
+			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" + `https://discord.com/channels/587765474297905158/${categoryID}/${val.messageID}` + "\n")
 
 			message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)
-			// - Skyblock Channel ID
-			//https://discord.com/channels/Server ID/Channel ID/Message ID
 		})
 	},
 }
