@@ -4,6 +4,10 @@ const globalFunctions = require("../globalfuncions.js")
 var listEmbed = {
 	color: 0x4ea8de,
 	title: 'My sad embed',
+	fields: [{
+		name: "_ _",
+		value: "_ _"
+	}],
 	footer: {
 		text: 'Skycomm Guide Bot',
 		icon_url: "https://i.imgur.com/184jyne.png",
