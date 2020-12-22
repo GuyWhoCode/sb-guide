@@ -18,7 +18,7 @@ module.exports = {
 		if (globalFunctions.checkAliases(dAlias, guide)) guide = "Dungeons", categoryID = "772944394542121031"
 
 		const makeMsgLink = msgID => {
-			return `https://discord.com/channels/587765474297905158/${categoryID}/${msgID}`
+			message.channel.send(`https://discord.com/channels/587765474297905158/${categoryID}/${msgID}`)
 		}
 
 		dbClient.connect(async (err) => {
