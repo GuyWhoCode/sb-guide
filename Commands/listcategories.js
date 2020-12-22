@@ -2,6 +2,9 @@ const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias} = require("../constants.js")
 const globalFunctions = require("../globalfuncions.js")
 
+const makeMsgLink = msgID => {
+	return `https://discord.com/channels/587765474297905158/${categoryID}/${msgID}`
+}
 module.exports = {
 	name: 'listcategories',
 	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
@@ -20,9 +23,9 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
-			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" + `https://discord.com/channels/587765474297905158/${categoryID}/${val.messageID}` + "\n")
+			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" +  + "\n")
 
-			message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)
+			message.channel.send("List of categories for " + guide + ":\n" + makeMsgLink(val.messageID) + categoryMsg)
 		})
 	},
 }
