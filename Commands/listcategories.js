@@ -23,7 +23,7 @@ module.exports = {
 		}
 
 		const makeMsgLink = msgID => {
-			message.channel.send("https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID)
+			return "https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID
 		}
 
 		dbClient.connect(async (err) => {
