@@ -14,8 +14,13 @@ module.exports = {
 		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Guide>`')
 		//checks if provided Guide matches alias list
 
-		if (globalFunctions.checkAliases(sbAlias, guide)) guide = "Skyblock", categoryID = "772942075301068820"
-		if (globalFunctions.checkAliases(dAlias, guide)) guide = "Dungeons", categoryID = "772944394542121031"
+		if (globalFunctions.checkAliases(sbAlias, guide)) {
+			guide = "Skyblock"
+			categoryID = "772942075301068820"
+		} else if (globalFunctions.checkAliases(dAlias, guide)) {
+			guide = "Dungeons"
+			categoryID = "772944394542121031"
+		}
 
 		const makeMsgLink = msgID => {
 			message.channel.send("https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID)
@@ -24,7 +29,7 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
-			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "` - " + "\n")
+			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "` - " + makeMsgLink(val.messageID) + "\n")
 
 			message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)
 		})
