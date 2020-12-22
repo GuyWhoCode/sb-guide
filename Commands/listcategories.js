@@ -1,7 +1,15 @@
 const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias} = require("../constants.js")
 const globalFunctions = require("../globalfuncions.js")
-
+const listEmbed = {
+	color: 0x4ea8de,
+	title: 'My sad embed',
+	fields: [{}],
+	footer: {
+		text: 'Skycomm Guide Bot',
+		icon_url: "https://i.imgur.com/184jyne.png",
+	},
+}
 module.exports = {
 	name: 'listcategories',
 	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
@@ -31,7 +39,8 @@ module.exports = {
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
 			var categoryMsg = ""
 			categoryList.map(val => categoryMsg += "**" + val.categoryTitle + "** "+ makeMsgLink(val.messageID)  + "\n")
-			message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)
+			// message.channel.send("List of categories for " + guide + ":\n" + categoryMsg)	
+			message.channel.send({embed: listEmbed})
 		})
 	},
 }
