@@ -36,8 +36,9 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 			var categoryList = await categoryCollection.find({"category": guide}).toArray()
-			categoryList.map(val => listEmbed.fields.push({name: `[${val.categoryTitle}](${makeMsgLink(val.messageID)})`}))
 			
+			categoryList.map(val => listEmbed.fields.push({name: "[" + val.categoryTitle + "](" + makeMsgLink(val.messageID) + ")", value: "_ _"}))
+
 			listEmbed.timestamp = new Date()
 			listEmbed.title = "List of categories for " + guide
 			
