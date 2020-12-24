@@ -59,7 +59,7 @@ module.exports = {
 				})
 			
 				var newMsgId = ""
-				guideMessage.send({embed: embedMessage}).then(msg => {
+				guideChannel.send({embed: embedMessage}).then(msg => {
 					newMsgId = msg.id
 					guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": newMsgId, "category": categoryMsg[0].category}})
 				})
