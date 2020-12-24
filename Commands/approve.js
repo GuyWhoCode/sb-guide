@@ -4,6 +4,7 @@ const globalFunctions = require("../globalfuncions.js")
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)
 }
+var cached = false
 module.exports = {
 	name: 'approve',
 	alises: ["a", "Approve"],
@@ -51,16 +52,26 @@ module.exports = {
 
 			var guideChannel = ""
 			categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-			guideChannel.messages.fetch({around: messageID, limit: 1})
+			if (cached == false) {
+				guideChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
 				  msg.first().delete();
 				})
 			
-			var newMsgId = ""
-			guideMessage.send({embed: embedMessage}).then(msg => {
-				newMsgId = msg.id
-				guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": newMsgId, "category": categoryMsg[0].category}})
-			})
+				var newMsgId = ""
+				guideMessage.send({embed: embedMessage}).then(msg => {
+					newMsgId = msg.id
+					guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": newMsgId, "category": categoryMsg[0].category}})
+				})
+				cached = true
+			} else {
+				guideChannel.messages.fetch({around: messageID, limit: 1})
+				.then(msg => {
+				  msg.first().edit({embed: embedMessage});
+				})
+				guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
+			}
+			
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			message.channel.send("That suggestion has been approved!")
 		})
