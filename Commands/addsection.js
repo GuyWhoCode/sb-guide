@@ -23,6 +23,7 @@ module.exports = {
             let msgEmbed = categoryMsg[0].embedMessage
             msgEmbed.timestamp = new Date()
 
+            // include edge case here to remove default value
             var newEntry = Object.create(entrySchema)
             newEntry.name = sectionName
             msgEmbed.fields.push(newEntry)
