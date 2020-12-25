@@ -4,16 +4,13 @@ const entrySchema = {
     "name": "_ _",
     "value": "_ _"
 }
-// https://github.com/Rapptz/discord.py/issues/643
 module.exports = {
     name: "update",
-    description: "The latest and greatest for updates coming out!",
     alises: ['u', 'Update'],
     execute(message, args) {
         if (args.length == 0) return message.channel.send("You need to input something! See `g!update <Update Tip>`")
         
         let updateSuggestion = args.join(" ").trim()
-
 
         dbClient.connect(async (err) => {
             let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
@@ -22,6 +19,8 @@ module.exports = {
             var updateMsg = findUpdateMsg[0].msgObject
             let msgId = findUpdateMsg[0].currentMsgId
 
+            updateMsg.timestamp = new Date()
+            
             if (updateMsg.description != undefined) {
                 updateMsg.fields[0].value = updateSuggestion
                 delete updateMsg.description 

@@ -1,36 +1,53 @@
-const { CategoryChannel } = require('discord.js');
 const {dbClient} = require("../mongodb.js")
+const {sbAlias, dAlias} = require("../constants.js")
+const globalFunctions = require("../globalfuncions.js")
 
-
-const sbAlias = ["sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
-const dAlias = ["d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
-
-const checkAliases = (para, input) => {
-    let returnVal = false
-    para.map(val => val == input).filter(val => val == true)[0] ? (returnVal = true) : (returnVal = false)
-    return returnVal
-}
-
-//Fetches values from database and lists it to users.
 module.exports = {
 	name: 'listcategories',
-	description: 'Lists categories',
+	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send('You did not specify a section! See `g!listcategories <Section>`')
+		var listEmbed = {
+			color: 0x4ea8de,
+			title: 'My sad embed',
+			fields: [{
+				name: "_ _",
+				value: "_ _"
+			}],
+			footer: {
+				text: 'Skycomm Guide Bot',
+				icon_url: "https://i.imgur.com/184jyne.png",
+			},
+		}
+		var guide = args[0]
+		var categoryID = ""
+		if (args.length == 0 || guide == undefined) return message.channel.send('See `g!listcategories <Section>`')
+		//checks if there is any bad input
 		
-		var section = args[0]
-		if (checkAliases(sbAlias, section) == false && checkAliases(dAlias, section) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Section>`')
-		
-		if (checkAliases(sbAlias, section)) section = "Skyblock"
-		if (checkAliases(dAlias, section)) section = "Dungeons"
+		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Guide>`')
+		//checks if provided Guide matches alias list
+
+		if (globalFunctions.checkAliases(sbAlias, guide)) {
+			guide = "Skyblock"
+			categoryID = "772942075301068820"
+		} else if (globalFunctions.checkAliases(dAlias, guide)) {
+			guide = "Dungeons"
+			categoryID = "772944394542121031"
+		}
+
+		const makeMsgLink = msgID => {
+			return "https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID
+		}
 
 		dbClient.connect(async (err) => {
 			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-			var categoryList = await categoryCollection.find({"category": section}).toArray()
-			var categoryMsg = ""
+			var categoryList = await categoryCollection.find({"category": guide}).toArray()
+			
+			categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
 
-			categoryList.map(val => categoryMsg += "`" + val.categoryTitle + "`" + "\n")
-			message.channel.send("List of categories for " + section + ":\n" + categoryMsg)
+			listEmbed.timestamp = new Date()
+			listEmbed.title = "List of categories for " + guide
+			
+			message.channel.send({embed: listEmbed})
 		})
 	},
 }

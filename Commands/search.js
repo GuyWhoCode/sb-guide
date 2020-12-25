@@ -2,7 +2,7 @@
 //Parameters: keyword from list of categories.
 module.exports = {
 	name: 'search',
-	description: 'Searches for a category in the guide',
+	alises: ["s", "Search"],
 	execute(message, args) {
 		message.channel.send('Search command!')
 	},
