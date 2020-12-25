@@ -2,6 +2,8 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
+const {cmdAlias} = require("./constants.js")
+const globalFunction = require("./globalfuncions.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -11,11 +13,8 @@ for (const file of commandFiles) {
 	client.commands.set(command.name, command)
 }
 
-//    if (args.length == 0) return message.channel.send("You need! See `g! <Suggestion>`")
-
 client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
-	console.log("Ready!")
 })
 
 client.on('message', (message) => {
@@ -29,12 +28,27 @@ client.on('message', (message) => {
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
 
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const command = args.shift().toLowerCase();
+	var args = message.content.slice(prefix.length).trim().split(/ +/)
+	var command = args.shift().toLowerCase()
+
+	if (command.includes("\n")) {
+		let splitCmd = command.split("\n")[1]
+		command = command.split("\n")[0]
+		args = [splitCmd, ...args]
+	}
+	//edge case when a user includes a new line when they enter a cmd
+	//ex. g!sbsuggest\nMy New suggestion!
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
-		userCmd.execute(message, args)
+		if (globalFunction.checkAliases(cmdAlias, userCmd.name)) {
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) userCmd.execute(message, args)
+			else message.channel.send("You do not have permission to run this command!")
+		} else {
+			userCmd.execute(message, args)
+		}
+		//checking roles to allow users with certain roles (Contributor or Discord Staff) to access those exclusive commands
+
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
 		message.channel.send("Error message: " + error)
