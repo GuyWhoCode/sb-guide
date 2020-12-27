@@ -15,15 +15,16 @@ module.exports = {
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
 
-            var guideChannel = ""
-            guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+            message.channel.send({embed: guideMessage})
+            // var guideChannel = ""
+            // guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
-            guideChannel.send({embed: guideMessage}).then(msg => {
-				newMsgId = msg.id
-				guidesDB.updateOne({"categoryTitle": categoryName}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
-			})
+            // guideChannel.send({embed: guideMessage}).then(msg => {
+			// 	newMsgId = msg.id
+			// 	guidesDB.updateOne({"categoryTitle": categoryName}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
+			// })
             
-            message.channel.send("Category posted.")
+            // message.channel.send("Category posted.")
         })
     }
 }
