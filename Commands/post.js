@@ -16,8 +16,8 @@ module.exports = {
            
             // let guideMessage = guide[0].embedMessage
             // guideMessage.timestamp = new Date()
-
-            message.channel.send(guide[0])
+            console.log(guide[0])
+            // message.channel.send(guide[0])
             // var guideChannel = ""
             // guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
