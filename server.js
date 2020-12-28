@@ -43,23 +43,34 @@ client.on('message', (message) => {
 	//edge case when a user includes a new line when they enter a cmd
 	//ex. g!sbsuggest\nMy New suggestion!
 
-	// if (!cooldowns.has("sbsuggest")) cooldowns.set("sbsuggest", new Discord.Collection())
-	// if (!cooldowns.has("dsuggest")) cooldowns.set("dsuggest", new Discord.Collection())
-	// if (!cooldowns.has("update")) cooldowns.set("update", new Discord.Collection())
-	// if (!cooldowns.has("start")) cooldowns.set("start", new Discord.Collection())
+	if (!cooldowns.has("sbsuggest")) cooldowns.set("sbsuggest", new Discord.Collection())
+	if (!cooldowns.has("dsuggest")) cooldowns.set("dsuggest", new Discord.Collection())
+	if (!cooldowns.has("update")) cooldowns.set("update", new Discord.Collection())
+	if (!cooldowns.has("start")) cooldowns.set("start", new Discord.Collection())
 
-	// const now = Date.now()
+	const now = Date.now()
 
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 
 		if (globalFunction.checkAliases(cooldownCmds, userCmd.name)) {
-			// const timestamp = cooldowns.get(userCmd.name)
+			const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) cooldown = 0
 			else if (message.member.roles.cache.find(role => globalFunction.checkAliases(verifiedRoles, role.name))) cooldown = globalFunction.timeToMS("1m")
 			else cooldown = globalFunction.timeToMS("3m")
-			message.channel.send("Cooldown time:" + cooldown)
+
+			if (timestamp.has(message.author.id)) {
+				const expiration = timestamp.get(message.author.id) + cooldown
+				
+				if (now < expiration) {
+					let timeLeft = (expiration - now) / 1000
+					return message.reply(", you are still on cooldown for " + timeLeft.toFixed(1) + " seconds.")
+				}
+			} else {
+				timestamp.set(message.author.id, now)
+				setTimeout(() => timestamp.delete(message.author.id), cooldown)
+			}
 		}
 		if (globalFunction.checkAliases(restrictedCmds, userCmd.name)) {
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) userCmd.execute(message, args)
