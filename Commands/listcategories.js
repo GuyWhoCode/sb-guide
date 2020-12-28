@@ -20,10 +20,10 @@ module.exports = {
 		}
 		var guide = args[0]
 		var categoryID = ""
-		if (args.length == 0 || guide == undefined) return message.channel.send('See `g!listcategories <Section>`')
+		if (args.length == 0 || guide == undefined) return message.channel.send('See `g!listcategories <#Guide Channel>`')
 		//checks if there is any bad input
 		
-		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <Guide>`')
+		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <#Guide Channel>`')
 		//checks if provided Guide matches alias list
 
 		if (globalFunctions.checkAliases(sbAlias, guide)) {

@@ -4,6 +4,7 @@ const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
 const noAlias = ["no", "NO", "No", "n", "N"]
 const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 
+//make it not case sensitive, is very annoying
 module.exports = {
 	name: 'edit',
 	alises: ["e", "E", "Edit"],
