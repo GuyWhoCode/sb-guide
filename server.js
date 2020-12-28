@@ -57,7 +57,7 @@ client.on('message', (message) => {
 			// const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) cooldown = 0
-			if (message.member.roles.cache.find(role => globalFunction.checkAliases(verifiedRoles, role.name))) cooldown = globalFunction.timeToMS("1m")
+			else if (message.member.roles.cache.find(role => globalFunction.checkAliases(verifiedRoles, role.name))) cooldown = globalFunction.timeToMS("1m")
 			else cooldown = globalFunction.timeToMS("3m")
 			message.channel.send("Cooldown time:" + cooldown)
 		}
