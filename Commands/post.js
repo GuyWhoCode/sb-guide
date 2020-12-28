@@ -12,7 +12,7 @@ module.exports = {
         message.channel.send("Regex expression: " + categoryName)
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-            let guide = await guidesDB.find({"categoryTitle": {$regex: categoryName}}).toArray()
+            let guide = await guidesDB.find({"categoryTitle": {$regex: /skills guide/gi }}).toArray()
             
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
