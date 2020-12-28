@@ -8,7 +8,6 @@ module.exports = {
         if (args.length == 0 || args[0] == undefined) return message.channel.send("See `g!post <Category-Name>`")
         //checks if there is any bad input
         var categoryName = globalFunctions.translateCategoryName(args[0])
-        message.channel.send("Regex expression: " + categoryName)
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
             let guide = await guidesDB.find( { "categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
