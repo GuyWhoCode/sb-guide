@@ -65,7 +65,7 @@ client.on('message', (message) => {
 				
 				if (now < expiration) {
 					let timeLeft = (expiration - now) / 1000
-					return message.reply(", you are still on cooldown for " + timeLeft.toFixed(1) + " seconds.")
+					return message.reply("you are still on cooldown for " + timeLeft.toFixed(1) + " seconds.")
 				}
 			} else {
 				timestamp.set(message.author.id, now)
