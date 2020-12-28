@@ -12,12 +12,12 @@ module.exports = {
         message.channel.send("Regex expression: " + categoryName)
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-            let guide = guidesDB.find( { sku: { $regex: /^ABC/i } }).toArray()
+            let guide = await guidesDB.find( { sku: { $regex: /^ABC/i } }).toArray()
            
             // let guideMessage = guide[0].embedMessage
             // guideMessage.timestamp = new Date()
 
-            message.channel.send(guide[0].description)
+            message.channel.send(guide)
             // var guideChannel = ""
             // guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
