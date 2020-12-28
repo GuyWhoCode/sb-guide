@@ -9,6 +9,7 @@ module.exports = {
         //checks if there is any bad input
         var categoryName = "/" + globalFunctions.translateCategoryName(args[0]) + "/gi"
 
+        message.channel.send("Regex expression: " + categoryName)
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
             let guide = await guidesDB.find({"categoryTitle": {$regex: categoryName}}).toArray()
