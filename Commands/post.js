@@ -7,12 +7,11 @@ module.exports = {
     execute(message, args) {
         if (args.length == 0 || args[0] == undefined) return message.channel.send("See `g!post <Category-Name>`")
         //checks if there is any bad input
-        var categoryName = "/" + globalFunctions.translateCategoryName(args[0]) + "/i"
-
+        var categoryName = new RegExp(globalFunctions.translateCategoryName(args[0]), "i") 
         message.channel.send("Regex expression: " + categoryName)
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-            let guide = await guidesDB.find( { "categoryTitle": { $regex: "/skills guide/i" } }).toArray()
+            let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
            
             let guideMessage = guide[0].embedMessage
             // guideMessage.timestamp = new Date()
