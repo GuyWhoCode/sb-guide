@@ -72,7 +72,7 @@ module.exports = {
 					//Triggered when receives first editted message. Prompts for confirmation.
 					received = true
 					newMsg = msg.content
-					if (newMsg.length >= 1024) {
+					if (msg.content.length >= 1024) {
 						collector.stop()
 						return message.channel.send("Your edited message is over the max character limit (1024). Please shorten the message.")
 					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
