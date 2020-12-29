@@ -20,7 +20,7 @@ module.exports = {
 			
             guideChannel.send({embed: guideMessage}).then(msg => {
 				newMsgId = msg.id
-				guidesDB.updateOne({"categoryTitle": categoryName}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
+				guidesDB.updateOne({"categoryTitle": guide[0].categoryTitle}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
 			})
             
             message.channel.send("Category posted.")
