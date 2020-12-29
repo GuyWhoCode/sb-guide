@@ -75,8 +75,7 @@ module.exports = {
 					if (newMsg.length >= 1024) {
 						collector.stop()
 						return message.channel.send("Your edited message is over the max character limit (1024). Please shorten the message.")
-					}
-					message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
+					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
 				}
 					
 			})
