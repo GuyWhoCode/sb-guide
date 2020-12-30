@@ -67,7 +67,7 @@ module.exports = {
 	  	  		await updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
 	  	  	} else {
 	  	  		guideDB.insertOne(newEntry)
-	  	  	}
+			}
 	  	})
 
 	  	message.channel.send("Your category has been created!")

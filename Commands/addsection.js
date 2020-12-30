@@ -36,9 +36,9 @@ module.exports = {
             var guideChannel = ""
             channelName === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
             guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
-				.then(msg => {
-					msg.first().edit({embed: msgEmbed})
-                })
+			.then(msg => {
+				msg.first().edit({embed: msgEmbed})
+            })
             
             message.channel.send("Your section has been added!")
 		})
