@@ -52,8 +52,8 @@ module.exports = {
             title: action + " Action",
             fields: [
                 {
-                    name: "Contributor: " + user + "(" + id + ") has made a change in the `" + category + "` category.",
-                    value: 'Message: ```' + msg + "```",
+                    name: user + " (" + id + ") has made a change `" + category + "`",
+                    value: '**Message:**\n ```' + msg + "```",
                 },
                 ],
             footer: {
