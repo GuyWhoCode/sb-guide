@@ -23,11 +23,12 @@ module.exports = {
 			
 			dbClient.connect(async(err) => {
 				let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-				let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
+				let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-				logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', suggestion[0].description, deleteChannel.name)})
-				await suggestionDB.deleteOne({"messageID": messageID})
+				await logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', suggestion[0].description, deleteChannel.name)}).then(() => {
+					suggestionDB.deleteOne({"messageID": messageID})
+				})
 			})
 
 		} else if (deleteChannel.name === "update-tips") {
