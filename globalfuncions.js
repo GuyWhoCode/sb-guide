@@ -52,7 +52,7 @@ module.exports = {
             title: action + " Action",
             fields: [
                 {
-                    name: user + " (" + id + ") has made a change `" + category + "`",
+                    name: user + " (" + id + ") has made a change in `" + category + "`",
                     value: '**Message:**\n ```' + msg + "```",
                 },
                 ],
