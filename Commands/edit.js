@@ -1,9 +1,10 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunction = require("../globalfuncions.js")
+const globalFunction = require("../globalfunctions.js")
 const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
 const noAlias = ["no", "NO", "No", "n", "N"]
 const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 
+//make it not case sensitive, is very annoying
 module.exports = {
 	name: 'edit',
 	alises: ["e", "E", "Edit"],
@@ -19,7 +20,7 @@ module.exports = {
 		dbClient.connect( async(err) => {
 			let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
-			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
+			let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
 			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 			//returns an error if the Category Title did not match anything in the database
@@ -28,13 +29,13 @@ module.exports = {
 			var oldMsgID = 0
 
 			embedMessage.fields.map((val, index) => {
-				val.name === sectionTitle ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
+				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
 			})
 			//Loops through all the fields for matching Section name and recording original message
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 			//returns an error if the provided Section Name did not match anything in the Guide message
 			
-			message.channel.send("Please post the edited version below. This message will expire in 20 seconds. Run the command again if you run out of time.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
+			message.channel.send("Post the edited version below. This message will expire in 20 seconds. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 			
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: 20000})
@@ -55,7 +56,10 @@ module.exports = {
 						m.first().edit({embed: embedMessage})
 					})
 					
-					guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+					logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+
+					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 					message.channel.send("Message edited.")
 
 				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
@@ -71,7 +75,10 @@ module.exports = {
 					//Triggered when receives first editted message. Prompts for confirmation.
 					received = true
 					newMsg = msg.content
-					message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
+					if (msg.content.length >= 1024) {
+						collector.stop()
+						return message.channel.send("Your edited message is over the max character limit (1024). Please shorten the message.")
+					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
 				}
 					
 			})

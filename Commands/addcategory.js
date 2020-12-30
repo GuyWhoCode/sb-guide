@@ -1,6 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias, uAlias} = require("../constants.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 var categoryEmbed = {
   	color: 0xffba00,
@@ -25,10 +25,10 @@ module.exports = {
 	  	var msgID = ""
 		var category = args[0]
 		let categoryName = args.slice(1, args.length).join(" ").trim()
-	  	if (args.length == 0 || category.length == 0 || categoryName.length == 0) return message.channel.send("See `g!addcategory <Guide> <Category Name>`")
+	  	if (args.length == 0 || category.length == 0 || categoryName.length == 0) return message.channel.send("See `g!addcategory <#Guide Channel> <Category Name>`")
 	  	//checks if there is any bad input
 
-	  	if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false && globalFunctions.checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <Guide> <Category Name>`")
+	  	if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false && globalFunctions.checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <#Guide Channel> <Category Name>`")
 	  	//checks if provided alias does not match list of alises
 		
 	  	categoryEmbed.title = categoryName
@@ -67,7 +67,7 @@ module.exports = {
 	  	  		await updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
 	  	  	} else {
 	  	  		guideDB.insertOne(newEntry)
-	  	  	}
+			}
 	  	})
 
 	  	message.channel.send("Your category has been created!")

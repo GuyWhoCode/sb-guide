@@ -1,4 +1,5 @@
 const {dbClient} = require("../mongodb.js")
+const globalFunction = require("../globalfunctions.js")
 
 module.exports = {
 	name: 'delete',
@@ -22,8 +23,14 @@ module.exports = {
 			
 			dbClient.connect(async(err) => {
 				let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-				await suggestionDB.deleteOne({"messageID": messageID})
+				let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
+
+				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+				logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', suggestion[0].description, deleteChannel.name)}).then(() => {
+					suggestionDB.deleteOne({"messageID": messageID})
+				})
 			})
+
 		} else if (deleteChannel.name === "update-tips") {
 			//case when delete channel is update tips
 			dbClient.connect(async (err) => {
@@ -51,6 +58,7 @@ module.exports = {
 					  m.first().edit({embed: findUpdateMsg[0].msgObject})
 					})
 					message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
+					
 				})
 				
 			})
@@ -66,6 +74,9 @@ module.exports = {
 				let guideDB = dbClient.db("skyblockGuide").collection("Guides")
 				await guideDB.deleteOne({"messageID": messageID})
 			})
+
+			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+			logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', "N/A", deleteChannel.name)})
 		}
 	},
 }

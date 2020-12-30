@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 var suggestEmbed = {
 	color: 0xffba00,
@@ -23,6 +23,7 @@ module.exports = {
 		if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
 		//checks if there is any bad input
 		let userSuggestion = args.join(" ").trim()
+		if (userSuggestion.length >= 1024) return message.channel.send("Your suggestion has hit the max character limit (1024). Shorten the suggestion or break up the suggestion into smaller suggestions.")
 		suggestEmbed.description = userSuggestion
 
 		let user = message.author.tag

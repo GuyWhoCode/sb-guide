@@ -35,5 +35,34 @@ module.exports = {
         var objURL = ""
         msg.map(val => val.includes("https://") && val.includes("attachments") ? objURL = val : undefined)
         return {url: objURL}
+    },
+    timeToMS(time){
+        switch(time.split("")[time.length-1]){
+            case "h":
+                return parseInt(time.split("h")[0]) * 360 * 1000
+            case "m":
+                return parseInt(time.split("m")[0]) * 60 * 1000
+            default:
+                return parseInt(time.split("s")[0]) * 1000
+        }
+    },
+    logAction(user, id, action, msg, category){
+        let logEntry = {
+            color: 0x33998c,
+            title: action + " Action",
+            fields: [
+                {
+                    name: user + " (" + id + ") has made a change in `" + category + "`",
+                    value: '**Message:**\n ```' + msg + "```",
+                },
+                ],
+            footer: {
+                text: 'Skycomm Guide Bot',
+                icon_url: "https://i.imgur.com/184jyne.png",
+            },
+            timestamp: new Date()
+        }
+        return logEntry
     }
+    
 }

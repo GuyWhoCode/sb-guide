@@ -1,10 +1,10 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)
 }
-var cached = false
+// var cached = false
 module.exports = {
 	name: 'approve',
 	alises: ["a", "Approve"],
@@ -28,14 +28,15 @@ module.exports = {
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 			//returns an error if the retrieved message from the database was already approved
 
-			let categoryMsg = await guidesDB.find({"categoryTitle": categoryTitle}).toArray()
+			let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
 			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
 			//returns an error if the Category Title did not match anything in the database
 
 			var foundSection = false
-			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
+			var approveMsgIndex = 0 
+			embedMessage.fields.map((val, index) => {
+				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true, approveMsgIndex = index): undefined
 			})
 			//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
@@ -52,26 +53,29 @@ module.exports = {
 
 			var guideChannel = ""
 			categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-			if (cached == false) {
-				guideChannel.messages.fetch({around: messageID, limit: 1})
-				.then(msg => {
-				  msg.first().delete();
-				})
+			// if (cached == false) {
+				// guideChannel.messages.fetch({around: messageID, limit: 1})
+				// .then(msg => {
+				//   msg.first().delete();
+				// })
 			
-				var newMsgId = ""
-				guideChannel.send({embed: embedMessage}).then(msg => {
-					newMsgId = msg.id
-					guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": newMsgId, "category": categoryMsg[0].category}})
-				})
-				cached = true
-			} else {
+				// var newMsgId = ""
+				// guideChannel.send({embed: embedMessage}).then(msg => {
+				// 	newMsgId = msg.id
+				// 	guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": newMsgId, "category": categoryMsg[0].category}})
+				// })
+			// 	cached = true
+			// } else {
 				guideChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
 				  msg.first().edit({embed: embedMessage});
 				})
-				guidesDB.updateOne({"categoryTitle": categoryTitle}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
-			}
+				guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
+			// }
 			
+			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+			logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
+
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			message.channel.send("That suggestion has been approved!")
 		})

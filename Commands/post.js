@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 module.exports = {
     name: "post",
@@ -10,17 +10,17 @@ module.exports = {
         var categoryName = globalFunctions.translateCategoryName(args[0])
         dbClient.connect(async (err) => {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-            let guide = await guidesDB.find({"categoryTitle": categoryName}).toArray()
-            
+            let guide = await guidesDB.find( { "categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
+           
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
-
+            
             var guideChannel = ""
             guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
             guideChannel.send({embed: guideMessage}).then(msg => {
 				newMsgId = msg.id
-				guidesDB.updateOne({"categoryTitle": categoryName}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
+				guidesDB.updateOne({"categoryTitle": guide[0].categoryTitle}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
 			})
             
             message.channel.send("Category posted.")
