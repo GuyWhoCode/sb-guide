@@ -35,7 +35,7 @@ module.exports = {
 
 			var foundSection = false
 			embedMessage.fields.map(val => {
-				val.name === sectionTitle ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
+				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true): undefined
 			})
 			//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")

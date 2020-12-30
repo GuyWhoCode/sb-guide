@@ -29,7 +29,7 @@ module.exports = {
 			var oldMsgID = 0
 
 			embedMessage.fields.map((val, index) => {
-				val.name === sectionTitle ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
+				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
 			})
 			//Loops through all the fields for matching Section name and recording original message
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
