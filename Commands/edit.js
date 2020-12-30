@@ -57,7 +57,7 @@ module.exports = {
 					})
 					
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-					logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'edit', newMsg, )})
+					logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'edit', newMsg, categoryMsg[0].categoryTitle)})
 
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 					message.channel.send("Message edited.")
