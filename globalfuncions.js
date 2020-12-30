@@ -45,6 +45,24 @@ module.exports = {
             default:
                 return parseInt(time.split("s")[0]) * 1000
         }
+    },
+    logAction(user, id, action, msg, category){
+        let logEntry = {
+            color: 0x33998c,
+            title: action + " Action",
+            fields: [
+                {
+                    name: "Contributor: " + user + "(" + id + ") has made a change in the `" + category + "` category.",
+                    value: 'Message: ```' + msg + "```",
+                },
+                ],
+            footer: {
+                text: 'Skycomm Guide Bot',
+                icon_url: "https://i.imgur.com/184jyne.png",
+            },
+            timestamp: new Date()
+        }
+        return logEntry
     }
     
 }

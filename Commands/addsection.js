@@ -31,7 +31,7 @@ module.exports = {
             delete msgEmbed.description
 
             let channelName = categoryMsg[0].category
-            guideCollection.updateOne({"categoryTitle": categoryMsg[0].categoryTitle}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
+            guideCollection.updateOne({"categoryTitle": { $regex: new RegExp(categoryName, "i") }}, {$set: {"category": channelName, "messageID": categoryMsg[0].messageID, "categoryTitle": categoryName, "embedMessage": msgEmbed}})
             
             var guideChannel = ""
             channelName === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
