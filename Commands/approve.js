@@ -74,7 +74,7 @@ module.exports = {
 			// }
 			
 			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-			logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
+			logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			message.channel.send("That suggestion has been approved!")

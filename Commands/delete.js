@@ -1,4 +1,5 @@
 const {dbClient} = require("../mongodb.js")
+const globalFunction = require("./globalfuncions.js")
 
 module.exports = {
 	name: 'delete',
