@@ -3,7 +3,7 @@ const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
 const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
-const globalFunction = require("./globalfuncions.js")
+const globalFunction = require("./globalfunctions.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))

@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 var suggestEmbed = {
 	color: 0xffba00,

@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)

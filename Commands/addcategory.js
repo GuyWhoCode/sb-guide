@@ -1,6 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias, uAlias} = require("../constants.js")
-const globalFunctions = require("../globalfuncions.js")
+const globalFunctions = require("../globalfunctions.js")
 
 var categoryEmbed = {
   	color: 0xffba00,
