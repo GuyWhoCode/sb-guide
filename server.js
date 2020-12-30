@@ -56,7 +56,7 @@ client.on('message', (message) => {
 		if (globalFunction.checkAliases(cooldownCmds, userCmd.name)) {
 			const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
-			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) cooldown = 0
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) cooldown = 0
 			else if (message.member.roles.cache.find(role => globalFunction.checkAliases(verifiedRoles, role.name))) cooldown = globalFunction.timeToMS("1m")
 			else cooldown = globalFunction.timeToMS("3m")
 
@@ -73,7 +73,7 @@ client.on('message', (message) => {
 			}
 		}
 		if (globalFunction.checkAliases(restrictedCmds, userCmd.name)) {
-			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Guide Updates")) userCmd.execute(message, args)
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(message, args)
 			else message.channel.send("You do not have permission to run this command!")
 		} else {
 			userCmd.execute(message, args)

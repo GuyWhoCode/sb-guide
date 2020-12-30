@@ -59,7 +59,7 @@ module.exports = {
 	execute(message, args) {
 		helpEmbed.timestamp = new Date()
 		
-		if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Guide Updates" || role.name == "Discord Management")) {
+		if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
 			//manual check for specific role perms
 			message.channel.send({embed: helpEmbed})
 		} else {
