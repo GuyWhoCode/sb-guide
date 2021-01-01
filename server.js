@@ -23,7 +23,7 @@ client.on('message', (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
-	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing" && message.channel.name != "bot-commands") {
+	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
 		message.delete({timeout: 15000})
 		return message.reply("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!").then(msg => msg.delete({ timeout: 15000}))
 	}
