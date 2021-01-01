@@ -72,7 +72,7 @@ module.exports = {
 			
 			dbClient.connect(async(err) => {
 				let guideDB = dbClient.db("skyblockGuide").collection("Guides")
-				let guideMsg = await dbClient.find({"messageID": messageID}).toArray()
+				let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
 				if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
