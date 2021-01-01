@@ -27,7 +27,6 @@ module.exports = {
 		suggestEmbed.description = userSuggestion
 
 		let user = message.author.tag
-		var suggestID = ""
 		suggestEmbed.title = `Skyblock Guide Suggestion by ${user}`
 		suggestEmbed.timestamp = new Date()
 		
@@ -35,16 +34,15 @@ module.exports = {
 		//supports images
 
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-		suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
-			suggestEmbed.fields[0].name = `ID: ${msg.id}`
-			suggestID = msg.id
-			msg.edit({ embed: suggestEmbed})
-		})
 		
-		dbClient.connect( async(err)=> {
+		dbClient.connect(async(err)=> {
 			let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
-			
-			let newEntry = globalFunctions.createNewEntry("Skyblock", userSuggestion, suggestID, message.author.id)
+			var newEntry = ""
+			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
+				suggestEmbed.fields[0].name = `ID: ${msg.id}`
+				newEntry = globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id)
+				msg.edit({ embed: suggestEmbed})
+			})
 			suggestionsDB.insertOne(newEntry)
 		})
 

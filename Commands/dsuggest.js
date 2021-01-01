@@ -35,18 +35,16 @@ module.exports = {
 		//supports images from links
 
     	let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-    	suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
-    	  suggestEmbed.fields[0].name = `ID: ${msg.id}`
-    	  suggestID = msg.id
-    	  msg.edit({ embed: suggestEmbed})
-    	})
-    
-    	dbClient.connect( async(err)=> {
-    	  let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
-		
-    	  let newEntry = globalFunctions.createNewEntry("Dungeons", userSuggestion, suggestID, message.author.id)
-    	  suggestionsDB.insertOne(newEntry)
-    	})
+		dbClient.connect(async(err)=> {
+			let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
+			var newEntry = ""
+			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
+				suggestEmbed.fields[0].name = `ID: ${msg.id}`
+				newEntry = globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id)
+				msg.edit({ embed: suggestEmbed})
+			})
+			suggestionsDB.insertOne(newEntry)
+		})
 
     	message.channel.send("Your suggestion has been submitted!")
 	},
