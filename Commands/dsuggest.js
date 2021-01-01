@@ -39,7 +39,7 @@ module.exports = {
 			let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
 			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
 				suggestEmbed.fields[0].name = `ID: ${msg.id}`
-				suggestionsDB.insertOne(globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id))
+				suggestionsDB.insertOne(globalFunctions.createNewEntry("Dungeons", userSuggestion, msg.id, message.author.id))
 				msg.edit({ embed: suggestEmbed})
 			})
 		})
