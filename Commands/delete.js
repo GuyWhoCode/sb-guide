@@ -72,11 +72,15 @@ module.exports = {
 			
 			dbClient.connect(async(err) => {
 				let guideDB = dbClient.db("skyblockGuide").collection("Guides")
-				await guideDB.deleteOne({"messageID": messageID})
+				let guideMsg = await dbClient.find({"messageID": messageID}).toArray()
+				if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
+
+				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+				logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
+				logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({"messageID": messageID}))
 			})
 
-			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-			logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', "N/A", deleteChannel.name)})
+			
 		}
 	},
 }
