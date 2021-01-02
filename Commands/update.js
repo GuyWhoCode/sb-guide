@@ -8,6 +8,7 @@ module.exports = {
     name: "update",
     alises: ['u', 'Update'],
     execute(message, args) {
+        return message.channel.send("This commmand has bee deplicated for the time being.")
         if (args.length == 0) return message.channel.send("You need to input something! See `g!update <Update Tip>`")
         
         let updateSuggestion = args.join(" ").trim()
