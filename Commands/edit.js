@@ -4,7 +4,6 @@ const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
 const noAlias = ["no", "NO", "No", "n", "N"]
 const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 
-//make it not case sensitive, is very annoying
 module.exports = {
 	name: 'edit',
 	alises: ["e", "E", "Edit"],
@@ -12,7 +11,7 @@ module.exports = {
 		if (args.length == 0 || args[0] == undefined || args[1] == undefined) return message.channel.send("See `g!edit <Category-Name> <Section-Name>`")
 		//checks if there is any bad input
 
-		if (args.length >= 3) return message.channel.send("I received more parameters (>2) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-), but keep the Capitalization. It's CaSe SeNsItIvE")
+		if (args.length >= 3) return message.channel.send("I received more parameters (>2) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-).")
 		//checks if formatting on Category Title or Section Title is wrong
 		var categoryTitle = globalFunction.translateCategoryName(args[0]) 
 		var sectionTitle = globalFunction.translateCategoryName(args[1])
@@ -21,9 +20,9 @@ module.exports = {
 			let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
 			let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
-			let embedMessage = categoryMsg[0].embedMessage
-			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
 			//returns an error if the Category Title did not match anything in the database
+			let embedMessage = categoryMsg[0].embedMessage
 			var foundSection = false
 			var oldMessage = ""
 			var oldMsgID = 0
@@ -32,7 +31,7 @@ module.exports = {
 				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
 			})
 			//Loops through all the fields for matching Section name and recording original message
-			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens. It is CaSe SeNsItIvE.")
+			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 			//returns an error if the provided Section Name did not match anything in the Guide message
 			
 			message.channel.send("Post the edited version below. This message will expire in 20 seconds. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
