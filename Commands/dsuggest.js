@@ -1,5 +1,6 @@
-const {dbClient} = require("../mongodb.js")
+const {mongoClient, uri} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
+const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
 var suggestEmbed = {
   	color: 0xffba00,
