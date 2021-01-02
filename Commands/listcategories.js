@@ -48,6 +48,7 @@ module.exports = {
 			listEmbed.title = "List of categories for " + guide
 			
 			message.channel.send({embed: listEmbed})
+			dbClient.close()
 		})
 	},
 }

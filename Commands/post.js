@@ -24,6 +24,7 @@ module.exports = {
 			})
             
             message.channel.send("Category posted.")
+            dbClient.close()
         })
     }
 }

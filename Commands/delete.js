@@ -58,7 +58,7 @@ module.exports = {
 					  m.first().edit({embed: findUpdateMsg[0].msgObject})
 					})
 					message.channel.send(`The tip with the id of ${deleteID} has been deleted!`)
-					
+					dbClient.close()
 				})
 				
 			})
@@ -78,6 +78,7 @@ module.exports = {
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 				logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
 				logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({"messageID": messageID}))
+				dbClient.close()
 			})
 
 			

@@ -13,7 +13,8 @@ module.exports = {
            
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
-			message.channel.send({embed: guideMessage})
+            message.channel.send({embed: guideMessage})
+            dbClient.close()
 		})
 	}
 }
