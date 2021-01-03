@@ -41,7 +41,6 @@ module.exports = {
 				suggestEmbed.fields[0].name = `ID: ${msg.id}`
 				suggestionsDB.insertOne(globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id))
 				msg.edit({ embed: suggestEmbed})
-
 			})
 		// })
 
