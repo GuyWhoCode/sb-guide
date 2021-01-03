@@ -4,7 +4,9 @@ var database;
 // const dbClient = new mongoClient(uri, )
 mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
     database = client.db("skyblockGuide")
-    console.log(database.collection("Guides"))
+    module.exports = {
+        database: database
+    }
 })
 
 
@@ -12,6 +14,3 @@ mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, fun
 //     // console.log()
 //     console.log(data)
 // })
-module.exports = {
-    database: database
-}
