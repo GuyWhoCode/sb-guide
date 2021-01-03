@@ -4,7 +4,9 @@ var database;
 const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true})
 
 dbClient.connect((err, data) => {
-    database = data.db("skyblockGuide")
+    console.log(data.collection("Guides").find({"category": "Skyblock"}))
+    // database = data.db("skyblockGuide")
+    
 })
 module.exports = {
     database: database
