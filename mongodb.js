@@ -1,12 +1,14 @@
 const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 var database;
-// const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true})
-mongoClient.connect(uri, function(err, client) {
+// const dbClient = new mongoClient(uri, )
+mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
     database = client.db("skyblockGuide")
 })
+
+console.log(database.collection("Guides").find({"category": "Skyblock"}))
 // dbClient.connect((err, data) => {
-//     // console.log(data.collection("Guides").find({"category": "Skyblock"}))
+//     // console.log()
 //     console.log(data)
 // })
 module.exports = {
