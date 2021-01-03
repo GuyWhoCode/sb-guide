@@ -1,4 +1,4 @@
-
+const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 
 var suggestEmbed = {
