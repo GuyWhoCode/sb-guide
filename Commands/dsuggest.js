@@ -1,4 +1,4 @@
-const {mongoClient, uri} = require("../mongodb.js")
+// const {database} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
 
@@ -42,7 +42,6 @@ module.exports = {
 				suggestEmbed.fields[0].name = `ID: ${msg.id}`
 				suggestionsDB.insertOne(globalFunctions.createNewEntry("Dungeons", userSuggestion, msg.id, message.author.id))
 				msg.edit({ embed: suggestEmbed})
-				dbClient.close()
 			})
 		})
 

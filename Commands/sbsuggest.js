@@ -35,7 +35,7 @@ module.exports = {
 
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 
-		database.connect(async(err)=> {
+		// database.connect(async(err)=> {
 			let suggestionsDB = database.collection("suggestions")
 			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
 				suggestEmbed.fields[0].name = `ID: ${msg.id}`
@@ -43,7 +43,7 @@ module.exports = {
 				msg.edit({ embed: suggestEmbed})
 
 			})
-		})
+		// })
 
 		message.channel.send("Your suggestion has been submitted!")
 	},
