@@ -8,5 +8,5 @@ dbClient.connect(async (err, db) => {
 })
 
 module.exports = {
-    dbClient: database
+    database: database
 }
