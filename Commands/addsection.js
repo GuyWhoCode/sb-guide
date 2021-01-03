@@ -42,7 +42,6 @@ module.exports = {
             })
             
             message.channel.send("Your section has been added!")
-            dbClient.close()
 		})
         
     }
