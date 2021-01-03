@@ -6,7 +6,7 @@ mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, fun
     database = client.db("skyblockGuide")
 })
 
-console.log(database.collection("Guides").find({"category": "Skyblock"}))
+console.log(database)
 // dbClient.connect((err, data) => {
 //     // console.log()
 //     console.log(data)
