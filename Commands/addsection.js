@@ -17,6 +17,7 @@ module.exports = {
 		dbClient.connect(async (err) => {
 			let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
             let categoryMsg = await guideCollection.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
+            console.log(categoryMsg[0])
             if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens?")
             //If the provided category does not exist in the database, give the user an error saying so.
 
