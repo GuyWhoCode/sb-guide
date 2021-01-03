@@ -1,4 +1,5 @@
-const {mongoClient, uri} = require("../mongodb.js")
+const mongoClient = require('mongodb').MongoClient
+const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
 const globalFunctions = require("../globalfunctions.js")
 
 var suggestEmbed = {
@@ -36,6 +37,7 @@ module.exports = {
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		
 		const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true })
+		
 		dbClient.connect(async(err)=> {
 			let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
 			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
