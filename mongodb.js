@@ -1,16 +1,11 @@
 const mongoClient = require('mongodb').MongoClient
 const uri = "mongodb+srv://dbADMIN:"+ process.env.password + "@guide-info.e5dr4.mongodb.net/skyblockGuide?retryWrites=true&w=majority";
+const dbClient = new mongoClient(uri, { useNewUrlParser: true, useUnifiedTopology: true})
 var database;
-// const dbClient = new mongoClient(uri, )
-mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
-    database = client.db("skyblockGuide")
-    module.exports = {
-        database: database
-    }
+
+dbClient.connect(async(err) => {
+    database = dbClient.db("skyblockGuide")
 })
-
-
-// dbClient.connect((err, data) => {
-//     // console.log()
-//     console.log(data)
-// })
+module.exports = {
+    database: database
+}

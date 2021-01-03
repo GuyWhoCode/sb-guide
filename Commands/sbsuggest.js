@@ -36,12 +36,12 @@ module.exports = {
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 
 		// database.connect(async(err)=> {
-			let suggestionsDB = database.collection("suggestions")
-			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
-				suggestEmbed.fields[0].name = `ID: ${msg.id}`
-				suggestionsDB.insertOne(globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id))
-				msg.edit({ embed: suggestEmbed})
-			})
+		let suggestionsDB = database.collection("suggestions")
+		suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
+			suggestEmbed.fields[0].name = `ID: ${msg.id}`
+			suggestionsDB.insertOne(globalFunctions.createNewEntry("Skyblock", userSuggestion, msg.id, message.author.id))
+			msg.edit({ embed: suggestEmbed})
+		})
 		// })
 
 		message.channel.send("Your suggestion has been submitted!")
