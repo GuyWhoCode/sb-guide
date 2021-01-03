@@ -5,7 +5,7 @@ var database;
 
 dbClient.connect(async(err) => {
     database = dbClient.db("skyblockGuide")
+    module.exports = {
+        database: database
+    }
 })
-module.exports = {
-    database: database
-}
