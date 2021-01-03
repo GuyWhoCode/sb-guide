@@ -11,6 +11,9 @@ module.exports = {
             let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
             let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
            
+            if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
+            //returns an error if the Category Title did not match anything in the database
+            
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
             message.channel.send({embed: guideMessage})
