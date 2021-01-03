@@ -68,7 +68,6 @@ module.exports = {
 	  	  	} else {
 	  	  		guideDB.insertOne(newEntry)
 			}
-			dbClient.close()
 	  	})
 
 	  	message.channel.send("Your category has been created!")

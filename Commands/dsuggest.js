@@ -1,4 +1,4 @@
-const {database} = require("../mongodb.js")
+const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 
 var suggestEmbed = {
@@ -27,7 +27,6 @@ module.exports = {
     	suggestEmbed.description = userSuggestion
 
     	let user = message.author.tag
-    	var suggestID = ""
     	suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
     	suggestEmbed.timestamp = new Date()
 		
@@ -35,8 +34,8 @@ module.exports = {
 		//supports images from links
 
     	let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-		database.connect(async(err)=> {
-			let suggestionsDB = database.db("skyblockGuide").collection("suggestions")
+		dbClient.connect(async(err)=> {
+			let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
 			suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
 				suggestEmbed.fields[0].name = `ID: ${msg.id}`
 				suggestionsDB.insertOne(globalFunctions.createNewEntry("Dungeons", userSuggestion, msg.id, message.author.id))
