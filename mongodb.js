@@ -4,9 +4,10 @@ var database;
 // const dbClient = new mongoClient(uri, )
 mongoClient.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
     database = client.db("skyblockGuide")
+    console.log(database)
 })
 
-console.log(database)
+
 // dbClient.connect((err, data) => {
 //     // console.log()
 //     console.log(data)
