@@ -19,8 +19,10 @@ client.once('ready', () => {
 })
 
 client.on('message', (message) => {
-	
-	if (!message.content.startsWith(prefix) || message.author.bot && !message.content.startsWith("G!")) return;
+	if (message.author.bot) return;
+	console.log("Normal prefix: " + !message.content.startsWith(prefix))
+	console.log("Mobile prefix: " + !message.content.startsWith("G!"))
+	if (!message.content.startsWith(prefix) || !message.content.startsWith("G!")) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
