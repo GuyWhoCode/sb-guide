@@ -52,7 +52,7 @@ module.exports = {
 				},
 				{
 					name: "_ _",
-					value: "Powered by the [Skyblock Community](discord.gg/hysky)"
+					value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
 				}
 			],
 			footer: {
