@@ -32,11 +32,11 @@ module.exports = {
 				},
 				{
 					name: '`g!addcategory <#Guide Channel> <Category Name>`',
-					value: 'Adds an embed for people to add changes in their respective channels.\n<#772942075301068820>`\n\u200b',
+					value: 'Adds an embed for people to add changes in their respective channels.\n\u200b',
 				},
 				{
 					name: '`g!addsection <Category-Name> <Section Name>`',
-					value: 'Adds a new subtitle to a Category Message. See Guide alises above.\n\u200b',
+					value: 'Adds a new subtitle to a Category Message.\n\u200b',
 				},
 				{
 					name: '`g!approve <Suggestion Message ID> <Category-Name> <Section Name>`',
