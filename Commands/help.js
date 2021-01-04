@@ -52,9 +52,10 @@ module.exports = {
 				},
 			],
 			footer: {
-				text: 'Skycomm Guide Bot',
+				text: 'Powered by SkyBlock Community',
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
+			url: 'https://discord.js.org',
 		}
 		helpEmbed.timestamp = new Date()
 		
