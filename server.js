@@ -21,7 +21,7 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
 	
-	if (!message.content.startsWith(prefix) || message.author.bot || !message.content.startsWith(mobilePrefix) return;
+	if (!message.content.startsWith(prefix) || message.author.bot || !message.content.startsWith(mobilePrefix)) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
