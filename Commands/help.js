@@ -50,12 +50,15 @@ module.exports = {
 					name: '`g!edit <Message ID> <#Channel>`',
 					value: 'Edits a Section of the Guide based on the Message ID supplied.',
 				},
+				{
+					name: "_ _",
+					value: "Powered by the [Skyblock Community](discord.gg/hysky)"
+				}
 			],
 			footer: {
-				text: 'Powered by SkyBlock Community',
+				text: 'SkyBlock Guides',
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
-			url: 'https://discord.js.org',
 		}
 		helpEmbed.timestamp = new Date()
 		
