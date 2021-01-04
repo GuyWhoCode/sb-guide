@@ -2,6 +2,7 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
+const mobilePrefix = prefix.toUpperCase()
 const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
 const globalFunction = require("./globalfunctions.js")
 
@@ -20,7 +21,7 @@ client.once('ready', () => {
 
 client.on('message', (message) => {
 	
-	if (!message.content.startsWith(prefix) || message.author.bot || !message.content.startsWith(prefix.toUpperCase())) return;
+	if (!message.content.startsWith(prefix) || message.author.bot || !message.content.startsWith(mobilePrefix) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
