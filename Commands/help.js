@@ -49,10 +49,6 @@ module.exports = {
 				{
 					name: '`g!edit <Message ID> <#Channel>`',
 					value: 'Edits a Section of the Guide based on the Message ID supplied.',
-				},
-				{
-					name: "_ _",
-					value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
 				}
 			],
 			footer: {
@@ -61,12 +57,13 @@ module.exports = {
 			},
 		}
 		helpEmbed.timestamp = new Date()
-		
 		if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
 			//manual check for specific role perms
+			helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 			message.channel.send({embed: helpEmbed})
 		} else {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
+			helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 			message.channel.send({embed: helpEmbed})
 		}
 	},
