@@ -21,7 +21,9 @@ module.exports = {
             var guideChannel = ""
             guide[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
-            guideChannel.send({embed: guideMessage}).then(msg => {
+            guideChannel.send({embed: guideMessage}).catch(err => {
+                message.channel.send("Oops! Something went wrong. Error Message: " + err)
+            }).then(msg => {
 				newMsgId = msg.id
 				guidesDB.updateOne({"categoryTitle": guide[0].categoryTitle}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
 			})
