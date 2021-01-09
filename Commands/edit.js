@@ -52,7 +52,7 @@ module.exports = {
 			
 					embedMessage.timestamp = new Date()
 		    		guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
-						console.log(m)
+						console.log(m.first())
 						// m.first().edit({embed: embedMessage})
 					})
 					
