@@ -36,15 +36,15 @@ module.exports = {
 			
 			// message.channel.send("Post the edited version below. This message will expire in 20 seconds. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 			
-			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-			const collector = message.channel.createMessageCollector(filter, {time: 20000})
-			var received = false
+			// const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
+			// const collector = message.channel.createMessageCollector(filter, {time: 20000})
+			var received = true
 			var newMsg = ""
 			//awaits new message for edit
-			collector.on('collect', msg => {
-				if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
+			// collector.on('collect', msg => {
+				// if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
 					//second collector for Confirmation. Edits the message.
-					collector.stop()
+					// collector.stop()
 
 					// embedMessage.fields[oldMsgID].value = newMsg + "\n\u200b"
 					var guideChannel = ""
@@ -62,7 +62,8 @@ module.exports = {
 					// guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 					// message.channel.send("Message edited.")
 
-				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
+				// } else 
+				if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
 					//stops Edit process if given no/cancel alias
 					collector.stop()
 					message.channel.send("Process canceled.")
@@ -81,11 +82,11 @@ module.exports = {
 					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
 				}
 					
-			})
+			// })
 
-			collector.on('end', msg => {
-				if (received == false) message.channel.send("The message has expired with no output.")
-			})
+			// collector.on('end', msg => {
+			// 	if (received == false) message.channel.send("The message has expired with no output.")
+			// })
 		})
 
 	},
