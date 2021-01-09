@@ -24,7 +24,9 @@ module.exports = {
             guideChannel.send({embed: guideMessage}).then(msg => {
 				newMsgId = msg.id
 				guidesDB.updateOne({"categoryTitle": guide[0].categoryTitle}, {$set: {"embedMessage": guideMessage, "categoryTitle": guide[0].categoryTitle, "messageID": newMsgId, "category": guide[0].category}})
-			})
+			}).catch(err => {
+                message.channel.send("Error. There was something wrong. Error Message: " + err)
+            })
             
             message.channel.send("Category posted.")
         })
