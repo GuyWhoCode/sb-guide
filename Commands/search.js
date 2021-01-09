@@ -16,7 +16,9 @@ module.exports = {
             
             let guideMessage = guide[0].embedMessage
             guideMessage.timestamp = new Date()
-            message.channel.send({embed: guideMessage})
+            message.channel.send({embed: guideMessage}).catch(err => {
+                message.channel.send("Error. There was something wrong. Error Message: " + err)
+            })
 		})
 	}
 }
