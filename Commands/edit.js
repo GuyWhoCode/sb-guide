@@ -38,7 +38,7 @@ module.exports = {
 			
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: 20000})
-			var received = true
+			var received = false
 			var newMsg = ""
 			//awaits new message for edit
 			collector.on('collect', msg => {
