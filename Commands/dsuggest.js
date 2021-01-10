@@ -24,6 +24,7 @@ module.exports = {
 		//checks if there is any bad input
 		let userSuggestion = args.join(" ").trim()
 		if (userSuggestion.length >= 1024) return message.channel.send("Your suggestion has hit the max character limit (1024). Shorten the suggestion or break up the suggestion into smaller suggestions.")
+		//edge case when suggestion exceeds field limit
     	suggestEmbed.description = userSuggestion
 
     	let user = message.author.tag

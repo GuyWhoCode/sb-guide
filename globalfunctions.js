@@ -63,6 +63,14 @@ module.exports = {
             timestamp: new Date()
         }
         return logEntry
+    },
+    embedCharCount(embed) {
+        let msg = embed.embedMessage
+        var charCount = msg.title.length
+        msg.fields.map(val => {
+            charCount += (val.name.length + val.value.length)
+        })
+        return charCount
     }
     
 }

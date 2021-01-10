@@ -47,6 +47,9 @@ module.exports = {
 					collector.stop()
 
 					embedMessage.fields[oldMsgID].value = newMsg + "\n\u200b"
+					if (globalFunctions.embedCharCount(embedMessage) >= 6000) return message.channel.send("Error. Editting the embed exceeds the embed character limit (6000). Shorten down the embed.")
+					//edge case when embed exceeds limit
+
 					var guideChannel = ""
 					categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 			
