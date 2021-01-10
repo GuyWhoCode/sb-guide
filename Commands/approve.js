@@ -48,7 +48,7 @@ module.exports = {
 			let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 			suggestionChannel.messages.fetch({around: messageID, limit: 1})
 				.then(msg => {
-				  msg.first().edit("This suggestion has been approved!");
+				  msg.first().edit("This suggestion has been approved!").then(me => {message.channel.send("ID: " + me.id)})
 				})
 
 			var guideChannel = ""
