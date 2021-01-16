@@ -22,6 +22,7 @@ module.exports = {
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 		let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
 
+		return console.log(suggestion[0])
 		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 		//returns an error if the provided message ID did not match anything in the database
 		if (suggestion[0].status != undefined) return message.channel.send("The suggestion was already approved!")
