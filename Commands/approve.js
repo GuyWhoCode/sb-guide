@@ -20,7 +20,7 @@ module.exports = {
 
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-		let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
+		let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
 		console.log(suggestion[0])
 		return "stopped code"
