@@ -18,7 +18,7 @@ module.exports = {
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, replace the spaces with a hyphen (-).")
 		//returns an error if Category name or Section Name is not formatted correctly
 
-		dbClient.connect( async(err) => {
+		// dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
@@ -69,6 +69,6 @@ module.exports = {
 
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			message.channel.send("That suggestion has been approved!")
-		})
+		// })
 	},
 }
