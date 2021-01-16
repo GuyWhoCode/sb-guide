@@ -21,14 +21,14 @@ module.exports = {
 		// dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
+			let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
 
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 			//returns an error if the provided message ID did not match anything in the database
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 			//returns an error if the retrieved message from the database was already approved
 
-			let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
+			let categoryMsg = guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
 			let embedMessage = categoryMsg[0].embedMessage
 			
 			if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
