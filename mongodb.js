@@ -6,6 +6,9 @@ dbClient.connect(async (err) => {
     console.log("Connected to database!")
 })
 
+process.on("SIGTERM", () => {
+    dbClient.close()
+})
 module.exports = {
     dbClient: dbClient
 }

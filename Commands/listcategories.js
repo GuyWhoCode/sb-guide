@@ -5,7 +5,7 @@ const globalFunctions = require("../globalfunctions.js")
 module.exports = {
 	name: 'listcategories',
 	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
-	execute(message, args) {
+	async execute(message, args) {
 		var listEmbed = {
 			color: 0x4ea8de,
 			title: 'My sad embed',
@@ -39,7 +39,7 @@ module.exports = {
 		}
 
 		let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-		var categoryList = categoryCollection.find({"category": guide}).toArray()
+		var categoryList = await categoryCollection.find({"category": guide}).toArray()
 		
 		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
 		listEmbed.timestamp = new Date()

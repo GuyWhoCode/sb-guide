@@ -8,14 +8,14 @@ const entrySchema = {
 module.exports = {
     name: "addsection",
     alises: ["as", "Addsection", "Adds", "AddSection", "As"],
-    execute(message, args) {
+    async execute(message, args) {
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (args.length == 0 || args[0] == undefined || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
         //checks if there is any bad input
         var categoryName = globalFunction.translateCategoryName(args[0])
 
 		let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
-        let categoryMsg = guideCollection.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
+        let categoryMsg = await guideCollection.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
         if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens?")
         //If the provided category does not exist in the database, give the user an error saying so.
         

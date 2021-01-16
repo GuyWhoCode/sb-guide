@@ -4,7 +4,7 @@ const globalFunction = require("../globalfunctions.js")
 module.exports = {
 	name: 'delete',
 	alises: ["d", "Delete", "del"],
-	execute(message, args) {
+	async execute(message, args) {
 		let messageID = args[0]
 		var channelID = args[1]
 		if (args.length == 0 || channelID == undefined || messageID == undefined) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
@@ -22,7 +22,7 @@ module.exports = {
 			})
 			
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-			let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
+			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 			logChannel.send({embed: globalFunction.logAction(message.author.username, message.author.id, 'Delete', suggestion[0].description, deleteChannel.name)}).then(() => {
 				suggestionDB.deleteOne({"messageID": messageID})
@@ -31,7 +31,7 @@ module.exports = {
 		} else if (deleteChannel.name === "update-tips") {
 			//case when delete channel is update tips
 			let updateDB = dbClient.db("skyblockGuide").collection("Update Tips")
-			let findUpdateMsg = updateDB.find({"currentMsgId": messageID}).toArray()
+			let findUpdateMsg = await updateDB.find({"currentMsgId": messageID}).toArray()
 			let embedMsg = findUpdateMsg[0].msgObject.fields
 			var tipsMsg = ""
 			embedMsg.map((val, index) => {
@@ -65,7 +65,7 @@ module.exports = {
 			})
 			
 			let guideDB = dbClient.db("skyblockGuide").collection("Guides")
-			let guideMsg = guideDB.find({"messageID": messageID}).toArray()
+			let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
 			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
 			
 			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")

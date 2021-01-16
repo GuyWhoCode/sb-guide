@@ -7,7 +7,7 @@ const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 module.exports = {
 	name: 'edit',
 	alises: ["e", "E", "Edit"],
-	execute(message, args) {
+	async execute(message, args) {
 		if (args.length == 0 || args[0] == undefined || args[1] == undefined) return message.channel.send("See `g!edit <Category-Name> <Section-Name>`")
 		//checks if there is any bad input
 
@@ -18,7 +18,7 @@ module.exports = {
 		
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
-		let categoryMsg = guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
+		let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
 		if (categoryMsg[0] == undefined) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
 		//returns an error if the Category Title did not match anything in the database
 		let embedMessage = categoryMsg[0].embedMessage
