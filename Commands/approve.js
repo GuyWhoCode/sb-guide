@@ -18,14 +18,13 @@ module.exports = {
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, replace the spaces with a hyphen (-).")
 		//returns an error if Category name or Section Name is not formatted correctly
 
-		// dbClient.connect( async(err) => {
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 			let suggestion = suggestionDB.find({"messageID": messageID}).toArray()
 
 			if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
 			//returns an error if the provided message ID did not match anything in the database
-			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
+			if (suggestion[0].status != undefined) return message.channel.send("The suggestion was already approved!")
 			//returns an error if the retrieved message from the database was already approved
 
 			let categoryMsg = guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
@@ -69,6 +68,5 @@ module.exports = {
 
 			suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
 			message.channel.send("That suggestion has been approved!")
-		// })
 	},
 }
