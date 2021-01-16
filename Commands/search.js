@@ -8,7 +8,7 @@ module.exports = {
         //checks if there is any bad input
         var categoryName = new RegExp(globalFunctions.translateCategoryName(args[0]), "i") 
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-        let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
+        let guide = guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
         
         if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
         //returns an error if the Category Title did not match anything in the database

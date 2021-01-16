@@ -9,7 +9,7 @@ module.exports = {
         //checks if there is any bad input
         var categoryName = globalFunctions.translateCategoryName(args[0])
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-        let guide = await guidesDB.find( { "categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
+        let guide = guidesDB.find( { "categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
         
         if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens?")
         //If the provided category does not exist in the database, give the user an error saying so.

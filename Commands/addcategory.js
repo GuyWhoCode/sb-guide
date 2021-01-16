@@ -61,7 +61,7 @@ module.exports = {
 	  	let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
 	  	if (category == "Update Tips") {
 	  		updateDB.insertOne(newEntry)
-	  		await updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
+	  		updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
 	  	} else {
 	  		guideDB.insertOne(newEntry)
 		}

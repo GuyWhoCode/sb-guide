@@ -39,7 +39,7 @@ module.exports = {
 		}
 
 		let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-		var categoryList = await categoryCollection.find({"category": guide}).toArray()
+		var categoryList = categoryCollection.find({"category": guide}).toArray()
 		
 		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
 		listEmbed.timestamp = new Date()
