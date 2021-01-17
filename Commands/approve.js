@@ -34,14 +34,18 @@ module.exports = {
 		var foundSection = false
 		var approveMsgIndex = 0 
 		embedMessage.fields.map((val, index) => {
-			val.name.toLowerCase() === sectionTitle.toLowerCase() ? (val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true, approveMsgIndex = index): undefined
+			if (val.name.toLowerCase() === sectionTitle.toLowerCase()) {
+				if ((val.value.length + suggestion[0].description.length + "\n\u200b".length) > 1024) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
+				//edge case when field value exceeds character limit
+				val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true, approveMsgIndex = index
+			}
 		})
 		//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
+		
 		if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 		//returns an error if the provided Section Name did not match anything in the Guide message
 		if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
 		//edge case when the suggestion trying to be approved is in the wrong section
-		embedMessage.timestamp = new Date()
 		if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
 		//edge case when embed exceeds limit
 		
@@ -52,6 +56,7 @@ module.exports = {
 		})
 		
 		var guideChannel = ""
+		embedMessage.timestamp = new Date()
 		categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 		guideChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
