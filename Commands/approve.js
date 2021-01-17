@@ -37,7 +37,10 @@ module.exports = {
 			if (val.name.toLowerCase() === sectionTitle.toLowerCase()) {
 				if ((val.value.length + suggestion[0].description.length + "\n\u200b".length) > 1024) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 				//edge case when field value exceeds character limit
-				val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b", foundSection = true, approveMsgIndex = index
+				val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b"
+				
+				foundSection = true
+				approveMsgIndex = index
 			}
 		})
 		//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
