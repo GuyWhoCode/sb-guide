@@ -23,10 +23,10 @@ client.on('message', (message) => {
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 
 
-	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
-		message.delete({timeout: 15000})
-		return message.reply("Wrong channel. Please use <#772948480972161044>!").then(msg => msg.delete({ timeout: 15000}))
-	}
+	// if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
+	// 	message.delete({timeout: 15000})
+	// 	return message.reply("Wrong channel. Please use <#772948480972161044>!").then(msg => msg.delete({ timeout: 15000}))
+	// }
 		//weeds out messages that aren't in the proper channel.
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
