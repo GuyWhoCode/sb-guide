@@ -51,7 +51,8 @@ module.exports = {
 
 					var guideChannel = ""
 					categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-				
+					if (categoryMsg[0].category === "resource") guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-resources")
+
 					embedMessage.timestamp = new Date()
 		    		guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
