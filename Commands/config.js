@@ -62,34 +62,51 @@ module.exports = {
 				//records new entry in database
 				let newEntry = {
 					"serverID": message.guild.id,
-					"botChannelID": globalFunctions.channelID(configEmbed.fields[1]),
-					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2]),
-					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3])
+					"botChannelID": globalFunctions.channelID(configEmbed.fields[1].value),
+					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2].value),
+					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value)
 				}
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
 
-			} else if (filter(msg) && msg.content.includes("#")) {
+			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 
 				if (botConfirm && sbConfirm && !dConfirm) {
 					//confirmation for all settings
 					dConfirm = true
-					configEmbed.fields[3].value = channel
+					if (msg.content.includes("#")) {
+						configEmbed.fields[3].value = channel
+					} else if (msg.content.toLowerCase() == "none") {
+						message.channel.send("Process skipped.")
+					} else {
+						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+					}
+					
 					message.channel.send({embed: configEmbed})
 					message.channel.send("Confirm that these are the right settings for your server with `yes`")
 
 				} else if (botConfirm && !sbConfirm) {
 					//Skyblock Guide Channel confirmed
 					sbConfirm = true
-					configEmbed.fields[2].value = channel
-					message.channel.send("Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
+					if (msg.content.includes("#")) {
+						configEmbed.fields[2].value = channel
+					} else if (msg.content.toLowerCase() == "none") {
+						message.channel.send("Process skipped.")
+					} else {
+						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+					}
+					message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
 
 				} else if (!botConfirm) {
 					//Bot Channel confirmed
 					botConfirm = true
-					configEmbed.fields[1].value = channel
-					message.channel.send("Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
+					if (msg.content.includes("#")) {
+						configEmbed.fields[3].value = channel
+					} else {
+						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+					}
+					message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 					
 				}
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
