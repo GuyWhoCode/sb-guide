@@ -68,8 +68,7 @@ module.exports = {
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
 
-			}
-			if (filter(msg)) {
+			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 
 				if (botConfirm && sbConfirm && !dConfirm) {
