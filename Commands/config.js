@@ -47,7 +47,7 @@ module.exports = {
 		}
 		//edge case if the server is found
 		
-		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0 && msg.includes("#")
+		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0 && msg.content.includes("#")
 		const collector = message.channel.createMessageCollector(filter, {time: 60000})
 
 		let botConfirm = false
