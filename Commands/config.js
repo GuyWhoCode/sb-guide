@@ -44,7 +44,8 @@ module.exports = {
 			//Skyblock Guides Channel config
 			// configEmbed.fields[3].value = 
 			//Dungeon Guides Channel config
-			return message.channel.send({embed: configEmbed})
+			message.channel.send({embed: configEmbed})
+			return ""
 		}
 		//edge case if the server is found
 		
@@ -94,7 +95,7 @@ module.exports = {
 				
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
 				collector.stop()
-				return message.channel.send("Process Canceled")
+				message.channel.send("Process Canceled")
 			} else {
 				message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 			}
