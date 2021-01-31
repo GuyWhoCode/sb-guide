@@ -92,7 +92,7 @@ module.exports = {
 					message.channel.send("Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 					
 				}
-				else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
+				else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
 					//stops Edit process if given no/cancel alias
 					collector.stop()
 					message.channel.send("Process canceled.")
