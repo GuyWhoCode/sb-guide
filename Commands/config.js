@@ -102,7 +102,7 @@ module.exports = {
 					//Bot Channel confirmed
 					botConfirm = true
 					if (msg.content.includes("#")) {
-						configEmbed.fields[3].value = channel
+						configEmbed.fields[1].value = channel
 					} else {
 						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 					}
