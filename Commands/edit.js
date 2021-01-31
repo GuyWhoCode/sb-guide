@@ -1,8 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunction = require("../globalfunctions.js")
-const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
-const noAlias = ["no", "NO", "No", "n", "N"]
-const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
+const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
 
 module.exports = {
 	name: 'edit',
