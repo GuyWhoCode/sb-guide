@@ -33,7 +33,6 @@ module.exports = {
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
-		// return message.channel.send("Server id")
 		let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
@@ -57,6 +56,7 @@ module.exports = {
 		let dConfirm = false
 		message.channel.send("Cancel the process with `no` or `cancel` if necessary. Enter the desired channel (Ex. #bot-channel) for Bot Commands:")
 		collector.on('collect', msg => {
+			console.log(globalFunctions.checkAliases(yesAlias, msg.content.trim()))
 			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				collector.stop()
 				//records new entry in database
