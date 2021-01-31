@@ -69,7 +69,7 @@ module.exports = {
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
 
-			} else if (filter(msg) && msg.content.contains("#")) {
+			} else if (filter(msg) && msg.content.includes("#")) {
 				let channel = msg.content.trim()
 
 				if (botConfirm && sbConfirm && !dConfirm) {
