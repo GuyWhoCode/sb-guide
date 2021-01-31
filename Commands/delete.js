@@ -9,7 +9,7 @@ module.exports = {
 		var channelID = args[1]
 		if (args.length == 0 || channelID == undefined || messageID == undefined) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
 		//checks if there is any bad input	
-		channelID = channelID.split("").slice(2,channelID.length-1).join("")
+		channelID = globalFunction.channelID(channelID)
 		
 		let deleteChannel = message.guild.channels.cache.find(ch => ch.id === channelID)
 		

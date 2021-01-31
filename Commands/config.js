@@ -1,4 +1,5 @@
 const {dbClient} = require("../mongodb.js")
+const globalFunctions = require("../globalfunctions.js")
 
 module.exports = {
     name: "config",
@@ -42,9 +43,9 @@ module.exports = {
 			//Skyblock Guides Channel config
 			// configEmbed.fields[3].value = 
 			//Dungeon Guides Channel config
-			message.channel.send({embed: configEmbed})
+			return message.channel.send({embed: configEmbed})
 		}
-		//edge case if the server is not found
+		//edge case if the server is found
 
 		var newEntry = {
 			"serverID": message.guild.id,
@@ -53,14 +54,30 @@ module.exports = {
 			"dGuideChannelID": "placeholder"
 		}
 		
-		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
+		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0 && msg.includes("#")
 		const collector = message.channel.createMessageCollector(filter, {time: 60000})
-		//first collect: bot channel
-		//second collect: skyblock guides channel
-		//thirs collect: dungeong guides channel
+
+		let botCmd = false
+		let sbCmd = false
+		let dCmd = false
+		message.channel.send("Enter the desired channel (Ex. #bot-channel) for Bot Commands:")
 		collector.on('collect', msg => {
-			//channelID.split("").slice(2,channelID.length-1).join("")
-			message.content.trim()
+			// if (filter(msg)) {
+			// 	//globalFunctions.channelID(msg.content.trim())
+			// 	botCmd = true
+				
+			// 	if (botCmd) {
+			// 		message.channel.send("Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
+			// 		sbCmd
+			// 		message.channel.send("Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
+			// 	} else {
+					
+			// 	}
+				
+			// } else {
+			// 	message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+			// }
+			
 		})
     }
 }

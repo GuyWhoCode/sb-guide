@@ -71,6 +71,9 @@ module.exports = {
             charCount += (val.name.length + val.value.length)
         })
         return charCount
+    },
+    channelID(channel){
+        return channel.split("").slice(2,channel.length-1).join("")
     }
     
 }
