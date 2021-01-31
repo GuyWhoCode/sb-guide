@@ -33,7 +33,9 @@ module.exports = {
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
-
+		console.log(message.guild)
+		return ""
+		// return message.channel.send("Server id")
 		let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
