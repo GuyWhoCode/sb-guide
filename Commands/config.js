@@ -48,7 +48,7 @@ module.exports = {
 		}
 		//edge case if the server is found
 		
-		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0 && msg.content.includes("#")
+		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 		const collector = message.channel.createMessageCollector(filter, {time: 60000})
 
 		let botConfirm = false
@@ -69,7 +69,7 @@ module.exports = {
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
 
-			} else if (filter(msg)) {
+			} else if (filter(msg) && msg.content.contains("#")) {
 				let channel = msg.content.trim()
 
 				if (botConfirm && sbConfirm && !dConfirm) {
@@ -92,13 +92,11 @@ module.exports = {
 					message.channel.send("Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 					
 				}
-				else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
-					//stops Edit process if given no/cancel alias
-					collector.stop()
-					message.channel.send("Process canceled.")
-				} 	
-			} 
-			else {
+			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
+				//stops Edit process if given no/cancel alias
+				collector.stop()
+				message.channel.send("Process canceled.")
+			} else {
 				message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 			}
 			
