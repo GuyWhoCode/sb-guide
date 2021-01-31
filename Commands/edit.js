@@ -61,12 +61,14 @@ module.exports = {
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 					message.channel.send("Message edited.")
 				
-				} else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
+				} 
+				else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
 					//stops Edit process if given no/cancel alias
 					collector.stop()
 					message.channel.send("Process canceled.")
 				
-				} else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
+				} 
+				else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
 					//returns error if does not match confirmation alises.
 					message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
 				

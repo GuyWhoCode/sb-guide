@@ -92,11 +92,13 @@ module.exports = {
 					message.channel.send("Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 					
 				}
-				
-			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
-				collector.stop()
-				message.channel.send("Process Canceled")
-			} else {
+				else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
+					//stops Edit process if given no/cancel alias
+					collector.stop()
+					message.channel.send("Process canceled.")
+				} 	
+			} 
+			else {
 				message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 			}
 			
