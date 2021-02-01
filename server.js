@@ -4,6 +4,7 @@ const client = new Discord.Client()
 const prefix = 'g!'
 const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
 const globalFunction = require("./globalfunctions.js")
+// const {dbClient} = require("../mongodb.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -18,10 +19,12 @@ client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
 })
 
-client.on('message', (message) => {
+client.on('message', async (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
-
+	// let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
+	// let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
+	// let server = findServer[0]
 
 	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
 		message.delete({timeout: 15000})
