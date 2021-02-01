@@ -16,5 +16,6 @@ module.exports = {
             "vote": args[0].trim()
         }
         voteDB.insertOne(userEntry)
+        message.channel.send("Your vote has been recorded.")
     }
 }
