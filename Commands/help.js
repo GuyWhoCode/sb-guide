@@ -18,10 +18,6 @@ module.exports = {
 					name: ' `g!dsuggest <Suggestion>`',
 					value: 'Adds a Dungeon Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',
 				},
-				// {
-				// 	name: '`g!update <Update Tips>`',
-				// 	value: 'Posts an update tip in <#779467383604772874> whenever a new Skyblock Update is out.\n\u200b',
-				// },
 				{
 					name: '`g!listcategories <#Guide Channel>`',
 					value: 'Lists all of the Guide Categories available.\n\u200b',
