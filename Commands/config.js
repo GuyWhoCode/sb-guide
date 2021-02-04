@@ -6,7 +6,7 @@ module.exports = {
     name: "config",
 	alises: ['c'],
     async execute(message, args) {
-		console.log(message.member.permissions)
+		console.log(message.member.permissions.serialize())
 
 
 
