@@ -36,14 +36,15 @@ module.exports = {
 		let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
-		if (serverSetting != undefined) {
+		if (serverSetting != undefined && args[0].toLowerCase() != "change") {
 			configEmbed.fields[1].value = serverSetting.botChannelID
 			//Bot Channel config
 			configEmbed.fields[2].value = serverSetting.sbGuideChannelID
 			//Skyblock Guides Channel config
 			configEmbed.fields[3].value = serverSetting.dGuideChannelID
 			//Dungeon Guides Channel config
-			return message.channel.send({embed: configEmbed}) 
+			message.channel.send({embed: configEmbed}) 
+			return message.channel.send("To change the configuration, run `g!config change`")
 		}
 		//edge case if the server is found
 		

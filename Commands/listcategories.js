@@ -37,7 +37,7 @@ module.exports = {
 		const makeMsgLink = msgID => {
 			return "https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID
 		}
-
+		
 		let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 		var categoryList = await categoryCollection.find({"category": guide}).toArray()
 		
