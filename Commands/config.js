@@ -63,14 +63,27 @@ module.exports = {
 		collector.on('collect', msg => {
 			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				collector.stop()
-				//records new entry in database
+				
+				if (configEmbed.fields[1].value.includes(",")) {
+					configEmbed.fields[1].value = configEmbed.fields[1].value.split(",").map(val => globalFunctions.channelID(val.trim())).join(",")
+				}
+				//sees if there are multiple channels that need to be recorded
+
 				let newEntry = {
 					"serverID": message.guild.id,
-					"botChannelID": globalFunctions.channelID(configEmbed.fields[1].value),
+					"botChannelID": configEmbed.fields[1].value,
 					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2].value),
 					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value)
 				}
-				settingsDB.insertOne(newEntry)
+
+				if (serverSetting != undefined) {
+					settingsDB.updateOne({"serverID": message.guild.id}, {$set: {"serverID": message.guild.id, "botChannelID": newEntry.botChannelID, "sbGuideChannelID": newEntry.sbGuideChannelID, "dGuideChannelID": newEntry.dGuideChannelID}})
+					//edge case if entry exists. Updates current entry.
+				} else {
+					settingsDB.insertOne(newEntry)
+					//records new entry in database
+				}
+
 				message.channel.send("Settings configured!")
 				return undefined
 
