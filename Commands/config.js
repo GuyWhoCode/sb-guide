@@ -6,6 +6,10 @@ module.exports = {
     name: "config",
 	alises: ['c'],
     async execute(message, args) {
+		console.log(message.member.permissions)
+
+
+
 		const configEmbed = {
 			color: 0x4ea8de,
 			title: 'Server Config',
@@ -58,7 +62,6 @@ module.exports = {
 		let dConfirm = false
 		message.channel.send("Cancel the process with `no` or `cancel` if necessary. Enter the desired channel (Ex. #bot-channel) for Bot Commands:")
 		collector.on('collect', msg => {
-			console.log(globalFunctions.checkAliases(yesAlias, msg.content.trim()))
 			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				collector.stop()
 				//records new entry in database
