@@ -7,7 +7,7 @@ module.exports = {
 	alises: ['c'],
     async execute(message, args) {
 		if (!message.member.permissions.serialize().ADMINISTRATOR) return message.channel.send("You do not have permission to run this command!")
-		
+
 		const configEmbed = {
 			color: 0x4ea8de,
 			title: 'Server Config',
@@ -48,7 +48,7 @@ module.exports = {
 			message.channel.send({embed: configEmbed}) 
 			return message.channel.send("To change the configuration, run `g!config change`")
 		}
-		//edge case if the server is found
+		//case if the server is found
 		
 		if (args[0].toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
 
@@ -58,7 +58,8 @@ module.exports = {
 		let botConfirm = false
 		let sbConfirm = false
 		let dConfirm = false
-		message.channel.send("Cancel the process with `no` or `cancel` if necessary. Enter the desired channel (Ex. #bot-channel) for Bot Commands:")
+		message.channel.send("Cancel the process with `no` or `cancel` if necessary. Enter the desired channel (Ex. #bot-channel) for Bot Commands. If you want to have more than one channel, separate the channels with a comma:")
+		
 		collector.on('collect', msg => {
 			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				collector.stop()
@@ -71,11 +72,14 @@ module.exports = {
 				}
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
+				return undefined
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
 				//stops Edit process if given no/cancel alias
 				collector.stop()
 				message.channel.send("Process canceled.")
+				return undefined
+			
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 
@@ -85,13 +89,16 @@ module.exports = {
 					if (msg.content.includes("#")) {
 						configEmbed.fields[3].value = channel
 					} else if (msg.content.toLowerCase() == "none") {
-						message.channel.send("Process skipped.")
+						return message.channel.send("Process skipped.")
 					} else {
-						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+						dConfirm = false
 					}
 					
-					message.channel.send({embed: configEmbed})
-					message.channel.send("Confirm that these are the right settings for your server with `yes`")
+					if (dConfirm) {
+						message.channel.send({embed: configEmbed})
+						message.channel.send("Confirm that these are the right settings for your server with `yes`")
+						return undefined
+					}
 
 				} else if (botConfirm && !sbConfirm) {
 					//Skyblock Guide Channel confirmed
@@ -99,28 +106,24 @@ module.exports = {
 					if (msg.content.includes("#")) {
 						configEmbed.fields[2].value = channel
 					} else if (msg.content.toLowerCase() == "none") {
-						message.channel.send("Process skipped.")
+						return message.channel.send("Process skipped.")
 					} else {
-						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+						sbConfirm = false
 					}
-					message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
+					if (sbConfirm) return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
 
 				} else if (!botConfirm) {
 					//Bot Channel confirmed
 					botConfirm = true
-					if (msg.content.includes("#")) {
-						configEmbed.fields[1].value = channel
-					} else {
-						message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
+					if (msg.content.includes("#")) configEmbed.fields[1].value = channel
+					else {
+						botConfirm = false
 					}
-					message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
-					
+					if (botConfirm) return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 				}
 			} 
-			else {
-				message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
-			}
 			
+			return message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 		})
     }
 }
