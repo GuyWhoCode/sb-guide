@@ -36,7 +36,7 @@ module.exports = {
 		let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
-		if (serverSetting != undefined && args[0].toLowerCase() != "change") {
+		if (serverSetting != undefined && args[0] == undefined) {
 			configEmbed.fields[1].value = serverSetting.botChannelID
 			//Bot Channel config
 			configEmbed.fields[2].value = serverSetting.sbGuideChannelID
@@ -48,6 +48,8 @@ module.exports = {
 		}
 		//edge case if the server is found
 		
+		if (args[0].toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
+
 		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 		const collector = message.channel.createMessageCollector(filter, {time: 60000})
 
