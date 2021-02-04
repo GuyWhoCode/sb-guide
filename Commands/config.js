@@ -6,10 +6,8 @@ module.exports = {
     name: "config",
 	alises: ['c'],
     async execute(message, args) {
-		console.log(message.member.permissions.serialize())
-
-
-
+		if (!message.member.permissions.serialize().ADMINISTRATOR) return message.channel.send("You do not have permission to run this command!")
+		
 		const configEmbed = {
 			color: 0x4ea8de,
 			title: 'Server Config',
@@ -41,11 +39,11 @@ module.exports = {
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
 		if (serverSetting != undefined && args[0] == undefined) {
-			configEmbed.fields[1].value = serverSetting.botChannelID
+			configEmbed.fields[1].value = "<#" + serverSetting.botChannelID + ">"
 			//Bot Channel config
-			configEmbed.fields[2].value = serverSetting.sbGuideChannelID
+			configEmbed.fields[2].value = "<#" + serverSetting.sbGuideChannelID + ">"
 			//Skyblock Guides Channel config
-			configEmbed.fields[3].value = serverSetting.dGuideChannelID
+			configEmbed.fields[3].value = "<#" + serverSetting.dGuideChannelID + ">"
 			//Dungeon Guides Channel config
 			message.channel.send({embed: configEmbed}) 
 			return message.channel.send("To change the configuration, run `g!config change`")
