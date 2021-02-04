@@ -71,6 +71,10 @@ module.exports = {
 				settingsDB.insertOne(newEntry)
 				message.channel.send("Settings configured!")
 
+			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
+				//stops Edit process if given no/cancel alias
+				collector.stop()
+				message.channel.send("Process canceled.")
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 
@@ -111,11 +115,8 @@ module.exports = {
 					message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
 					
 				}
-			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
-				//stops Edit process if given no/cancel alias
-				collector.stop()
-				message.channel.send("Process canceled.")
-			} else {
+			} 
+			else {
 				message.channel.send("Invalid input. Please type in a channel (Ex. #bot-channel). It should be highlighted in blue.")
 			}
 			
