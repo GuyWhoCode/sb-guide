@@ -39,7 +39,13 @@ module.exports = {
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
 		if (serverSetting != undefined && args[0] == undefined) {
-			configEmbed.fields[1].value = "<#" + serverSetting.botChannelID + ">"
+			if (serverSetting.botChannelID.includes(",")) {
+				configEmbed.fields[1].value = serverSetting.botChannelID.split(",").map(val => val = "<#" + val + ">").join(", ")
+				//accounts for formatting of multiple channels
+			} else {
+				configEmbed.fields[1].value = "<#" + serverSetting.botChannelID + ">"
+				//formatting of a single channel
+			}
 			//Bot Channel config
 			configEmbed.fields[2].value = "<#" + serverSetting.sbGuideChannelID + ">"
 			//Skyblock Guides Channel config
