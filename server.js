@@ -4,7 +4,7 @@ const client = new Discord.Client()
 const prefix = 'g!'
 const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
 const globalFunction = require("./globalfunctions.js")
-// const {dbClient} = require("../mongodb.js")
+const {dbClient} = require("../mongodb.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -22,15 +22,17 @@ client.once('ready', () => {
 client.on('message', async (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
-	// let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
-	// let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
-	// let server = findServer[0]
+	let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
+	let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
+	let server = findServer[0]
 
-	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing") {
-		message.delete({timeout: 15000})
-		return message.reply("Wrong channel. Please use <#772948480972161044>!").then(msg => msg.delete({ timeout: 15000}))
-	}
+	findServer[0].botChannelID.split(",").map(val => {
+		if (message.channel.id == val && message.channel.name != "bot-testing") {
+			message.delete({timeout: 15000})
+			return message.reply("Wrong channel. Please use <#"+ val +">!").then(msg => msg.delete({ timeout: 15000}))
+		}
 		//weeds out messages that aren't in the proper channel.
+	})
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
