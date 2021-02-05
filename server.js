@@ -28,7 +28,7 @@ client.on('message', async (message) => {
 
 	if (message.channel.name != "bot-testing") {
 		findServer[0].botChannelID.split(",").map(val => {
-			if (message.channel.id == val) {
+			if (message.channel.id != val) {
 				message.delete({timeout: 15000})
 				return message.reply("Wrong channel. Please use <#"+ val +">!").then(msg => msg.delete({ timeout: 15000}))
 			}
