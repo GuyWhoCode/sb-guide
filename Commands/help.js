@@ -52,18 +52,14 @@ module.exports = {
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
-		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
-		helpEmbed.timestamp = new Date()
-
 		if (message.guild.id != "587765474297905158") {
 			helpEmbed.fields = helpEmbed.fields.slice(0,3)
-			message.channel.send({embed: helpEmbed})
-		} else if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
-			//manual check for specific role perms
-			message.channel.send({embed: helpEmbed})
-		} else {
+		} else if (message.member.roles.cache.find(role => role.name != "Discord Staff" || role.name != "Contributor" || role.name != "Discord Management")) {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
-			message.channel.send({embed: helpEmbed})
-		}
+		} 
+		
+		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
+		helpEmbed.timestamp = new Date()
+		message.channel.send({embed: helpEmbed})
 	},
 }
