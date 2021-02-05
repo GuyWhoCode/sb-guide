@@ -1,4 +1,4 @@
-const {adEmbed} = require("./constants.js")
+const {adEmbed} = require("../constants.js")
 module.exports = {
     name: "ad",
     execute(message, args) {
