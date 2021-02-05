@@ -27,12 +27,12 @@ client.on('message', async (message) => {
 	let server = findServer[0]
 
 	if (message.channel.name != "bot-testing" && server != undefined) {
-		let wrongChannel = false
+		let rightChannel = false
 		server.botChannelID.split(",").map(val => {
-			if (message.channel.id == val && wrongChannel == false) wrongChannel = true
+			if (message.channel.id == val) rightChannel = true
 		})
 
-		if (wrongChannel) {
+		if (!rightChannel) {
 			let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + "> ").join(",")
 		
 			message.delete({timeout: 15000})
