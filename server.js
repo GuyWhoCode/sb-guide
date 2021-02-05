@@ -33,6 +33,8 @@ client.on('message', async (message) => {
 			//weeds out messages that aren't in the proper channel.
 			val = "<#" + val + ">"
 		}).join(",")
+
+		console.log(rightChannels)
 		
 		message.delete({timeout: 15000})
 		return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
