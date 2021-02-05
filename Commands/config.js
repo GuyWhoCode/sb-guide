@@ -35,6 +35,7 @@ module.exports = {
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
+		
 		let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
 		let findServer = await settingsDB.find({"serverID": message.guild.id}).toArray()
 		let serverSetting = findServer[0]
@@ -64,7 +65,7 @@ module.exports = {
 		let botConfirm = false
 		let sbConfirm = false
 		let dConfirm = false
-		message.channel.send("Cancel the process with `no` or `cancel` if necessary. Enter the desired channel (Ex. #bot-channel) for Bot Commands. If you want to have more than one channel, separate the channels with a comma:")
+		message.channel.send("Cancel the process with `no` or `cancel` if necessary.\nEnter the desired channel (Ex. #bot-channel) for Bot Commands. If you want to have more than one channel, separate the channels with a comma:")
 		
 		collector.on('collect', msg => {
 			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
@@ -96,11 +97,10 @@ module.exports = {
 				return undefined
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
-				//stops Edit process if given no/cancel alias
 				collector.stop()
 				message.channel.send("Process canceled.")
 				return undefined
-			
+				//stops Edit process if given no/cancel alias
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 

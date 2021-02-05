@@ -22,7 +22,7 @@ const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 const nonSkycommCmds = ["help", "config", "listcategories", "search"]
 const adEmbed = {
 	color: 0x4ea8de,
-	title: 'SkyBlock Guides Bot',
+	title: 'SkyBlock Guides',
 	fields: [
 		{
 			name: 'Want to help improve the guide?',
@@ -31,6 +31,10 @@ const adEmbed = {
         {
             name: 'Using Bot:',
             value: "To see the list of all commands, do `g!help`"
+        },
+        {
+            name: '_ _',
+            value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
         }
         ],
 	footer: {
