@@ -29,7 +29,7 @@ client.on('message', async (message) => {
 	if (message.channel.name != "bot-testing" && server != undefined) {
 		let wrongChannel = false
 		server.botChannelID.split(",").map(val => {
-			if (message.channel.id != val) wrongChannel = true
+			if (message.channel.id == val) wrongChannel = true
 		})
 
 		if (wrongChannel) {
