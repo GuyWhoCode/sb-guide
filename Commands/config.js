@@ -72,6 +72,8 @@ module.exports = {
 				
 				if (configEmbed.fields[1].value.includes(",")) {
 					configEmbed.fields[1].value = configEmbed.fields[1].value.split(",").map(val => globalFunctions.channelID(val.trim())).join(",")
+				} else {
+					configEmbed.fields[1].value = globalFunctions.channelID(configEmbed.fields[1].value)
 				}
 				//sees if there are multiple channels that need to be recorded
 
