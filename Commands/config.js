@@ -52,11 +52,11 @@ module.exports = {
 			configEmbed.fields[3].value = "<#" + serverSetting.dGuideChannelID + ">"
 			//Dungeon Guides Channel config
 			message.channel.send({embed: configEmbed}) 
+			
+			if (args[0].toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command.")
 			return message.channel.send("To change the configuration, run `g!config change`")
 		}
 		//case if the server is found
-		
-		if (args[0].toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
 
 		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 		const collector = message.channel.createMessageCollector(filter, {time: 60000})
