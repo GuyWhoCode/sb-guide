@@ -32,10 +32,12 @@ client.on('message', async (message) => {
 			if (message.channel.id != val) wrongChannel = true
 		})
 
-		let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + ">").join(",")
+		if (wrongChannel) {
+			let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + "> ").join(",")
 		
-		message.delete({timeout: 15000})
-		return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
+			message.delete({timeout: 15000})
+			return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
+		}
 	}
 	//wrong channel prevention when server is configurated
 
