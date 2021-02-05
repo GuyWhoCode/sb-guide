@@ -28,13 +28,11 @@ client.on('message', async (message) => {
 
 	if (message.channel.name != "bot-testing" && server != undefined) {
 		let wrongChannel = false
-		let rightChannels = server.botChannelID.split(",").map(val => {
+		server.botChannelID.split(",").map(val => {
 			if (message.channel.id != val) wrongChannel = true
-			//weeds out messages that aren't in the proper channel.
-			val = "<#" + val + ">"
-		}).join(",")
+		})
 
-		console.log(rightChannels)
+		let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + ">").join(",")
 		
 		message.delete({timeout: 15000})
 		return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
