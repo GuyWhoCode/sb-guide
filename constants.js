@@ -30,12 +30,8 @@ const adEmbed = {
         },
         {
             name: 'Using Bot:',
-            value: "To see the list of all commands, do `g!help`"
+            value: "To see the list of all commands, do `g!help`\n**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
         },
-        {
-            name: '_ _',
-            value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
-        }
         ],
 	footer: {
 		text: 'Skyblock Guides',
