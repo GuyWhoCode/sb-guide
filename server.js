@@ -26,13 +26,15 @@ client.on('message', async (message) => {
 	let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
 	let server = findServer[0]
 
-	findServer[0].botChannelID.split(",").map(val => {
-		if (message.channel.id == val && message.channel.name != "bot-testing") {
-			message.delete({timeout: 15000})
-			return message.reply("Wrong channel. Please use <#"+ val +">!").then(msg => msg.delete({ timeout: 15000}))
-		}
-		//weeds out messages that aren't in the proper channel.
-	})
+	if (message.channel.name != "bot-testing") {
+		findServer[0].botChannelID.split(",").map(val => {
+			if (message.channel.id == val) {
+				message.delete({timeout: 15000})
+				return message.reply("Wrong channel. Please use <#"+ val +">!").then(msg => msg.delete({ timeout: 15000}))
+			}
+			//weeds out messages that aren't in the proper channel.
+		})
+	}
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
