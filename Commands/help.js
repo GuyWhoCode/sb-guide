@@ -11,20 +11,20 @@ module.exports = {
 					value: 'Brings up this help menu\n\u200b',
 				},
 				{
-					name: '`g!sbsuggest <Suggestion>`',
-					value: 'Adds a Skyblock Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',		
-				},
-				{
-					name: ' `g!dsuggest <Suggestion>`',
-					value: 'Adds a Dungeon Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',
-				},
-				{
 					name: '`g!listcategories <#Guide Channel>`',
 					value: 'Lists all of the Guide Categories available.\n\u200b',
 				},
 				{
 					name: '`g!search <Query>`',
 					value: 'Searches the guides that best match your query. **Recommended** to do `g!listcategories <#Guide Channel>` first to narrow search.\n\u200b',
+				},
+				{
+					name: '`g!sbsuggest <Suggestion>`',
+					value: 'Adds a Skyblock Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',		
+				},
+				{
+					name: ' `g!dsuggest <Suggestion>`',
+					value: 'Adds a Dungeon Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',
 				},
 				{
 					name: '`g!addcategory <#Guide Channel> <Category Name>`',
@@ -52,14 +52,17 @@ module.exports = {
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
+		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 		helpEmbed.timestamp = new Date()
-		if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
+
+		if (message.guild.id != "587765474297905158") {
+			helpEmbed.fields = helpEmbed.fields.slice(0,3)
+			message.channel.send({embed: helpEmbed})
+		} else if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
 			//manual check for specific role perms
-			helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 			message.channel.send({embed: helpEmbed})
 		} else {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
-			helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 			message.channel.send({embed: helpEmbed})
 		}
 	},

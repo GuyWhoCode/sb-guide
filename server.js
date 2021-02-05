@@ -2,7 +2,7 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
-const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
+const {restrictedCmds, verifiedRoles, cooldownCmds, nonSkycommCmds, adEmbed} = require("./constants.js")
 const globalFunction = require("./globalfunctions.js")
 const {dbClient} = require("./mongodb.js")
 
@@ -67,6 +67,17 @@ client.on('message', async (message) => {
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 
+		if (message.guild.id != "587765474297905158") {
+			if (globalFunction.checkAliases(nonSkycommCmds, userCmd.name)) {
+				userCmd.execute(message, args)
+			} else {
+				message.channel.send({embed: adEmbed})
+				//sends message advertising skycomm.
+			}
+			return undefined
+		}
+		//protocal when a server is not Skycomm.
+
 		if (globalFunction.checkAliases(cooldownCmds, userCmd.name)) {
 			const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
@@ -86,6 +97,7 @@ client.on('message', async (message) => {
 				setTimeout(() => timestamp.delete(message.author.id), cooldown)
 			}
 		}
+		//establishes cooldowns
 		if (globalFunction.checkAliases(restrictedCmds, userCmd.name)) {
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(message, args)
 			else message.channel.send("You do not have permission to run this command!")

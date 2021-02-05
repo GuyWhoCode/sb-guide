@@ -4,9 +4,10 @@ const globalFunctions = require("../globalfunctions.js")
 module.exports = {
     name: "search",
     async execute(message, args) {
-        if (args.length == 0 || args[0] == undefined) return message.channel.send("See `g!search <Category Name>`")
+        if (args.length == 0) return message.channel.send("See `g!search <Category Name>`")
+        let searchQuery = args.join(" ").trim()
         //checks if there is any bad input
-        var categoryName = new RegExp(globalFunctions.translateCategoryName(args[0]), "i") 
+        var categoryName = new RegExp(searchQuery, "i") 
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
         
