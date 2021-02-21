@@ -26,11 +26,11 @@ const adEmbed = {
 	fields: [
 		{
 			name: 'Want to help improve the guide?',
-			value: "Use `g!sbsuggest` to suggest a change to the Skyblock Guide\nUse `g!dsuggest` to suggest a change to the Dungeons Guide.",
+			value: "Join the [Skyblock Community](https://discord.com/invite/hysky)",
         },
         {
             name: 'Using Bot:',
-            value: "To see the list of all commands, do `g!help`\n**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"
+            value: "To see the list of all commands, do `g!help`"
         },
         ],
 	footer: {
