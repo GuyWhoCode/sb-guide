@@ -5,7 +5,7 @@ const globalFunctions = require("../globalfunctions.js")
 module.exports = {
 	name: 'listcategories',
 	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
-	execute(message, args) {
+	async execute(message, args) {
 		var listEmbed = {
 			color: 0x4ea8de,
 			title: 'My sad embed',
@@ -14,7 +14,7 @@ module.exports = {
 				value: "_ _"
 			}],
 			footer: {
-				text: 'Skycomm Guide Bot',
+				text: 'Skyblock Guides',
 				icon_url: "https://i.imgur.com/184jyne.png",
 			},
 		}
@@ -37,17 +37,14 @@ module.exports = {
 		const makeMsgLink = msgID => {
 			return "https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID
 		}
-
-		dbClient.connect(async (err) => {
-			let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-			var categoryList = await categoryCollection.find({"category": guide}).toArray()
-			
-			categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
-
-			listEmbed.timestamp = new Date()
-			listEmbed.title = "List of categories for " + guide
-			
-			message.channel.send({embed: listEmbed})
-		})
+		
+		let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
+		var categoryList = await categoryCollection.find({"category": guide}).toArray()
+		
+		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
+		listEmbed.timestamp = new Date()
+		listEmbed.title = "List of categories for " + guide
+		
+		message.channel.send({embed: listEmbed})
 	},
 }

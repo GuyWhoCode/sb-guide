@@ -24,29 +24,24 @@ module.exports = {
 		//checks if there is any bad input
 		let userSuggestion = args.join(" ").trim()
 		if (userSuggestion.length >= 1024) return message.channel.send("Your suggestion has hit the max character limit (1024). Shorten the suggestion or break up the suggestion into smaller suggestions.")
+		//edge case when suggestion exceeds field limit
     	suggestEmbed.description = userSuggestion
 
     	let user = message.author.tag
-    	var suggestID = ""
     	suggestEmbed.title = `Dungeons Guide Suggestion by ${user}`
     	suggestEmbed.timestamp = new Date()
 		
     	suggestEmbed.image = globalFunctions.linkEmbedConstructor(args)
 		//supports images from links
 
-    	let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
-    	suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
-    	  suggestEmbed.fields[0].name = `ID: ${msg.id}`
-    	  suggestID = msg.id
-    	  msg.edit({ embed: suggestEmbed})
-    	})
-    
-    	dbClient.connect( async(err)=> {
-    	  let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
+		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		
-    	  let newEntry = globalFunctions.createNewEntry("Dungeons", userSuggestion, suggestID, message.author.id)
-    	  suggestionsDB.insertOne(newEntry)
-    	})
+		let suggestionsDB = dbClient.db("skyblockGuide").collection("suggestions")
+		suggestionChannel.send({ embed: suggestEmbed }).then(msg => {
+			suggestEmbed.fields[0].name = `ID: ${msg.id}`
+			suggestionsDB.insertOne(globalFunctions.createNewEntry("Dungeons", userSuggestion, msg.id, message.author.id))
+			msg.edit({ embed: suggestEmbed})
+		})
 
     	message.channel.send("Your suggestion has been submitted!")
 	},

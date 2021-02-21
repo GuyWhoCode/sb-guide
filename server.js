@@ -2,8 +2,9 @@ const Discord = require("discord.js")
 const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
-const {restrictedCmds, verifiedRoles, cooldownCmds} = require("./constants.js")
+const {restrictedCmds, verifiedRoles, cooldownCmds, nonSkycommCmds, adEmbed} = require("./constants.js")
 const globalFunction = require("./globalfunctions.js")
+const {dbClient} = require("./mongodb.js")
 
 client.commands = new Discord.Collection()
 const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -18,19 +19,32 @@ client.once('ready', () => {
 	client.user.setActivity("g!help", {type: "WATCHING"})
 })
 
-client.on('message', (message) => {
-	
-	if (!message.content.startsWith(prefix) || message.author.bot) return;
+client.on('message', async (message) => {
+	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
+	let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
+	let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
+	let server = findServer[0]
 
-	if (message.channel.name != "guide-discussion" && message.channel.name != "bot-testing" && message.channel.name != "bot-commands") {
-		message.delete({timeout: 15000})
-		return message.reply("Wrong channel. Please use <#772948480972161044> or <#587815634641879076>!").then(msg => msg.delete({ timeout: 15000}))
+	if (message.channel.name != "bot-testing" && server != undefined) {
+		let rightChannel = false
+		server.botChannelID.split(",").map(val => {
+			if (message.channel.id == val) rightChannel = true
+		})
+
+		if (!rightChannel) {
+			let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + "> ").join(",")
+		
+			message.delete({timeout: 15000})
+			return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
+		}
 	}
-		//weeds out messages that aren't in the proper channel.
+	//wrong channel prevention when server is configurated
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
+
+	// return message.channel.send("This bot is currently under maintenance. See <#772940891354300416> for the reason why. Sorry for the inconvenience! - Mason")
 
 	var args = message.content.slice(prefix.length).trim().split(/ +/)
 	var command = args.shift().toLowerCase()
@@ -53,6 +67,17 @@ client.on('message', (message) => {
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 
+		if (message.guild.id != "587765474297905158") {
+			if (globalFunction.checkAliases(nonSkycommCmds, userCmd.name)) {
+				userCmd.execute(message, args)
+			} else {
+				message.channel.send({embed: adEmbed})
+				//sends message advertising skycomm.
+			}
+			return undefined
+		}
+		//protocal when a server is not Skycomm.
+
 		if (globalFunction.checkAliases(cooldownCmds, userCmd.name)) {
 			const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
@@ -72,6 +97,7 @@ client.on('message', (message) => {
 				setTimeout(() => timestamp.delete(message.author.id), cooldown)
 			}
 		}
+		//establishes cooldowns
 		if (globalFunction.checkAliases(restrictedCmds, userCmd.name)) {
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(message, args)
 			else message.channel.send("You do not have permission to run this command!")
