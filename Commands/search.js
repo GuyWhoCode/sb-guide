@@ -21,3 +21,14 @@ module.exports = {
         })
 	}
 }
+
+// https://fusejs.io/
+// https://www.npmjs.com/package/jaro-winkler
+// https://docs.mongodb.com/drivers/node/usage-examples/findOne/
+// http://mongodb.github.io/node-mongodb-native/3.6/api/
+// Command to run test file for this is: node ./Commands/search.js
+// const fuse = require('fuse.js')
+// const distance = require('jaro-winkler')
+
+// the distance from jaro-winkler should be first algo to use. fuse is backup algo.
+// might need to pull from entire db? need to read into that

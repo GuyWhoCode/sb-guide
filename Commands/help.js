@@ -54,9 +54,11 @@ module.exports = {
 		}
 		if (message.guild.id != "587765474297905158") {
 			helpEmbed.fields = helpEmbed.fields.slice(0,3)
-		} else if (message.member.roles.cache.find(role => role.name != "Discord Staff" || role.name != "Contributor" || role.name != "Discord Management")) {
+		} else if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Contributor" || role.name == "Discord Management")) {
+			//does nothing
+		} else {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
-		} 
+		}
 		
 		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
 		helpEmbed.timestamp = new Date()
