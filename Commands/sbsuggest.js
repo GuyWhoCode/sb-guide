@@ -1,6 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
-
+const aliasList = ["Sbsuggest", "suggestsb", "skyblockSuggestion", "skyblockSuggest", "sbsug", "sbs"]
 var suggestEmbed = {
 	color: 0xffba00,
 	title: 'Suggestion',
@@ -18,7 +18,7 @@ var suggestEmbed = {
 
 module.exports = {
 	name: 'sbsuggest',
-	alises: ["Sbsuggest", "suggestsb", "SkyblockSuggestion", "skyblockSuggestion", "skyblockSuggest", "SkyblockSuggest", "skyblocksuggest", "sbsug", "sbs"],
+	alises: aliasList,
 	execute(message, args) {
 		if (args.length == 0) return message.channel.send({embed: globalFunctions.commandHelpEmbed("Sb Guide Suggestion", aliasList, Date.now(), "g!sbsuggest My suggestion!", "Suggests 'my suggestion' to be considered for change on the Skyblock Guide")})
 		//checks if there is any bad input
