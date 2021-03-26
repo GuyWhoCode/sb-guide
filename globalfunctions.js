@@ -86,7 +86,7 @@ module.exports = {
                 },
                 {
                     name: 'Example',
-                    value: `${example}\n\u200b ${result}`
+                    value: `${example}\n\u200b${result}`
                 },
                 ],
             footer: {

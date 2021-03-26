@@ -20,7 +20,7 @@ module.exports = {
 	name: 'dsuggest',
   	alises: ["suggestd", "dungeonsSuggest", "DungeonsSuggest", "DungeonSuggest", "dungeonsuggest", "dungeonsuggestion", "ds", "Ds", "DS"],
 	execute(message, args) {
-    	if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!dsuggest <Suggestion>`")
+    	if (args.length == 0) return message.channel.send({embed: globalFunctions.commandHelpEmbed("Dungeon Guide Suggestion", aliasList, Date.now(), "g!dsuggest My suggestion!", "Suggests 'my suggestion' to be considered for change on the Dungeon Guide")})
 		//checks if there is any bad input
 		let userSuggestion = args.join(" ").trim()
 		if (userSuggestion.length >= 1024) return message.channel.send("Your suggestion has hit the max character limit (1024). Shorten the suggestion or break up the suggestion into smaller suggestions.")

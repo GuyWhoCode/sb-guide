@@ -20,7 +20,7 @@ module.exports = {
 	name: 'sbsuggest',
 	alises: ["Sbsuggest", "suggestsb", "SkyblockSuggestion", "skyblockSuggestion", "skyblockSuggest", "SkyblockSuggest", "skyblocksuggest", "sbsug", "sbs"],
 	execute(message, args) {
-		if (args.length == 0) return message.channel.send("You need to input a suggestion! See `g!sbsuggest <Suggestion>`")
+		if (args.length == 0) return message.channel.send({embed: globalFunctions.commandHelpEmbed("Sb Guide Suggestion", aliasList, Date.now(), "g!sbsuggest My suggestion!", "Suggests 'my suggestion' to be considered for change on the Skyblock Guide")})
 		//checks if there is any bad input
 		let userSuggestion = args.join(" ").trim()
 		if (userSuggestion.length >= 1024) return message.channel.send("Your suggestion has hit the max character limit (1024). Shorten the suggestion or break up the suggestion into smaller suggestions.")
