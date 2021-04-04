@@ -12,7 +12,7 @@ module.exports = {
         // let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
         // let guide = await guidesDB.find({$text: {$search: searchQuery}})
         let guide = await guidesDB.aggregate([{
-			"$search": {
+			$search: {
 				"text": {
 					"query": searchQuery,
                     "path": ["categoryTitle", {"wildcard": "embedMessage.*"}]
