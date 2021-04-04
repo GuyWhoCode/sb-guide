@@ -95,5 +95,8 @@ module.exports = {
             },
             timestamp: time
         }
+    },
+    escapeRegex(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     }
 }
