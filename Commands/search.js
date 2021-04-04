@@ -19,7 +19,7 @@ module.exports = {
 				}
 			}
 		}])
-        console.log(guide)
+        console.log(guide[0])
         // if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
         //returns an error if the Category Title did not match anything in the database
         
