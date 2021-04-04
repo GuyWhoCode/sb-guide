@@ -10,6 +10,7 @@ module.exports = {
         // var categoryName = new RegExp(searchQuery, "i") 
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         // let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
+        // let guide = await guidesDB.find({$text: {$search: searchQuery}})
         let guide = await guidesDB.aggregate([{
 			"$search": {
 				"text": {
@@ -18,7 +19,7 @@ module.exports = {
 				}
 			}
 		}])
-        console.log(guide[0].embedMessage)
+        console.log(guide)
         // if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
         //returns an error if the Category Title did not match anything in the database
         
