@@ -10,16 +10,8 @@ module.exports = {
         // var categoryName = new RegExp(searchQuery, "i") 
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         // let guide = await guidesDB.find( { "categoryTitle": { $regex: categoryName } }).toArray()
-        // let guide = await guidesDB.find({$text: {$search: searchQuery}})
-        let guide = await guidesDB.aggregate([{
-			$search: {
-				"text": {
-					"query": searchQuery,
-                    "path": ["categoryTitle", {"wildcard": "embedMessage.*"}]
-				}
-			}
-		}])
-        console.log(guide[0])
+        let guide = await guidesDB.find({}).toArray()
+        console.log(guide)
         // if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
         //returns an error if the Category Title did not match anything in the database
         
@@ -39,5 +31,3 @@ module.exports = {
 
 // the distance from jaro-winkler should be first algo to use. fuse is backup algo.
 // might need to pull from entire db? need to read into that
-// https://docs.atlas.mongodb.com/reference/atlas-search/text/#std-label-text-ref
-// https://docs.atlas.mongodb.com/reference/atlas-search/path-construction/#nested-field-example
