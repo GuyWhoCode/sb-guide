@@ -33,7 +33,7 @@ module.exports = {
                 }
             })
             
-            console.log(fuse.search(query))
+            console.log(fuseSearch.search(query))
             var bestResult = ""
             Object.keys(possibleQueries)
                 .filter(val => !val.includes("embed"))
