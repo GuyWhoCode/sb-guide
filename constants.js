@@ -43,7 +43,6 @@ module.exports = {
     categorySchema: categorySchema,
     sbAlias: sbAlias,
     dAlias: dAlias,
-    uAlias: uAlias,
     yesAlias: yesAlias,
     noAlias: noAlias,
     cancelAlias: cancelAlias,
