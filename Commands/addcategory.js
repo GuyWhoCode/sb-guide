@@ -1,5 +1,5 @@
 const {dbClient} = require("../mongodb.js")
-const {sbAlias, dAlias, uAlias} = require("../constants.js")
+const {sbAlias, dAlias} = require("../constants.js")
 const globalFunctions = require("../globalfunctions.js")
 
 var categoryEmbed = {
@@ -12,14 +12,14 @@ var categoryEmbed = {
 			value: "_ _",
 		}],
   	footer: {
-  	  text: 'Skycomm Guide Bot',
+  	  text: 'Skyblock Guides',
   	  icon_url: "https://i.imgur.com/184jyne.png",
   	},
 }
 
 module.exports = {
 	name: "addcategory",
-	alises: ["ac", "addc", "AC", "Ac", "addC", "Addcategory", "AddCategory"],
+	alises: ["ac", "addc"],
 	execute(message, args) {
 	  	var categoryChannel = ""
 	  	var msgID = ""
@@ -28,7 +28,7 @@ module.exports = {
 	  	if (args.length == 0 || category.length == 0 || categoryName.length == 0) return message.channel.send("See `g!addcategory <#Guide Channel> <Category Name>`")
 	  	//checks if there is any bad input
 
-	  	if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false && globalFunctions.checkAliases(uAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <#Guide Channel> <Category Name>`")
+	  	if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <#Guide Channel> <Category Name>`")
 	  	//checks if provided alias does not match list of alises
 		
 	  	categoryEmbed.title = categoryName
@@ -46,26 +46,15 @@ module.exports = {
 	  		categoryEmbed.color = 0xcc0000
 	  		categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!dsuggest <Suggestion>`!"
 		
-	  	} else if (globalFunctions.checkAliases(uAlias, category)) {
-	  		category = "Update Tips"
-	  		categoryChannel = message.guild.channels.cache.find(ch => ch.name === "update-tips")
-	  		categoryEmbed.color = 0xffba00
-	  		categoryEmbed.description = "This is an empty section of the guide. Add some changes to this guide using `g!update <Update Tip>`!"
-	  	}
+	  	} 
 	  
 	  	categoryChannel.send({ embed: categoryEmbed }).then(msg => msgID = msg.id)
 
 	  	let database = dbClient.db("skyblockGuide")
 	  	let guideDB = database.collection("Guides")
-	  	let updateDB = database.collection("Update Tips")
 	  	let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
-	  	if (category == "Update Tips") {
-	  		updateDB.insertOne(newEntry)
-	  		updateDB.updateOne({"identifier": category}, {$set: {"identifier": category, "currentMsgId": msgID, "msgObject": categoryEmbed}})
-	  	} else {
-	  		guideDB.insertOne(newEntry)
-		}
-
+	  	guideDB.insertOne(newEntry)
+		
 	  	message.channel.send("Your category has been created!")
-	  	}
+	}
 }

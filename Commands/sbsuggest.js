@@ -11,7 +11,7 @@ var suggestEmbed = {
 			value: "_ _",
 		}],
 	footer: {
-		text: 'Skycomm Guide Bot',
+		text: 'Skyblock Guides',
 		icon_url: "https://i.imgur.com/184jyne.png",
 	},
 }

@@ -7,7 +7,7 @@ const capitalizeString = str => {
 
 module.exports = {
 	name: 'approve',
-	alises: ["a", "Approve"],
+	alises: ["a"],
 	async execute(message, args) {
 		if (args.length == 0 || args[1] == undefined || args[2] == undefined) return message.channel.send("See `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//checks if there is any bad input

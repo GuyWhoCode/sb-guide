@@ -7,12 +7,14 @@ const options = {
     shouldSort: true,
     keys: ["categoryTitle", "embedMessage.fields.name"]
 }
-let threshold = 0.60
+const threshold = 0.60
+const aliasList = ["query", "s"]
 
 module.exports = {
     name: "search",
+    alises: aliasList,
     async execute(message, args) {
-        if (args.length == 0) return message.channel.send("See `g!search <Category Name>`")
+        if (args.length == 0) return globalFunctions.commandHelpEmbed("Search", aliasList, Date.now(), "g!search money", "Returns the Common Money Making Guide")
         //checks if there is any bad input
         let searchQuery = globalFunctions.escapeRegex(args.join(" ").trim())
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")

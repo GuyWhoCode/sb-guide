@@ -7,7 +7,7 @@ const entrySchema = {
 
 module.exports = {
     name: "addsection",
-    alises: ["as", "Addsection", "Adds", "AddSection", "As"],
+    alises: ["as", "adds"],
     async execute(message, args) {
         let sectionName = args.slice(1, args.length).join(" ").trim()
         if (args.length == 0 || args[0] == undefined || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
