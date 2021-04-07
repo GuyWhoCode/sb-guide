@@ -48,7 +48,7 @@ module.exports = {
             //Sorts out the results by picking the highest rated one and returns the corresponding guide embed message
             
             let results = fuseSearch.search(query)
-            return results[0].embedMessage
+            return results[0].item.embedMessage
             //Implements fuzzy searching as a backup search algorithm when the Jaro-winkler algorithm doesn't give a result
         }
 
