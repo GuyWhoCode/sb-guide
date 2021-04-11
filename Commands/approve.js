@@ -10,6 +10,9 @@ module.exports = {
 	alises: ["a"],
 	async execute(message, args) {
 		var messageID, categoryTitle, sectionTitle, suggestion = ""
+		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
+		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
+
 		if (!args.includes("-")) {
 			var suggestionConfirm = false
 			var categoryConfirm = false
@@ -64,10 +67,8 @@ module.exports = {
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, replace the spaces with a hyphen (-).")
 		//returns an error if Category name or Section Name is not formatted correctly
 
-		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
-		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 		suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
-
+		
 		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//returns an error if the provided message ID did not match anything in the database
 		if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
@@ -104,7 +105,7 @@ module.exports = {
 
 
 
-		
+
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
