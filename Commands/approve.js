@@ -121,7 +121,9 @@ module.exports = {
 		if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 		//edge case when field value exceeds character limit		
 
-		return message.channel.send("Everything has worked up to this point!")
+		message.channel.send("Everything has worked up to this point!")
+		console.log("Everything has worked up to this point!")
+		return undefined
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
