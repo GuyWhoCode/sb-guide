@@ -10,7 +10,7 @@ module.exports = {
 	name: 'approve',
 	alises: ["a"],
 	async execute(message, args) {
-		var messageID, categoryTitle, sectionTitle, suggestion = ""
+		var messageID, categoryTitle, sectionTitle, suggestion, categoryMsg, embedMessage = ""
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
@@ -21,46 +21,66 @@ module.exports = {
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
 
-			// ["Suggestion ID", "", "Section Name (Smaller bold)"]
+			// ["Suggestion ID", "", ""]
 			message.channel.send("To cancel the Argument helper, type in `no` or `cancel`. Enter the Suggestion ID.")
 			collector.on('collect', async(msg) => {
-				if (suggestionConfirm && categoryConfirm && sectionConfirm) {
-					collector.stop()
-					return undefined
-					
-				} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
+				if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())){
 					collector.stop()
 					message.channel.send("Process canceled.")
 					return undefined
 					//stops process if given no/cancel alias
-				} 
-				if (suggestionConfirm && categoryConfirm && !sectionConfirm) {
-					//confirmation for all settings
+
+				} else if (suggestionConfirm && categoryConfirm && !sectionConfirm) {
+					var foundSection = false
+					var approveMsgIndex = 0 
+					var fieldError = false
+					embedMessage.fields.map((val, index) => {
+						if (val.name.toLowerCase() === sectionTitle.toLowerCase()) {
+							foundSection = true
+							approveMsgIndex = index
+							if ((val.value.length + suggestion[0].description.length + "\n\u200b".length) > 1024) fieldError = true
+							//edhe case field char limit detection
+							val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b"
+						}
+					})
+					//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
+					if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
+					//returns an error if the provided Section Name did not match anything in the Guide message
+
 					sectionConfirm = true
-					if (msg.content.includes("#")) {
-						configEmbed.fields[3].value = channel
-					} 
+					collector.stop()
+
 				} else if (suggestionConfirm && !categoryConfirm) {
-					//Suggestion ID confirmed
-					
+					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
+					if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
+					//returns an error if the Category Title did not match anything in the database
+
+					embedMessage = categoryMsg[0].embedMessage
+					categoryConfirm = true
+					message.channel.send("Enter the Section Name (Smaller bold).")
+					return undefined
+					//if the category message is found in the database, run this portion of the code
 
 				} else if (!suggestionConfirm) {
-					//Suggestion confirmed
-					let findSuggestion = await suggestionDB.find({"messageID": msg.trim()}).toArray()
-					if (findSuggestion.length == 0) return message.channel.send("The given message ID did not match anything in the database. Enter a new one.")
+					
+					suggestion = await suggestionDB.find({"messageID": globalFunctions.translateCategoryName(msg.content.trim()) }).toArray()
+					if (suggestion.length == 0) return message.channel.send("The given message ID did not match anything in the database. Enter a new one.")
 					//returns an error if the provided message ID did not match anything in the database
 
 					if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 					//returns an error if the retrieved message from the database was already approved
 
-					messageID = msg.trim()
+					messageID = msg.content.trim()
 					suggestionConfirm = true
 					message.channel.send("Enter the Category Name (Bold name at the top of the embed message).")
+					return undefined
 					//if the suggestion is found in the database, run this portion of the code
 				} 
 			})
 		} 
-		//Enable the Argument helper: Prompts the user for each argument of the command to make it more user-friendly
+		//**Enable the Argument helper: Prompts the user for each argument of the command to make it more user-friendly
+		//Exits out of the code to prevent the code below the argument parsing from returning an error
+
 
 		else {
 			messageID = args[0] 
@@ -75,8 +95,8 @@ module.exports = {
 			//returns an error if the provided message ID did not match anything in the database
 			if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 			//returns an error if the retrieved message from the database was already approved
-			let categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
-			let embedMessage = categoryMsg[0].embedMessage
+			categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") } }).toArray()
+			embedMessage = categoryMsg[0].embedMessage
 			
 			if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
 			//returns an error if the Category Title did not match anything in the database
@@ -94,19 +114,20 @@ module.exports = {
 				}
 			})
 			//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
-
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 			//returns an error if the provided Section Name did not match anything in the Guide message
-			if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
-			//edge case when the suggestion trying to be approved is in the wrong section
-			if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
-			//edge case when embed exceeds limit
-			if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
-			//edge case when field value exceeds character limit
 		}
-		
+		//**Default command.** Format: g!approve <Suggestion ID> <Category-Name> <Section-Name>
 
 		
+		if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
+		//edge case when the suggestion trying to be approved is in the wrong section
+		if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
+		//edge case when embed exceeds limit
+		if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
+		//edge case when field value exceeds character limit		
+
+		return message.channel.send("Everything has worked up to this point!")
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
@@ -130,4 +151,3 @@ module.exports = {
 		message.channel.send("That suggestion has been approved!")
 	},
 }
-//testing: node ./Commands/approve.js
