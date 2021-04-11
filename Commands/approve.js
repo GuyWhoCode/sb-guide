@@ -22,7 +22,7 @@ module.exports = {
 
 			// ["Suggestion ID", "", "Section Name (Smaller bold)"]
 			message.channel.send("To cancel the Argument helper, type in `no` or `cancel`. Enter the Suggestion ID.")
-			collector.on('collect', msg => {
+			collector.on('collect', async(msg) => {
 				if (suggestionConfirm && categoryConfirm && sectionConfirm) {
 					collector.stop()
 					return undefined
@@ -68,7 +68,7 @@ module.exports = {
 		//returns an error if Category name or Section Name is not formatted correctly
 
 		suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
-		
+
 		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//returns an error if the provided message ID did not match anything in the database
 		if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
