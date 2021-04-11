@@ -13,13 +13,14 @@ module.exports = {
 		var messageID, categoryTitle, sectionTitle, suggestion, categoryMsg, embedMessage = ""
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
+		var foundSection, fieldError, suggestionConfirm, categoryConfirm = false
+		var approveMsgIndex = 0 
 
 		if (!args.includes("-")) {
-			var suggestionConfirm, categoryConfirm = false
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
 
-			// ["Suggestion ID", "", ""]
+
 			message.channel.send("To cancel the Argument helper, type in `no` or `cancel`. Enter the Suggestion ID.")
 			collector.on('collect', async(msg) => {
 				if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())){
@@ -29,11 +30,8 @@ module.exports = {
 					//stops process if given no/cancel alias
 
 				} else if (suggestionConfirm && categoryConfirm) {
-					var foundSection = false
-					var approveMsgIndex = 0 
-					var fieldError = false
 					embedMessage.fields.map((val, index) => {
-						if (val.name.toLowerCase() === sectionTitle.toLowerCase()) {
+						if (val.name.toLowerCase() === globalFunctions.translateCategoryName(msg.content.trim()).toLowerCase()) {
 							foundSection = true
 							approveMsgIndex = index
 							if ((val.value.length + suggestion[0].description.length + "\n\u200b".length) > 1024) fieldError = true
@@ -98,9 +96,6 @@ module.exports = {
 			if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect. Remember to separate Category titles with more than 2 words with hyphens.")
 			//returns an error if the Category Title did not match anything in the database
 			
-			var foundSection = false
-			var approveMsgIndex = 0 
-			var fieldError = false
 			embedMessage.fields.map((val, index) => {
 				if (val.name.toLowerCase() === sectionTitle.toLowerCase()) {
 					foundSection = true
