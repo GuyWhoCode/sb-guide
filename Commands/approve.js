@@ -15,9 +15,7 @@ module.exports = {
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
 		if (!args.includes("-")) {
-			var suggestionConfirm = false
-			var categoryConfirm = false
-			var sectionConfirm = false
+			var suggestionConfirm, categoryConfirm = false
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
 
@@ -30,7 +28,7 @@ module.exports = {
 					return undefined
 					//stops process if given no/cancel alias
 
-				} else if (suggestionConfirm && categoryConfirm && !sectionConfirm) {
+				} else if (suggestionConfirm && categoryConfirm) {
 					var foundSection = false
 					var approveMsgIndex = 0 
 					var fieldError = false
@@ -47,12 +45,11 @@ module.exports = {
 					if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 					//returns an error if the provided Section Name did not match anything in the Guide message
 
-					sectionConfirm = true
 					collector.stop()
 
 				} else if (suggestionConfirm && !categoryConfirm) {
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
-					if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
+					if (categoryMsg.length == 0 || categoryMsg.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
 					//returns an error if the Category Title did not match anything in the database
 
 					embedMessage = categoryMsg[0].embedMessage
