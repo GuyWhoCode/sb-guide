@@ -16,7 +16,7 @@ module.exports = {
 				},
 				{
 					name: '`g!search <Query>`',
-					value: 'Searches the guides that best match your query. **Recommended** to do `g!listcategories <#Guide Channel>` first to narrow search.\n\u200b',
+					value: 'Searches the guides that best match your query.\n\u200b',
 				},
 				{
 					name: '`g!sbsuggest <Suggestion>`',
@@ -28,19 +28,19 @@ module.exports = {
 				},
 				{
 					name: '`g!addcategory <#Guide Channel> <Category Name>`',
-					value: 'Adds an embed for people to add changes in their respective channels.\n\u200b',
+					value: 'Adds a new Guide message to their respective channels.\n\u200b',
 				},
 				{
 					name: '`g!addsection <Category-Name> <Section Name>`',
-					value: 'Adds a new subtitle to a Category Message.\n\u200b',
+					value: 'Adds a new Guide Section to a Category Message.\n\u200b',
 				},
 				{
 					name: '`g!approve <Suggestion Message ID> <Category-Name> <Section Name>`',
-					value: 'Approves a suggestion made in <#772944441643630602> and edits the message in the Skyblock or Dungeons Guide.\n\u200b',
+					value: 'Approves a suggestion made in <#772944441643630602> by editing the Skyblock or Dungeons Guide message.\n\u200b',
 				},
 				{
 					name: '`g!delete <Message ID> <#Channel>`',
-					value: 'Deletes suggestions from <#772944441643630602> and deletes specific sections from any of the Guides.\n\u200b',
+					value: 'Deletes suggestions from <#772944441643630602> and specific sections from any of the Guides.\n\u200b',
 				},
 				{
 					name: '`g!edit <Message ID> <#Channel>`',

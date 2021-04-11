@@ -100,7 +100,7 @@ module.exports = {
 				collector.stop()
 				message.channel.send("Process canceled.")
 				return undefined
-				//stops Edit process if given no/cancel alias
+				//stops process if given no/cancel alias
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 

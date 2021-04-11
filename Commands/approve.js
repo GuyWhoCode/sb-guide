@@ -1,4 +1,4 @@
-const {dbClient} = require("../mongodb.js")
+// const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 
 const capitalizeString = str => {
@@ -9,20 +9,66 @@ module.exports = {
 	name: 'approve',
 	alises: ["a"],
 	async execute(message, args) {
-		if (args.length == 0 || args[1] == undefined || args[2] == undefined) return message.channel.send("See `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
-		//checks if there is any bad input
+		var messageID, categoryTitle, sectionTitle, suggestion = ""
+		if (!args.includes("-")) {
+			var suggestionConfirm = false
+			var categoryConfirm = false
+			var sectionConfirm = false
+			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
+			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
 
-		var messageID = args[0] 
-		var categoryTitle = globalFunctions.translateCategoryName(args[1]) 
-		var sectionTitle = globalFunctions.translateCategoryName(args[2])
+			// ["Suggestion ID", "", "Section Name (Smaller bold)"]
+			message.channel.send("To cancel the Argument helper, type in `no` or `cancel`. Enter the Suggestion ID.")
+			collector.on('collect', msg => {
+				if (suggestionConfirm && categoryConfirm && sectionConfirm) {
+					collector.stop()
+					return undefined
+					
+				} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
+					collector.stop()
+					message.channel.send("Process canceled.")
+					return undefined
+					//stops process if given no/cancel alias
+				} 
+				if (suggestionConfirm && categoryConfirm && !sectionConfirm) {
+					//confirmation for all settings
+					sectionConfirm = true
+					if (msg.content.includes("#")) {
+						configEmbed.fields[3].value = channel
+					} 
+				} else if (suggestionConfirm && !categoryConfirm) {
+					//Suggestion ID confirmed
+					
+
+				} else if (!suggestionConfirm) {
+					//Suggestion confirmed
+					let findSuggestion = await suggestionDB.find({"messageID": msg.trim()}).toArray()
+					if (findSuggestion.length == 0) return message.channel.send("The given message ID did not match anything in the database. Enter a new one.")
+					//returns an error if the provided message ID did not match anything in the database
+
+					if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
+					//returns an error if the retrieved message from the database was already approved
+
+					messageID = msg.trim()
+					suggestionConfirm = true
+					message.channel.send("Enter the Category Name (Bold name at the top of the embed message).")
+					//if the suggestion is found in the database, run this portion of the code
+				} 
+			})
+		}
+		//Enable the Argument helper: Prompts the user for each argument of the command to make it more user-friendly
+
+		messageID = args[0] 
+		categoryTitle = globalFunctions.translateCategoryName(args[1]) 
+		sectionTitle = globalFunctions.translateCategoryName(args[2])
 		if (args.length >= 4) return message.channel.send("I received more parameters (>3) than I can work with. If there are more than 2 words in the Category or Section name, replace the spaces with a hyphen (-).")
 		//returns an error if Category name or Section Name is not formatted correctly
 
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
-		let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
+		suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 
-		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve  <Suggestion ID> <Section Name>`")
+		if (suggestion.length == 0) return message.channel.send("The given message ID was copied wrong. Please use the right format. `g!approve <Suggestion ID> <Category-Name> <Section-Name>`")
 		//returns an error if the provided message ID did not match anything in the database
 		if (suggestion[0].status === "Approved") return message.channel.send("The suggestion was already approved!")
 		//returns an error if the retrieved message from the database was already approved
@@ -55,6 +101,10 @@ module.exports = {
 		if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 		//edge case when field value exceeds character limit
 		
+
+
+
+		
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
@@ -78,3 +128,4 @@ module.exports = {
 		message.channel.send("That suggestion has been approved!")
 	},
 }
+//testing: node ./Commands/approve.js

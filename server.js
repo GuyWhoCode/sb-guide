@@ -108,7 +108,6 @@ client.on('message', async (message) => {
 
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
-		message.channel.send("Error message: " + error)
 	}
 
 })
