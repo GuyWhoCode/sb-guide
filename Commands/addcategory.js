@@ -39,13 +39,10 @@ module.exports = {
 					//stops process if given no/cancel alias
 
 				} else if (channelConfirm) {
-
-					categoryConfirm = true
 					categoryTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					
 					collector.stop()
 					//Stops prompting the user
-					return message.channel.send("Your category has been created!")
 					
 					categoryEmbed.title = categoryName
 	  				categoryEmbed.timestamp = new Date()
@@ -64,8 +61,11 @@ module.exports = {
 
 	  				}
 
-					
-					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 78-93 is copied and pasted here.
+					categoryChannel.send({ embed: categoryEmbed }).then(msg => msgID = msg.id)
+
+					let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
+					guideDB.insertOne(newEntry)
+					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 98-118 is copied and pasted here.
 
 				} else if (!channelConfirm) {
 					if (globalFunctions.checkAliases(sbAlias, msg.content.trim()) == false && globalFunctions.checkAliases(dAlias, msg.content.trim()) == false) return message.channel.send("Incorrect input. Type in a Guide Channel or its corresponding Alias.")
@@ -93,7 +93,7 @@ module.exports = {
 		}
 		//**Default command.** Format: g!ac <#Guide-Channel> <Category-Name>
 
-		return message.channel.send("Severe error if code reaches here in argument helper")
+		
 		categoryEmbed.title = categoryName
 	  	categoryEmbed.timestamp = new Date()
 		
