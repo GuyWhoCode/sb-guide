@@ -79,6 +79,7 @@ module.exports = {
 					//if the suggestion is found in the database, run this portion of the code
 				} 
 			})
+			return undefined
 		} 
 		//**Enable the Argument helper: Prompts the user for each argument of the command to make it more user-friendly
 		//Exits out of the code to prevent the code below the argument parsing from returning an error
