@@ -39,10 +39,12 @@ module.exports = {
 							val.value === "_ _" ? val.value = suggestion[0].description + "\n\u200b": val.value += "\n\u200b" + suggestion[0].description + "\n\u200b"
 						}
 					})
+					console.log("Test Suggestion " + suggestion[0])
 					//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
 					if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 					//returns an error if the provided Section Name did not match anything in the Guide message
 					sectionTitle = globalFunctions.translateCategoryName(msg.content.trim())
+					console.log("Test Message")
 					collector.stop()
 
 				} else if (suggestionConfirm && !categoryConfirm) {
@@ -51,7 +53,6 @@ module.exports = {
 					//returns an error if the Category Title did not match anything in the database
 
 					embedMessage = categoryMsg[0].embedMessage
-					console.log(embedMessage)
 					categoryConfirm = true
 					categoryTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					message.channel.send("Enter the Section Name (Smaller bold).")
