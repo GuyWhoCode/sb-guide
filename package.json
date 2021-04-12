@@ -6,6 +6,8 @@
   "dependencies": {
     "discord.js": "^12.4.1",
     "fs": "0.0.1-security",
+    "fuse.js": "^6.4.6",
+    "jaro-winkler": "^0.2.8",
     "mongodb": "^3.6.3"
   },
   "devDependencies": {},

@@ -57,7 +57,7 @@ module.exports = {
                 },
                 ],
             footer: {
-                text: 'Skycomm Guide Bot',
+                text: 'Skyblock Guides',
                 icon_url: "https://i.imgur.com/184jyne.png",
             },
             timestamp: new Date()
@@ -74,6 +74,29 @@ module.exports = {
     },
     channelID(channel){
         return channel.split("").slice(2,channel.length-1).join("")
+    },
+    commandHelpEmbed(name, alias, time, example, result) {
+        return {
+            color: 0x4ea8de,
+            title: `${name}`,
+            fields: [
+                {
+                    name: 'Aliases',
+                    value: `${alias.join(", ")}`,
+                },
+                {
+                    name: 'Example',
+                    value: `${example}\n\u200b${result}`
+                },
+                ],
+            footer: {
+                text: 'Skyblock Guides',
+                icon_url: "https://i.imgur.com/184jyne.png",
+            },
+            timestamp: time
+        }
+    },
+    escapeRegex(text) {
+        return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     }
-    
 }

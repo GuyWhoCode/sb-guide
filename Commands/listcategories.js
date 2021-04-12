@@ -1,10 +1,11 @@
 const {dbClient} = require("../mongodb.js")
 const {sbAlias, dAlias} = require("../constants.js")
 const globalFunctions = require("../globalfunctions.js")
+const aliasList = ["lc", "list", "listc", "listcategory"]
 
 module.exports = {
 	name: 'listcategories',
-	alises: ["lc", "list", "listc", "listC", "Listcategories", "listcategory", "Listcategory"],
+	alises: aliasList,
 	async execute(message, args) {
 		var listEmbed = {
 			color: 0x4ea8de,
@@ -20,7 +21,7 @@ module.exports = {
 		}
 		var guide = args[0]
 		var categoryID = ""
-		if (args.length == 0 || guide == undefined) return message.channel.send('See `g!listcategories <#Guide Channel>`')
+		if (args.length == 0 || guide == undefined) return message.channel.send({embed: globalFunctions.commandHelpEmbed("List Categories", aliasList, Date.now(), "g!lc sb", "Returns all the category names for Skyblock Guides")})
 		//checks if there is any bad input
 		
 		if (globalFunctions.checkAliases(sbAlias, guide) == false && globalFunctions.checkAliases(dAlias, guide) == false) return message.channel.send('You are missing an argument! See `g!listcategories <#Guide Channel>`')

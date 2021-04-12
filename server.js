@@ -59,7 +59,6 @@ client.on('message', async (message) => {
 
 	if (!cooldowns.has("sbsuggest")) cooldowns.set("sbsuggest", new Discord.Collection())
 	if (!cooldowns.has("dsuggest")) cooldowns.set("dsuggest", new Discord.Collection())
-	if (!cooldowns.has("update")) cooldowns.set("update", new Discord.Collection())
 	if (!cooldowns.has("start")) cooldowns.set("start", new Discord.Collection())
 
 	const now = Date.now()
@@ -67,7 +66,8 @@ client.on('message', async (message) => {
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 
-		if (message.guild.id != "587765474297905158") {
+		if (message.guild.id != "587765474297905158" && message.guild.id != "807319824752443472") {
+		//Remove command restriction on Skycomm (home server) and Test Server (private test server)
 			if (globalFunction.checkAliases(nonSkycommCmds, userCmd.name)) {
 				userCmd.execute(message, args)
 			} else {
@@ -108,7 +108,6 @@ client.on('message', async (message) => {
 
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command.")
-		message.channel.send("Error message: " + error)
 	}
 
 })
