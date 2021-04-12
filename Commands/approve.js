@@ -50,7 +50,30 @@ module.exports = {
 					if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 					//edge case when field value exceeds character limit
 					collector.stop()
-					return message.channel.send("Everything has worked up to this point!")
+					//Stops prompting the user
+
+					let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
+					suggestionChannel.messages.fetch({around: messageID, limit: 1})
+					.then(msg => {
+					  msg.first().edit("This suggestion has been approved!")
+					})
+					
+					var guideChannel = ""
+					embedMessage.timestamp = new Date()
+					categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
+					guideChannel.messages.fetch({around: messageID, limit: 1})
+					.then(msg => {
+						msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					})
+					
+					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
+					
+					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
+					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
+					
+					suggestionDB.updateOne({"messageID": messageID}, {$set: {"section": suggestion[0].section, "messageID": messageID, "description": suggestion[0].description, "user": suggestion[0].user, "status": "Approved"}})
+					return message.channel.send("That suggestion has been approved!")
+					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 153-173 is copied and pasted here.
 
 				} else if (suggestionConfirm && !categoryConfirm) {
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
@@ -126,8 +149,6 @@ module.exports = {
 		}
 		//**Default command.** Format: g!approve <Suggestion ID> <Category-Name> <Section-Name>
 		
-		console.log("Everything has worked up to this point!")
-		return message.channel.send("Everything has worked up to this point!")
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
