@@ -16,10 +16,9 @@ module.exports = {
 		var foundSection, fieldError, suggestionConfirm, categoryConfirm = false
 		var approveMsgIndex = 0 
 
-		if (!args.includes("-")) {
+		if (args.length == 0) {
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
-
 
 			message.channel.send("To cancel the Argument helper, type in `no` or `cancel`. Enter the Suggestion ID.")
 			collector.on('collect', async(msg) => {
@@ -51,6 +50,7 @@ module.exports = {
 					if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 					//edge case when field value exceeds character limit
 					collector.stop()
+					return message.channel.send("Everything has worked up to this point!")
 
 				} else if (suggestionConfirm && !categoryConfirm) {
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
@@ -81,7 +81,6 @@ module.exports = {
 			})
 			
 			if (!suggestionConfirm) return undefined
-			message.channel.send("Everything's alright up to this point!")
 		} 
 		//**Enable the Argument helper: Prompts the user for each argument of the command to make it more user-friendly
 		//Exits out of the code to prevent the code below the argument parsing from returning an error
