@@ -1,6 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunction = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
+const globalfunctions = require("../globalfunctions.js")
 
 module.exports = {
 	name: 'edit',
@@ -31,10 +32,10 @@ module.exports = {
 		if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 		//returns an error if the provided Section Name did not match anything in the Guide message
 		
-		message.channel.send("Post the edited version below. This message will expire in 20 seconds. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
+		message.channel.send("Post the edited version below. This message will expire in 5 minutes. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 		
 		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-		const collector = message.channel.createMessageCollector(filter, {time: 20000})
+		const collector = message.channel.createMessageCollector(filter, {time: globalfunctions.timeToMS("5m")})
 		var received = false
 		var newMsg = ""
 		//awaits new message for edit
