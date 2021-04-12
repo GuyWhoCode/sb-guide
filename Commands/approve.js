@@ -16,6 +16,7 @@ module.exports = {
 		var foundSection, fieldError, suggestionConfirm, categoryConfirm = false
 		var approveMsgIndex = 0 
 
+		argumentChecker: {
 		if (!args.includes("-")) {
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
@@ -51,6 +52,8 @@ module.exports = {
 					if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 					//edge case when field value exceeds character limit
 					collector.stop()
+					break argumentChecker;
+					//exits scope of the Argument checker to run the rest of the command
 
 				} else if (suggestionConfirm && !categoryConfirm) {
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
@@ -123,6 +126,7 @@ module.exports = {
 			if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 			//edge case when field value exceeds character limit
 		}
+	}
 		//**Default command.** Format: g!approve <Suggestion ID> <Category-Name> <Section-Name>
 		
 		console.log("Everything has worked up to this point!")

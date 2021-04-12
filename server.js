@@ -67,7 +67,8 @@ client.on('message', async (message) => {
 	try {
 		let userCmd = client.commands.get(command) || client.commands.find(cmd => cmd.alises && cmd.alises.includes(command))
 
-		if (message.guild.id != "587765474297905158") {
+		if (message.guild.id != "587765474297905158" && message.guild.id != "807319824752443472") {
+		//Remove command restriction on Skycomm (home server) and Test Server (private test server)
 			if (globalFunction.checkAliases(nonSkycommCmds, userCmd.name)) {
 				userCmd.execute(message, args)
 			} else {
