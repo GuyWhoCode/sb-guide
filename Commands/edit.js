@@ -1,7 +1,6 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunction = require("../globalfunctions.js")
+const globalFunctions = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
-const globalfunctions = require("../globalfunctions.js")
 
 module.exports = {
 	name: 'edit',
@@ -12,8 +11,8 @@ module.exports = {
 
 		if (args.length >= 3) return message.channel.send("I received more parameters (>2) than I can work with. If there are more than 2 words in the Category or Section name, please replace the space with a hyphen (-).")
 		//checks if formatting on Category Title or Section Title is wrong
-		var categoryTitle = globalFunction.translateCategoryName(args[0]) 
-		var sectionTitle = globalFunction.translateCategoryName(args[1])
+		var categoryTitle = globalFunctions.translateCategoryName(args[0]) 
+		var sectionTitle = globalFunctions.translateCategoryName(args[1])
 		
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 
@@ -35,17 +34,17 @@ module.exports = {
 		message.channel.send("Post the edited version below. This message will expire in 5 minutes. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")
 		
 		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-		const collector = message.channel.createMessageCollector(filter, {time: globalfunctions.timeToMS("5m")})
+		const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("5m")})
 		var received = false
 		var newMsg = ""
 		//awaits new message for edit
 		collector.on('collect', msg => {
-			if (received && globalFunction.checkAliases(yesAlias, msg.content.trim())) {
+			if (received && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				// second collector for Confirmation. Edits the message.
 				collector.stop()
 				
 				embedMessage.fields[oldMsgID].value = newMsg + "\n\u200b"
-				if (globalFunction.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Editting the embed exceeds the embed character limit (6000). Shorten down the embed.")
+				if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Editting the embed exceeds the embed character limit (6000). Shorten down the embed.")
 				//edge case when embed exceeds limit
 
 					var guideChannel = ""
@@ -63,13 +62,13 @@ module.exports = {
 					message.channel.send("Message edited.")
 				
 				} 
-				else if (globalFunction.checkAliases(noAlias, msg.content.trim()) || globalFunction.checkAliases(cancelAlias, msg.content.trim())) {
+				else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
 					//stops Edit process if given no/cancel alias
 					collector.stop()
 					message.channel.send("Process canceled.")
 				
 				} 
-				else if (received && globalFunction.checkAliases(yesAlias, msg.content.trim()) == false) {
+				else if (received && globalFunctions.checkAliases(yesAlias, msg.content.trim()) == false) {
 					//returns error if does not match confirmation alises.
 					message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
 				
