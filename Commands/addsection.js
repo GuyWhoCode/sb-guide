@@ -1,7 +1,6 @@
 const {dbClient} = require("../mongodb.js")
-const globalFunction = require("../globalfunctions.js")
+const globalFunctions = require("../globalfunctions.js")
 const {noAlias, cancelAlias} = require("../constants.js")
-const globalfunctions = require("../globalfunctions.js")
 const entrySchema = {
     "name": "_ _",
     "value": "_ _"
@@ -80,7 +79,7 @@ module.exports = {
 			if (args[0] == undefined || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
 			//checks if there is any bad input
 
-			categoryName = globalFunction.translateCategoryName(args[0])
+			categoryName = globalFunctions.translateCategoryName(args[0])
 			sectionName = args.slice(1, args.length).join(" ").trim()
         	categoryMsg = await guideCollection.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
         	if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Name provided did not match anything. Did you make sure to include hyphens?")
