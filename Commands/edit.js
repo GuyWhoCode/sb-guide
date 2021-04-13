@@ -59,7 +59,7 @@ module.exports = {
 					}
 					
 				} else if (categoryConfirm && !sectionConfirm) {
-					sectionName = globalFunctions.translateCategoryName(msg.content.trim())
+					sectionTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					embedMessage = categoryMsg[0].embedMessage
 					oldMessage = ""
 
