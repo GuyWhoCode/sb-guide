@@ -76,7 +76,7 @@ module.exports = {
 
 				} else if (!categoryConfirm) {
 
-					categoryMsg = await guideCollection.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
+					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
         			if (categoryMsg[0] == undefined || categoryMsg.length > 1) return message.channel.send("The Category Name provided did not match anything, please enter another one.")
 
 					categoryConfirm = true
