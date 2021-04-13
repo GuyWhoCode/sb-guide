@@ -76,7 +76,7 @@ module.exports = {
         
         
         else {
-			if (args[0] == undefined || sectionName.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
+			if (args[0] == undefined || args.length == 0) return message.channel.send("See `g!addsection <Category-Name> <Section Name>`")
 			//checks if there is any bad input
 
 			categoryName = globalFunctions.translateCategoryName(args[0])
