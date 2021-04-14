@@ -5,6 +5,7 @@ module.exports = {
 	name: 'delete',
 	alises: ["d", "del"],
 	async execute(message, args) {
+		var found = false
 		let messageID = args[0]
 		var channelID = args[1]
 		if (args.length == 0 || channelID == undefined || messageID == undefined) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
@@ -18,10 +19,11 @@ module.exports = {
 				msg.first().delete()
 				message.channel.send("Message found and deleted.")
 			}).catch(() => {
-				return message.channel.send("Error. The specified Message ID does not match anything.")
+				found = true
 			})
 		
-		if (deleteChannel.name === "suggested-guide-changes") {
+		if (found) return message.channel.send("Error. The specified Message ID does not match anything.")
+		else if (deleteChannel.name === "suggested-guide-changes") {
 			//case when delete channel is suggested-guide-changes
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
