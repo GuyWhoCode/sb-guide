@@ -24,17 +24,23 @@ module.exports = {
         const parseQuery = query => {
             possibleQueries = {}
             guide.map(val => {
-                if (distance(query, val.categoryTitle, {caseSensitive: false}) > 0.70 || val.categoryTitle == query) return val.embedMessage
-                //Exact case matching: If the entire query closely matches the category title, priorityize it first.
-
-                let closeness = val.categoryTitle
-                    .split(" ")
-                    .map(word => distance(query, word, {caseSensitive: false}))
-                    .reduce((prev, current) => prev + current)/(val.categoryTitle.split(" ").length)
-                
-                if (closeness > threshold) {
-                    possibleQueries[val.categoryTitle] = closeness
+                if (distance(query, val.categoryTitle, {caseSensitive: false}) > 0.70 || val.categoryTitle == query) {
+                    possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
                     possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                }
+                //Exact case matching: If the entire query closely matches the category title, priorityize it first.
+                else {
+
+                    let closeness = val.categoryTitle
+                        .split(" ")
+                        .map(word => distance(query, word, {caseSensitive: false}))
+                        .reduce((prev, current) => prev + current)/(val.categoryTitle.split(" ").length)
+                    
+                    if (closeness > threshold) {
+                        possibleQueries[val.categoryTitle] = closeness
+                        possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                    }
+                    //Queries with the search algorithm by matching each Category Title word with query and taking average.
                 }
             })
             //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's title
