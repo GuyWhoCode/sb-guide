@@ -5,7 +5,6 @@ module.exports = {
 	name: 'delete',
 	alises: ["d", "del"],
 	async execute(message, args) {
-		var found = false
 		let messageID = args[0]
 		var channelID = args[1]
 		if (args.length == 0 || channelID == undefined || messageID == undefined) return message.channel.send("See `g!delete <Message ID> <#Channel>`")
@@ -14,18 +13,16 @@ module.exports = {
 		
 		let deleteChannel = message.guild.channels.cache.find(ch => ch.id === channelID)
 		
-		if (deleteChannel.name === "suggested-guide-changes") {
-			//case when delete channel is suggested-guide-changes
-			deleteChannel.messages.fetch({around: messageID, limit: 1})
+		deleteChannel.messages.fetch({around: messageID, limit: 1})
 			.then(msg => {
 				msg.first().delete()
 				message.channel.send("Message found and deleted.")
 			}).catch(() => {
-				found = true
-				//Exitting the code here will not exit the whole command.
+				return message.channel.send("Error. The specified Message ID does not match anything.")
 			})
-			if (found) return message.channel.send("Error. The specified Message ID does not match anything.")
-			
+		
+		if (deleteChannel.name === "suggested-guide-changes") {
+			//case when delete channel is suggested-guide-changes
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 			let suggestion = await suggestionDB.find({"messageID": messageID}).toArray()
 			let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
@@ -35,17 +32,6 @@ module.exports = {
 
 		} else if (deleteChannel.name === "skyblock-guide" || deleteChannel.name === "dungeons-guide-n-tips") {
 			//case when the delete channel is skyblock-guide or dungeons-guide-n-tips
-			
-			deleteChannel.messages.fetch({around: messageID, limit: 1})
-			.then(msg => {
-				msg.first().delete()
-				message.channel.send("Message found and deleted.")
-			}).catch(() => {
-				found = true
-				//Exitting the code here will not exit the whole command.
-			})
-			if (found) return message.channel.send("Error. The specified Message ID does not match anything.")
-
 			let guideDB = dbClient.db("skyblockGuide").collection("Guides")
 			let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
 			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
