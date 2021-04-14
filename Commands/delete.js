@@ -3,7 +3,7 @@ const globalFunction = require("../globalfunctions.js")
 
 module.exports = {
 	name: 'delete',
-	alises: ["d", "Delete", "del"],
+	alises: ["d", "del"],
 	async execute(message, args) {
 		let messageID = args[0]
 		var channelID = args[1]
@@ -19,6 +19,8 @@ module.exports = {
 			.then(msg => {
 				msg.first().delete()
 				message.channel.send("Message found and deleted.")
+			}).catch(() => {
+				return message.channel.send("Error. The specified Message ID does not match anything.")
 			})
 			
 			let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
@@ -34,8 +36,10 @@ module.exports = {
 			.then(msg => {
 				msg.first().delete()
 				message.channel.send("Message found and deleted.")
+			}).catch(() => {
+				return message.channel.send("Error. The specified Message ID does not match anything.")
 			})
-			
+			return message.channel.send("Making sure that it doesn't delete anything")
 			let guideDB = dbClient.db("skyblockGuide").collection("Guides")
 			let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
 			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
