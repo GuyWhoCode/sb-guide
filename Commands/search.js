@@ -24,6 +24,9 @@ module.exports = {
         const parseQuery = query => {
             possibleQueries = {}
             guide.map(val => {
+                if (distance(query, val.categoryTitle, {caseSensitive: false}) > 0.70 || val.categoryTitle == query) return val.embedMessage
+                //Exact case matching: If the entire query closely matches the category title, priorityize it first.
+
                 let closeness = val.categoryTitle
                     .split(" ")
                     .map(word => distance(query, word, {caseSensitive: false}))
@@ -55,8 +58,6 @@ module.exports = {
         }
 
         let guideMessage = parseQuery(searchQuery)
-        // if (guide[0] == undefined || guide.length > 1) return message.channel.send("The Category Title that was given was incorrect.")
-        //returns an error if the Category Title did not match anything in the database
         
         guideMessage.timestamp = new Date()
         message.channel.send({embed: guideMessage}).catch(err => {
