@@ -69,7 +69,7 @@ module.exports = {
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', sectionInfo, guideMsg[0].categoryTitle)})
-					guidesDB.updateOne({"messageID": guideMsg[0].messageID}, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
+					guidsDB.updateOne({"messageID": guideMsg[0].messageID}, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
 					return message.channel.send("Section deleted.")
 
 				} else if (msg.content.trim().toLowerCase() == "section" && !sectionConfirm) {
