@@ -80,7 +80,7 @@ module.exports = {
 						}
 					})
 					sectionConfirm = true
-					return message.channel.send("Enter the name of the section that you want to delete. All sections are provided below:\n" + "```" + sectionList +"```")	
+					return message.channel.send("Enter the name of the section that you want to delete. All of the sections are provided below:\n" + "```" + sectionList +"```")	
 					//Prompts the user for the section name after selection the section option.	
 
 				} else if (msg.content.trim().toLowerCase() == "all") {

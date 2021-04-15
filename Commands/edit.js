@@ -81,7 +81,14 @@ module.exports = {
 
 					categoryConfirm = true
 					categoryTitle = msg.content.trim()
-					return message.channel.send("Enter the name of the Guide Section to edit.")
+
+					var sectionList = ""
+					categoryMsg[0].embedMessage.fields.map(val => {
+						if (val.name != "_ _") {
+							sectionList += val.name + "\n"
+						}
+					})
+					return message.channel.send("Enter the name of the Guide Section to edit. All of the sections are provided below:\n" + "```" + sectionList +"```")
 					//if a valid alias of the guide channel is given, run this portion of the code
 				} 
 			})
