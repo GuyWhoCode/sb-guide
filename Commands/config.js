@@ -63,7 +63,7 @@ module.exports = {
 			configEmbed.fields[4].value = serverSetting.jumpSearchEnabled == true ? "True" : "False"
 			//Jump Search Enabled config
 			
-			if (message.guild.id == "587765474297905158" && message.guild.id == "807319824752443472") {
+			if (message.guild.id == "587765474297905158" || message.guild.id == "807319824752443472") {
 				configEmbed.fields[5].value = "Origin Server -- No delay on Guide changes"
 			} else if (globalFunctions.checkAliases(skycommAffliates, message.guild.id)) {
 				configEmbed.fields[5].value = "Affliate -- 1 day delay on Guide changes"
@@ -130,10 +130,12 @@ module.exports = {
 					jumpConfirm = true
 					if (globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 						configEmbed.fields[4].value = "True"
+						configEmbed.fields.slice(0,4)
 						message.channel.send({embed: configEmbed})
 						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
 					} else if (msg.content.trim().toLowerCase() == "none"){
 						configEmbed.fields[4].value = "False"
+						configEmbed.fields.slice(0,4)
 						message.channel.send({embed: configEmbed})
 						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
 					} else {
