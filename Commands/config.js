@@ -127,6 +127,7 @@ module.exports = {
 
 				if (botConfirm && sbConfirm && dConfirm && !jumpConfirm) {
 					//confirmation for all settings
+					jumpConfirm = true
 					if (globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 						configEmbed.fields[4].value = "True"
 						message.channel.send({embed: configEmbed})
@@ -136,6 +137,7 @@ module.exports = {
 						message.channel.send({embed: configEmbed})
 						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
 					} else {
+						jumpConfirm = false
 						return message.channel.send("Invalid input. Please type in either `yes` or `none`")
 					}
 
