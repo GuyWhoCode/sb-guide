@@ -1,6 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
-const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
+const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("../constants.js")
 
 module.exports = {
     name: "config",
@@ -27,7 +27,15 @@ module.exports = {
 				{
 					name: 'Dungeon Guides Channel:',
 					value: "None"
-				}
+				},
+				{
+					name: 'Enable Jumps as Search Result:',
+					value: "None"
+				},
+				{
+					name: 'Server Status:',
+					value: "None"
+				},
 				],
 				
 			footer: {
@@ -41,7 +49,7 @@ module.exports = {
 		let serverSetting = findServer[0]
 		if (serverSetting != undefined && args[0] == undefined) {
 			if (serverSetting.botChannelID.includes(",")) {
-				configEmbed.fields[1].value = serverSetting.botChannelID.split(",").map(val => val = "<#" + val + ">").join(", ")
+				configEmbed.fields[1].value = serverSetting.botChannelID.split(",").map(val => val = "<#" + val.trim() + ">").join(", ")
 				//accounts for formatting of multiple channels
 			} else {
 				configEmbed.fields[1].value = "<#" + serverSetting.botChannelID + ">"
@@ -52,23 +60,35 @@ module.exports = {
 			//Skyblock Guides Channel config
 			configEmbed.fields[3].value = "<#" + serverSetting.dGuideChannelID + ">"
 			//Dungeon Guides Channel config
+			configEmbed.fields[4].value = serverSetting.jumpSearchEnabled == true ? "True" : "False"
+			//Jump Search Enabled config
+			
+			if (message.guild.id == "587765474297905158" && message.guild.id == "807319824752443472") {
+				configEmbed.fields[5].value = "Origin Server -- No delay on Guide changes"
+			} else if (globalFunctions.checkAliases(skycommAffliates, message.guild.id)) {
+				configEmbed.fields[5].value = "Affliate -- 1 day delay on Guide changes"
+			} else if (globalFunctions.checkAliases(skycommPartners, message.guild.id)) {
+				configEmbed.fields[5].value = "Partner -- 2 day delay on Guide changes"
+			} else {
+				configEmbed.fields[5].value = "Regular server -- 3 day delay on Guide changes. Consider partnering with Skycomm if you meet the requirements."
+			}
+			//Server Status
 			message.channel.send({embed: configEmbed}) 
 			
 			return message.channel.send("To change the configuration, run `g!config change`")
 		}
-		else if (args[0].toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
+		else if (args[0].trim().toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
 		//case if the server is found
 
-		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
-		const collector = message.channel.createMessageCollector(filter, {time: 60000})
 
-		let botConfirm = false
-		let sbConfirm = false
-		let dConfirm = false
+		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
+		const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})
+
+		let botConfirm, sbConfirm, dConfirm, jumpConfirm = false
 		message.channel.send("Cancel the process with `no` or `cancel` if necessary.\nEnter the desired channel (Ex. #bot-channel) for Bot Commands. If you want to have more than one channel, separate the channels with a comma:")
 		
 		collector.on('collect', msg => {
-			if (botConfirm && sbConfirm && dConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
+			if (botConfirm && sbConfirm && dConfirm && jumpConfirm && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 				collector.stop()
 				
 				if (configEmbed.fields[1].value.includes(",")) {
@@ -82,11 +102,12 @@ module.exports = {
 					"serverID": message.guild.id,
 					"botChannelID": configEmbed.fields[1].value,
 					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2].value),
-					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value)
+					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value),
+					"jumpSearchEnabled": configEmbed.fields[4].value == "True"
 				}
 
 				if (serverSetting != undefined) {
-					settingsDB.updateOne({"serverID": message.guild.id}, {$set: {"serverID": message.guild.id, "botChannelID": newEntry.botChannelID, "sbGuideChannelID": newEntry.sbGuideChannelID, "dGuideChannelID": newEntry.dGuideChannelID}})
+					settingsDB.updateOne({"serverID": message.guild.id}, {$set: {"serverID": message.guild.id, "botChannelID": newEntry.botChannelID, "sbGuideChannelID": newEntry.sbGuideChannelID, "dGuideChannelID": newEntry.dGuideChannelID, "jumpSearchEnabled": newEntry.jumpSearchEnabled}})
 					//edge case if entry exists. Updates current entry.
 				} else {
 					settingsDB.insertOne(newEntry)
@@ -104,43 +125,50 @@ module.exports = {
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()
 
-				if (botConfirm && sbConfirm && !dConfirm) {
+				if (botConfirm && sbConfirm && dConfirm && !jumpConfirm) {
 					//confirmation for all settings
-					dConfirm = true
+					if (globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
+						configEmbed.fields[4].value = "True"
+						message.channel.send({embed: configEmbed})
+						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
+					} else if (msg.content.trim().toLowerCase() == "none"){
+						configEmbed.fields[4].value = "False"
+						message.channel.send({embed: configEmbed})
+						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
+					} else {
+						return message.channel.send("Invalid input. Please type in either `yes` or `none`")
+					}
+
+				} else if (botConfirm && sbConfirm && !dConfirm) {
+					//Dungeon Guide Channel confirmed
+					
 					if (msg.content.includes("#")) {
 						configEmbed.fields[3].value = channel
-					} else if (msg.content.toLowerCase() == "none") {
+						dConfirm = true
+						return message.channel.send("Type in `none` if you want to disable this option. Type `yes` to enable Jump Searching. For larger servers, it is recommended to turn this on since `g!search` returns the whole guide. With this option enabled, it will return a hyperlink to the corresponding guide.\n**You must have a Skyblock and Dungeon Guide Channel.**")
+					} else if (msg.content.trim().toLowerCase() == "none") {
 						return message.channel.send("Process skipped.")
-					} else {
-						dConfirm = false
-					}
-					
-					if (dConfirm) {
-						message.channel.send({embed: configEmbed})
-						message.channel.send("Confirm that these are the right settings for your server with `yes`")
-						return undefined
 					}
 
 				} else if (botConfirm && !sbConfirm) {
 					//Skyblock Guide Channel confirmed
-					sbConfirm = true
+					
 					if (msg.content.includes("#")) {
+						sbConfirm = true
 						configEmbed.fields[2].value = channel
-					} else if (msg.content.toLowerCase() == "none") {
+						return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
+					} else if (msg.content.trim().toLowerCase() == "none") {
 						return message.channel.send("Process skipped.")
-					} else {
-						sbConfirm = false
-					}
-					if (sbConfirm) return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Dungeon Guides:")
+					} 
 
 				} else if (!botConfirm) {
 					//Bot Channel confirmed
-					botConfirm = true
-					if (msg.content.includes("#")) configEmbed.fields[1].value = channel
-					else {
-						botConfirm = false
-					}
-					if (botConfirm) return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
+					
+					if (msg.content.includes("#")){
+						configEmbed.fields[1].value = channel
+						botConfirm = true
+						return message.channel.send("Type in `none` if you don't want to set this channel. Enter the desired channel (Ex. #bot-channel) for Skyblock Guides:")
+					} 
 				}
 			} 
 			
