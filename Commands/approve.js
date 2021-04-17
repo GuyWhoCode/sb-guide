@@ -43,14 +43,15 @@ module.exports = {
 					//returns an error if the provided Section Name did not match anything in the Guide message
 					sectionTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					
+					collector.stop()
+					//Stops prompting the user
+
 					if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
 					//edge case when the suggestion trying to be approved is in the wrong section
 					if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
 					//edge case when embed exceeds limit
 					if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 					//edge case when field value exceeds character limit
-					collector.stop()
-					//Stops prompting the user
 
 					let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 					suggestionChannel.messages.fetch({around: messageID, limit: 1})
@@ -140,15 +141,9 @@ module.exports = {
 			//adds the suggestion message to the existing Guide Message by looping through all the fields for matching Section name and adding new line at the end ("\n\u200b")
 			if (foundSection == false) return message.channel.send("The section that was given was incorrect. Remember to separate Section titles with more than 2 words with hyphens.")
 			//returns an error if the provided Section Name did not match anything in the Guide message
-			if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) {
-				collector.stop()
-				return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
-			}
+			if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
 			//edge case when the suggestion trying to be approved is in the wrong section
-			if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) {
-				collector.stop()
-				return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
-			}
+			if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
 			//edge case when embed exceeds limit
 			if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 			//edge case when field value exceeds character limit
