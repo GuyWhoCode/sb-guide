@@ -9,7 +9,7 @@ module.exports = {
 	async execute(message, args) {
 		var listEmbed = {
 			color: 0x4ea8de,
-			title: 'My sad embed',
+			title: 'Placeholder',
 			fields: [{
 				name: "_ _",
 				value: "_ _"
@@ -34,15 +34,11 @@ module.exports = {
 			guide = "Dungeons"
 			categoryID = "772944394542121031"
 		}
-
-		const makeMsgLink = msgID => {
-			return "https://discord.com/channels/587765474297905158/" + categoryID + "/" + msgID
-		}
 		
 		let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 		var categoryList = await categoryCollection.find({"category": guide}).toArray()
 		
-		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: "[Jump](" + makeMsgLink(val.messageID) + ")"}))
+		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)}))
 		listEmbed.timestamp = new Date()
 		listEmbed.title = "List of categories for " + guide
 		

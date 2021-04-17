@@ -26,7 +26,7 @@ client.on('message', async (message) => {
 	let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
 	let server = findServer[0]
 
-	if (message.channel.name != "bot-testing" && server != undefined) {
+	if (server != undefined) {
 		let rightChannel = false
 		server.botChannelID.split(",").map(val => {
 			if (message.channel.id == val) rightChannel = true
@@ -43,8 +43,6 @@ client.on('message', async (message) => {
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
-
-	// return message.channel.send("This bot is currently under maintenance. See <#772940891354300416> for the reason why. Sorry for the inconvenience! - Mason")
 
 	var args = message.content.slice(prefix.length).trim().split(/ +/)
 	var command = args.shift().toLowerCase()

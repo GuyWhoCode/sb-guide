@@ -60,7 +60,7 @@ module.exports = {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
 		}
 		
-		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
+		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.gg/8tYAVEU)**"})
 		helpEmbed.timestamp = new Date()
 		message.channel.send({embed: helpEmbed})
 	},

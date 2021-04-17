@@ -98,5 +98,8 @@ module.exports = {
     },
     escapeRegex(text) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    },
+    makeMsgLink(msgID, categoryID, serverID) {
+        return "[Jump](https://discord.com/channels/" + serverID + "/" + categoryID + "/" + msgID + ")"
     }
 }

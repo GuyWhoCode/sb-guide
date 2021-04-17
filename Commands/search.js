@@ -17,6 +17,9 @@ module.exports = {
         if (args.length == 0) return globalFunctions.commandHelpEmbed("Search", aliasList, Date.now(), "g!search money", "Returns the Common Money Making Guide")
         //checks if there is any bad input
         let searchQuery = globalFunctions.escapeRegex(args.join(" ").trim())
+        let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
+        let serverSettings = settingsDB.find({"serverID": message.guild.id}).toArray()
+        let server = serverSettings[0]
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         let guide = await guidesDB.find({}).toArray()
         let fuseSearch = new Fuse(guide, options)
@@ -26,7 +29,12 @@ module.exports = {
             guide.map(val => {
                 if (distance(query, val.categoryTitle, {caseSensitive: false}) > 0.70 || val.categoryTitle == query) {
                     possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
-                    possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                    if (server.jumpSearchEnabled) {
+                        let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
+                        possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+                    } else {
+                        possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                    }
                 }
                 //Exact case matching: If the entire query closely matches the category title, priorityize it first.
                 else {
@@ -38,7 +46,12 @@ module.exports = {
                     
                     if (closeness > threshold) {
                         possibleQueries[val.categoryTitle] = closeness
-                        possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                        if (server.jumpSearchEnabled) {
+                            let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
+                            possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+                        } else {
+                            possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                        }
                     }
                     //Queries with the search algorithm by matching each Category Title word with query and taking average.
                 }
@@ -54,20 +67,52 @@ module.exports = {
                             bestResult = val 
                         } 
                     })
-                return possibleQueries[bestResult + " embed"]
+                if (server.jumpSearchEnabled) {
+                    return bestResult + "--" + possibleQueries[bestResult + " embed"]
+                } else {
+                    return possibleQueries[bestResult + " embed"]
+                }
+                
             }
             //Sorts out the results by picking the highest rated one and returns the corresponding guide embed message
             
             let results = fuseSearch.search(query)
-            return results[0].item.embedMessage
+            if (server.jumpSearchEnabled) {
+                let categoryID = results[0].item.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
+                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+            } else {
+                return results[0].item.embedMessage
+            }
             //Implements fuzzy searching as a backup search algorithm when the Jaro-winkler algorithm doesn't give a result
         }
 
         let guideMessage = parseQuery(searchQuery)
         
-        guideMessage.timestamp = new Date()
-        message.channel.send({embed: guideMessage}).catch(err => {
-            message.channel.send("Oops! Something went wrong. Error Message: " + err)
-        })
+        if (server.jumpSearchEnabled) {
+            let queryResult = guideMessage.split("--")
+            let searchEmbed = {
+                color: 0x4ea8de,
+                title: 'Search Result',
+                fields: [
+                    {
+                        name: queryResult[0],
+                        value: queryResult[1]
+                    },
+                    
+                    ],
+                footer: {
+                    text: 'Skyblock Guides',
+                    icon_url: "https://i.imgur.com/184jyne.png",
+                },
+                timestamp: new Date()
+            }
+            message.channel.send({embed: searchEmbed})
+
+        } else {
+            guideMessage.timestamp = new Date()
+            message.channel.send({embed: guideMessage})
+        }
+
+       
 	}
 }

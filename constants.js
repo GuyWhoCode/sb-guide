@@ -27,7 +27,7 @@ const adEmbed = {
 	fields: [
 		{
 			name: 'Want to help improve the guide?',
-			value: "Join the [Skyblock Community](https://discord.com/invite/hysky)",
+			value: "Join the [Skyblock Community](https://discord.gg/8tYAVEU)",
         },
         {
             name: 'Using Bot:',
