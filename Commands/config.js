@@ -130,12 +130,12 @@ module.exports = {
 					jumpConfirm = true
 					if (globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
 						configEmbed.fields[4].value = "True"
-						configEmbed.fields = configEmbed.fields.slice(0,4)
+						configEmbed.fields = configEmbed.fields.slice(0,5)
 						message.channel.send({embed: configEmbed})
 						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
 					} else if (msg.content.trim().toLowerCase() == "none"){
 						configEmbed.fields[4].value = "False"
-						configEmbed.fields = configEmbed.fields.slice(0,4)
+						configEmbed.fields = configEmbed.fields.slice(0,5)
 						message.channel.send({embed: configEmbed})
 						return message.channel.send("Confirm that these are the right settings for your server with `yes`")
 					} else {
