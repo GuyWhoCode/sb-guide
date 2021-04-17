@@ -18,7 +18,7 @@ module.exports = {
         //checks if there is any bad input
         let searchQuery = globalFunctions.escapeRegex(args.join(" ").trim())
         let settingsDB = dbClient.db("skyblockGuide").collection("Settings")
-        let serverSettings = settingsDB.find({"serverID": message.guild.id}).toArray()
+        let serverSettings = await settingsDB.find({"serverID": message.guild.id}).toArray()
         let server = serverSettings[0]
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         let guide = await guidesDB.find({}).toArray()
