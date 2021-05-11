@@ -4,7 +4,7 @@ const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
 
 module.exports = {
 	name: 'edit',
-	alises: ["e", "E", "Edit"],
+	alises: ["e"],
 	async execute(message, args) {
 		var categoryTitle, sectionTitle, categoryMsg, embedMessage, oldMessage, newMsg = ""
 		var categoryConfirm, foundSection, sectionConfirm, received = false
@@ -63,6 +63,12 @@ module.exports = {
 					embedMessage = categoryMsg[0].embedMessage
 					oldMessage = ""
 
+					if (embedMessage.fields.length == 0) {
+						collector.stop()
+						return message.channel.send("There is no section to edit. Add a section with `g!as`")
+					}
+					//Edge case when there is no section to choose from
+					
 					embedMessage.fields.map((val, index) => {
 						val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
 					})
@@ -71,7 +77,7 @@ module.exports = {
 					//returns an error if the provided Section Name did not match anything in the Guide message
 
 					sectionConfirm = true
-					return message.channel.send("Post the edited version below. This message will expire in 5 minutes. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference: " + "```" + oldMessage + "```")					
+					return message.channel.send("Post the edited version below. This message will expire in 5 minutes. If you want to quit/cancel, type in `no` or `cancel`.\nHere is the original message as a reference:```" + oldMessage + "```")					
 					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 92-146 is merged due to requiring a Message collector as well.
 
 				} else if (!categoryConfirm) {
@@ -115,6 +121,9 @@ module.exports = {
 			foundSection = false
 			oldMessage = ""
 	
+			if (embedMessage.fields.length == 0) return message.channel.send("There is no section to edit. Add a section with `g!as`")
+			//Edge case when there is no section to choose from
+
 			embedMessage.fields.map((val, index) => {
 				val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
 			})
