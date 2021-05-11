@@ -40,12 +40,14 @@ module.exports = {
 
 					embedMessage.timestamp = new Date()
 					guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
+						if (m.first().id != categoryMsg[0].messageID) categoryMsg[0].messageID = m.first().id 
+						guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+						//updates the ID if it does not match in the database
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
-					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
 					return message.channel.send("Message edited.")
 				
 				} else if (categoryConfirm && sectionConfirm && !received) {
@@ -62,12 +64,6 @@ module.exports = {
 					sectionTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					embedMessage = categoryMsg[0].embedMessage
 					oldMessage = ""
-
-					if (embedMessage.fields.length == 0) {
-						collector.stop()
-						return message.channel.send("There is no section to edit. Add a section with `g!as`")
-					}
-					//Edge case when there is no section to choose from
 					
 					embedMessage.fields.map((val, index) => {
 						val.name.toLowerCase() === sectionTitle.toLowerCase() ? (oldMessage = val.value, foundSection = true, oldMsgID = index) : undefined
@@ -84,6 +80,12 @@ module.exports = {
 
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
         			if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything, please enter another one.")
+
+					if (embedMessage.fields.length == 0) {
+						collector.stop()
+						return message.channel.send("There is no section to edit. Add a section with `g!as`")
+					}
+					//Edge case when there is no section to choose from
 
 					categoryConfirm = true
 					categoryTitle = msg.content.trim()
