@@ -81,7 +81,7 @@ module.exports = {
 					categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(globalFunctions.translateCategoryName(msg.content.trim()), "i") } }).toArray()
         			if (categoryMsg[0] == undefined) return message.channel.send("The Category Name provided did not match anything, please enter another one.")
 
-					if (embedMessage.fields.length == 0) {
+					if (categoryMsg[0].embedMessage.fields.length == 0) {
 						collector.stop()
 						return message.channel.send("There is no section to edit. Add a section with `g!as`")
 					}
