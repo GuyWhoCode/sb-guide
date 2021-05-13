@@ -15,7 +15,7 @@ module.exports = {
                 let guideChannel = "";
                 guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
                 
-                guideChannel.send({embed: guideMessage}).catch(err => {
+                guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                     message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                 }).then(msg => {
                     guideMessage.messageID[serverID] = msg.id
