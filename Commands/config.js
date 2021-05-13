@@ -117,7 +117,7 @@ module.exports = {
 				}
 
 				message.channel.send("Settings configured!")
-				// post.post(message, message.guild.id, "initialize")
+				post.post(message, message.guild.id, "initialize")
 				return undefined
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {

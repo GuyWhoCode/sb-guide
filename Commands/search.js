@@ -31,7 +31,7 @@ module.exports = {
                     possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
                     if (server.jumpSearchEnabled) {
                         let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
-                        possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+                        possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
                     } else {
                         possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
                     }
@@ -48,7 +48,7 @@ module.exports = {
                         possibleQueries[val.categoryTitle] = closeness
                         if (server.jumpSearchEnabled) {
                             let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
-                            possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+                            possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
                         } else {
                             possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
                         }
@@ -79,7 +79,7 @@ module.exports = {
             let results = fuseSearch.search(query)
             if (server.jumpSearchEnabled) {
                 let categoryID = results[0].item.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
-                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(val.messageID, categoryID, message.guild.id)
+                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
             } else {
                 return results[0].item.embedMessage
             }
