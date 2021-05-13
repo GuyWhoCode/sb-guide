@@ -14,7 +14,7 @@ module.exports = {
             for (let guideMessage of guides) {
                 let guideChannel = "";
                 guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                
+                //need to add case for resource being posted in the wrong category
                 guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                     message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                 }).then(msg => {
@@ -22,6 +22,7 @@ module.exports = {
                     guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                 })
             }
+            //settingsDB.updateOne({"serverID": message.guild.id}, {$set: newEntry})
             return message.channel.send("Initialization complete!")
         }
     

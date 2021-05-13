@@ -104,11 +104,12 @@ module.exports = {
 					"botChannelID": configEmbed.fields[1].value,
 					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2].value),
 					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value),
-					"jumpSearchEnabled": configEmbed.fields[4].value == "True"
+					"jumpSearchEnabled": configEmbed.fields[4].value == "True",
+					"initialization": false
 				}
 
 				if (serverSetting != undefined) {
-					settingsDB.updateOne({"serverID": message.guild.id}, {$set: {"serverID": message.guild.id, "botChannelID": newEntry.botChannelID, "sbGuideChannelID": newEntry.sbGuideChannelID, "dGuideChannelID": newEntry.dGuideChannelID, "jumpSearchEnabled": newEntry.jumpSearchEnabled}})
+					settingsDB.updateOne({"serverID": message.guild.id}, {$set: newEntry})
 					//edge case if entry exists. Updates current entry.
 				} else {
 					settingsDB.insertOne(newEntry)
@@ -116,7 +117,7 @@ module.exports = {
 				}
 
 				message.channel.send("Settings configured!")
-				post.post(message, message.guild.id, "initialize")
+				// post.post(message, message.guild.id, "initialize")
 				return undefined
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
