@@ -79,7 +79,7 @@ module.exports = {
             let results = fuseSearch.search(query)
             if (server.jumpSearchEnabled) {
                 let categoryID = results[0].item.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
-                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
+                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(results[0].item.messageID[message.guild.id], categoryID, message.guild.id)
             } else {
                 return results[0].item.embedMessage
             }
