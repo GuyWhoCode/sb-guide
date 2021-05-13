@@ -38,7 +38,7 @@ module.exports = {
 					//stops process if given no/cancel alias
 
 				} else if (channelConfirm) {
-					categoryTitle = globalFunctions.translateCategoryName(msg.content.trim())
+					categoryName = globalFunctions.translateCategoryName(msg.content.trim())
 					
 					collector.stop()
 					//Stops prompting the user
@@ -62,7 +62,7 @@ module.exports = {
 
 					categoryChannel.send({ embed: categoryEmbed }).then(msg => msgID = msg.id)
 
-					let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
+					let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category, message.guild.id)
 					guideDB.insertOne(newEntry)
 					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 98-118 is copied and pasted here.
 					return message.channel.send("Your category has been created!")

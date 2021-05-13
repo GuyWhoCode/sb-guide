@@ -88,6 +88,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
 					logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({"messageID": messageID}))
+					//replacement for mass-post delete
 
 					deleteChannel.messages.fetch({around: messageID, limit: 1})
 						.catch(() => {

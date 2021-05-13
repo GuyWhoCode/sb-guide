@@ -18,11 +18,13 @@ module.exports = {
         entry.user = user
         return entry
     },
-    makeNewEntry(msg, title, id, category) {
+    makeNewEntry(msg, title, id, category, serverID) {
+        let messageObject = {}
+        messageObject[serverID] = id
         let entry = Object.create(categorySchema)
         entry.embedMessage = msg
-        entry.categoryTitle = title
-        entry.messageID = id
+        entry.categoryTitle = title 
+        entry.messageID = messageObject
         entry.category = category
         return entry
     },

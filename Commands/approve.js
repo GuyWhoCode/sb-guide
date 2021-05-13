@@ -62,7 +62,7 @@ module.exports = {
 					var guideChannel = ""
 					embedMessage.timestamp = new Date()
 					categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-					guideChannel.messages.fetch({around: messageID, limit: 1})
+					guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1})
 					.then(msg => {
 						msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					})
@@ -150,6 +150,7 @@ module.exports = {
 		}
 		//**Default command.** Format: g!approve <Suggestion ID> <Category-Name> <Section-Name>
 		
+
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
@@ -159,13 +160,13 @@ module.exports = {
 		var guideChannel = ""
 		embedMessage.timestamp = new Date()
 		categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-		guideChannel.messages.fetch({around: messageID, limit: 1})
+		guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1})
 		.then(msg => {
 			msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 		})
 		
-		guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
-		
+		guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+		//replacement for post edit function
 		let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 		logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 		

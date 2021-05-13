@@ -31,6 +31,7 @@ module.exports = {
 					// second collector for Confirmation. Edits the message.
 					collector.stop()
 					
+					embedMessage.fields[oldMsgID].value = newMsg + "\n\u200b"
 					if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Editting the embed exceeds the embed character limit (6000). Shorten down the embed.")
 					//edge case when embed exceeds limit
 
@@ -39,10 +40,13 @@ module.exports = {
 					if (categoryMsg[0].category === "resource") guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-resources")
 
 					embedMessage.timestamp = new Date()
-					guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
-						if (m.first().id != categoryMsg[0].messageID) categoryMsg[0].messageID = m.first().id 
-						guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-						//updates the ID if it does not match in the database
+					guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1}).then(m => {
+						if (m.first().id != categoryMsg[0].messageID[message.guild.id])  {
+							categoryMsg[0].messageID[message.guild.id] = m.first().id 
+							guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+							//replacement for post edit function
+							//updates the ID if it does not match in the database
+						}
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 					})
 
@@ -156,13 +160,20 @@ module.exports = {
 					if (categoryMsg[0].category === "resource") guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-resources")
 
 					embedMessage.timestamp = new Date()
-		    		guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1}).then(m => {
+		    		guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1}).then(m => {
+						if (m.first().id != categoryMsg[0].messageID[message.guild.id])  {
+							categoryMsg[0].messageID[message.guild.id] = m.first().id 
+							guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+							//replacement for post edit function
+							//updates the ID if it does not match in the database
+						}
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+					//replacement for post edit function
 					message.channel.send("Message edited.")
 				
 				} 
