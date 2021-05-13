@@ -1,5 +1,5 @@
 const {dbClient} = require("./mongodb.js")
-const globalFunctions = require("../globalfunctions.js")
+const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
 
 module.exports = {
