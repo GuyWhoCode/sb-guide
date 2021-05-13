@@ -1,5 +1,6 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
+const post = require("../post.js")
 const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("../constants.js")
 
 module.exports = {
@@ -115,6 +116,7 @@ module.exports = {
 				}
 
 				message.channel.send("Settings configured!")
+				post.post(message, message.guild.id, "initialize")
 				return undefined
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
