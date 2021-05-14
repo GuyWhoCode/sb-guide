@@ -34,15 +34,15 @@ module.exports = {
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                             })
                         }
-
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                            .send({embed: globalFunctions.tableOfContents("Skyblock", serverID)})
-                            .then(msg => findServer[0].sbTable = msg.id)    
-                    
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                            .send({embed: globalFunctions.tableOfContents("Dungeons", serverID)})
-                            .then(msg => findServer[0].dTable = msg.id)
-
+                        globalFunctions.tableOfContents(guide, message.guild.id)
+                            .then(val => message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                                    .send({embed: val})
+                                    .then(msg => findServer[0].sbTable = msg.id))
+                                
+                        globalFunctions.tableOfContents(guide, message.guild.id)
+                        .then(val => message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                                    .send({embed: val})
+                                    .then(msg => findServer[0].dTable = msg.id))
                         serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
                         //Copied lines 61-84 as Message Collectors do not properly exit after returning
                         return message.channel.send("Initialization complete!")
