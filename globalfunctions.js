@@ -128,7 +128,7 @@ module.exports = {
         
         categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[serverID], categoryID, serverID)}))
 		listEmbed.timestamp = new Date()
-		listEmbed.title = "Category List -- " + guide
+		listEmbed.title = "Category List -- " + category
 		
 		return listEmbed
     },
