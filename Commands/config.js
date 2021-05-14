@@ -109,6 +109,7 @@ module.exports = {
 				}
 
 				if (serverSetting != undefined) {
+					if (findServer[0].initialization) newEntry.initialization = true
 					settingsDB.updateOne({"serverID": message.guild.id}, {$set: newEntry})
 					//edge case if entry exists. Updates current entry.
 				} else {
