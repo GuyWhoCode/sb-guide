@@ -125,7 +125,6 @@ module.exports = {
     
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": guildID}).toArray()
-        console.log(findServer) //potential problem??
         let categoryID = ""
         category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
         
@@ -133,6 +132,7 @@ module.exports = {
         listEmbed.timestamp = new Date()
         listEmbed.title = "Category List -- " + category
         
+        console.log(listEmbed) 
         return listEmbed
         //Currently returns Promise<Pending> -- need to check DBs
     }
