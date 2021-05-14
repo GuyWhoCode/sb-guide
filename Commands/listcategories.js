@@ -18,7 +18,7 @@ module.exports = {
 			return message.channel.send('You are missing an argument! See `g!listcategories <#Guide Channel>`')
 		}
 		//checks if provided Guide matches alias list
-		console.log(globalFunctions.tableOfContents(guide, message.guild.id))
-		// message.channel.send({embed: globalFunctions.tableOfContents(guide, message.guild.id)})
+		
+		message.channel.send({embed: globalFunctions.tableOfContents(guide, message.guild.id).then(val => {return val})})
 	},
 }
