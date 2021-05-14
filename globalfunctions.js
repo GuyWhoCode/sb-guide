@@ -1,5 +1,8 @@
 const {categorySchema, suggestionSchema} = require("./constants.js")
-  
+const {dbClient} = require("./mongodb.js")
+const makeMsgLink = (msgID, categoryID, serverID) => {
+    return "[Jump](https://discord.com/channels/" + serverID + "/" + categoryID + "/" + msgID + ")"
+}
 module.exports = {
     translateCategoryName(name) {
         if (name.includes("_")) {
@@ -101,7 +104,27 @@ module.exports = {
     escapeRegex(text) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     },
-    makeMsgLink(msgID, categoryID, serverID) {
-        return "[Jump](https://discord.com/channels/" + serverID + "/" + categoryID + "/" + msgID + ")"
-    }
+    makeMsgLink: makeMsgLink,
+    tableOfContents(category) {
+        let listEmbed = {
+            color: 0x4ea8de,
+            title: 'Placeholder',
+            fields: [{
+                name: "_ _",
+                value: "_ _"
+            }],
+            footer: {
+                text: 'Skyblock Guides',
+                icon_url: "https://i.imgur.com/184jyne.png",
+            },
+        }
+        let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
+		let categoryList = await categoryCollection.find({"category": category}).toArray()
+		
+		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)}))
+		listEmbed.timestamp = new Date()
+		listEmbed.title = "List of categories for " + guide
+		
+		return listEmbed
+    },
 }
