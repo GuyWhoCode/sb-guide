@@ -132,7 +132,6 @@ module.exports = {
         listEmbed.timestamp = new Date()
         listEmbed.title = "Category List -- " + category
         
-        console.log(listEmbed) 
         return listEmbed
         //Currently returns Promise<Pending> -- need to check DBs
     }

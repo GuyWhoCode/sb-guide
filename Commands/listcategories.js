@@ -19,11 +19,6 @@ module.exports = {
 		}
 		//checks if provided Guide matches alias list
 		
-		message.channel.send(
-			{embed: globalFunctions.tableOfContents(guide, message.guild.id)
-						.then(val => {
-							console.log(val)
-							return val})
-			})
+		globalFunctions.tableOfContents(guide, message.guild.id).then(val => message.channel.send({embed: val}))
 	},
 }
