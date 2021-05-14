@@ -105,7 +105,7 @@ module.exports = {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     },
     makeMsgLink: makeMsgLink,
-    tableOfContents(category) {
+    async tableOfContents(category) {
         let listEmbed = {
             color: 0x4ea8de,
             title: 'Placeholder',
