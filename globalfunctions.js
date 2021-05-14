@@ -1,5 +1,6 @@
 const {categorySchema, suggestionSchema} = require("./constants.js")
-const {dbClient} = require("./mongodb.js")
+const {dbClient} = require("./mongodb.js") 
+
 const makeMsgLink = (msgID, categoryID, serverID) => {
     return "[Jump](https://discord.com/channels/" + serverID + "/" + categoryID + "/" + msgID + ")"
 }
@@ -105,7 +106,7 @@ module.exports = {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     },
     makeMsgLink: makeMsgLink,
-    async tableOfContents(category, serverID) {
+    async tableOfContents(category, guildID) {
         let listEmbed = {
             color: 0x4ea8de,
             title: 'Placeholder',
@@ -120,17 +121,19 @@ module.exports = {
             },
         }
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
-		let categoryList = await categoryCollection.find({"category": category}).toArray()
-		
+        let categoryList = await categoryCollection.find({"category": category}).toArray()
+    
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
-        let findServer = await serverInfo.find({"serverID": serverID}).toArray()
+        let findServer = await serverInfo.find({"serverID": guildID}).toArray()
+        console.log(findServer) //potential problem??
         let categoryID = ""
         category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
         
-        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[serverID], categoryID, serverID)}))
-		listEmbed.timestamp = new Date()
-		listEmbed.title = "Category List -- " + category
-		
-		return listEmbed
-    },
+        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
+        listEmbed.timestamp = new Date()
+        listEmbed.title = "Category List -- " + category
+        
+        return listEmbed
+        //Currently returns Promise<Pending> -- need to check DBs
+    }
 }
