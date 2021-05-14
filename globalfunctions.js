@@ -121,9 +121,14 @@ module.exports = {
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 		let categoryList = await categoryCollection.find({"category": category}).toArray()
 		
-		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[serverID], categoryID, serverID)}))
+        let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
+        let findServer = await serverInfo.find({"serverID": serverID}).toArray()
+        let categoryID = ""
+        category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
+        
+        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[serverID], categoryID, serverID)}))
 		listEmbed.timestamp = new Date()
-		listEmbed.title = "List of categories for " + guide
+		listEmbed.title = "Category List -- " + guide
 		
 		return listEmbed
     },
