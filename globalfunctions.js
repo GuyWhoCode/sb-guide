@@ -109,6 +109,7 @@ module.exports = {
         let listEmbed = {
             color: 0x4ea8de,
             title: 'Placeholder',
+            description: "",
             fields: [{
                 name: "_ _",
                 value: "_ _"
