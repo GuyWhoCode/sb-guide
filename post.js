@@ -36,11 +36,11 @@ module.exports = {
                         }
 
                         message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                            .send({embed: globalFunctions.tableOfContents("Skyblock")})
+                            .send({embed: globalFunctions.tableOfContents("Skyblock", serverID)})
                             .then(msg => findServer[0].sbTable = msg.id)    
                     
                         message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                            .send({embed: globalFunctions.tableOfContents("Dungeons")})
+                            .send({embed: globalFunctions.tableOfContents("Dungeons", serverID)})
                             .then(msg => findServer[0].dTable = msg.id)
 
                         serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
@@ -72,11 +72,11 @@ module.exports = {
                 }
                 findServer[0].initialization = true
                 message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                    .send({embed: globalFunctions.tableOfContents("Skyblock")})
+                    .send({embed: globalFunctions.tableOfContents("Skyblock", serverID)})
                     .then(msg => findServer[0].sbTable = msg.id)    
                 
                 message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                    .send({embed: globalFunctions.tableOfContents("Dungeons")})
+                    .send({embed: globalFunctions.tableOfContents("Dungeons", serverID)})
                     .then(msg => findServer[0].dTable = msg.id)
                 
                 

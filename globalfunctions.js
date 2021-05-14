@@ -105,7 +105,7 @@ module.exports = {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
     },
     makeMsgLink: makeMsgLink,
-    async tableOfContents(category) {
+    async tableOfContents(category, serverID) {
         let listEmbed = {
             color: 0x4ea8de,
             title: 'Placeholder',
@@ -121,7 +121,7 @@ module.exports = {
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
 		let categoryList = await categoryCollection.find({"category": category}).toArray()
 		
-		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)}))
+		categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[serverID], categoryID, serverID)}))
 		listEmbed.timestamp = new Date()
 		listEmbed.title = "List of categories for " + guide
 		
