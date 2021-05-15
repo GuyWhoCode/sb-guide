@@ -35,16 +35,19 @@ module.exports = {
                         //     })
                         // }
                         globalFunctions.tableOfContents("Skyblock", serverID)
-                            .then(val => message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                            .then(val => 
+                                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                                     .send({embed: val})
                                     .then(msg => findServer[0].sbTable = msg.id))
                                 
                         globalFunctions.tableOfContents("Dungeons", serverID)
-                        .then(val => message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                            .then(val => 
+                                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
                                     .send({embed: val})
                                     .then(msg => findServer[0].dTable = msg.id))
                         
-                                    serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
+                        console.log(findServer[0])
+                        await serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
                         //Copied lines 61-84 as Message Collectors do not properly exit after returning
                         return message.channel.send("Initialization complete!")
                     
@@ -72,13 +75,17 @@ module.exports = {
                     })
                 }
                 findServer[0].initialization = true
-                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                    .send({embed: globalFunctions.tableOfContents("Skyblock", serverID)})
-                    .then(msg => findServer[0].sbTable = msg.id)    
-                
-                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                    .send({embed: globalFunctions.tableOfContents("Dungeons", serverID)})
-                    .then(msg => findServer[0].dTable = msg.id)
+                globalFunctions.tableOfContents("Skyblock", serverID)
+                    .then(val => 
+                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                            .send({embed: val})
+                            .then(msg => findServer[0].sbTable = msg.id))
+                                
+                globalFunctions.tableOfContents("Dungeons", serverID)
+                    .then(val => 
+                        message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                            .send({embed: val})
+                            .then(msg => findServer[0].dTable = msg.id))
                 
                 
                 serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
