@@ -111,3 +111,6 @@ client.on('message', async (message) => {
 })
 
 client.login(process.env.botToken)
+module.exports = {
+	client: client
+}

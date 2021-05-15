@@ -1,7 +1,7 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("./constants.js")
-const Discord = require("discord.js")
+const {client} = require("./server.js")
 module.exports = {
     async post (message, serverID, action, changedMsg) {
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
@@ -103,7 +103,9 @@ module.exports = {
             let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
 
             for (let server in Object.keys(guideMessage[0].messageID)) {
-                Discord.Guild.fetch(server).then(val => console.log(val))
+                client.guilds.map(val => {
+                    console.log(val)
+                })
             }
             
         
