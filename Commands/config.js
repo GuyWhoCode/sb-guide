@@ -105,11 +105,18 @@ module.exports = {
 					"sbGuideChannelID": globalFunctions.channelID(configEmbed.fields[2].value),
 					"dGuideChannelID": globalFunctions.channelID(configEmbed.fields[3].value),
 					"jumpSearchEnabled": configEmbed.fields[4].value == "True",
-					"initialization": false
+					"initialization": false,
+					"sbTable": "Placeholder",
+					"dTable": "Placeholder",
+					"numberConfig": 0,
+					"lastUpdated": 0
 				}
 
 				if (serverSetting != undefined) {
 					if (findServer[0].initialization) newEntry.initialization = true
+					findServer[0].numberConfig == undefined ? newEntry.numberConfig += 1 : newEntry.numberConfig = findServer[0].numberConfig + 1
+					findServer[0].lastUpdated == undefined ? newEntry.lastUpdated = Date.now() : newEntry.lastUpdated = findServer[0].lastUpdated
+					
 					settingsDB.updateOne({"serverID": message.guild.id}, {$set: newEntry})
 					//edge case if entry exists. Updates current entry.
 				} else {
@@ -117,14 +124,12 @@ module.exports = {
 					//records new entry in database
 				}
 
-				message.channel.send("Settings configured!")
 				post.post(message, message.guild.id, "initialize")
-				return undefined
+				return message.channel.send("Settings configured!")
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
 				collector.stop()
-				message.channel.send("Process canceled.")
-				return undefined
+				return message.channel.send("Process canceled.")
 				//stops process if given no/cancel alias
 			} else if (filter(msg)) {
 				let channel = msg.content.trim()

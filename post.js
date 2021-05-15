@@ -1,6 +1,6 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
-const {yesAlias, noAlias, cancelAlias} = require("./constants.js")
+const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("./constants.js")
 
 module.exports = {
     async post (message, serverID, action) {
@@ -22,18 +22,18 @@ module.exports = {
                         collector.stop()
                         //Stops the collector after confirmation
 
-                        for (let guideMessage of guides) {
-                            let guideChannel = "";
-                            if (guideMessage.category === "resource") break;
-                            guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                        // for (let guideMessage of guides) {
+                        //     let guideChannel = "";
+                        //     if (guideMessage.category === "resource") break;
+                        //     guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
 
-                            guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
-                                message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
-                            }).then(msg => {
-                                guideMessage.messageID[serverID] = msg.id
-                                guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
-                            })
-                        }
+                        //     guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
+                        //         message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
+                        //     }).then(msg => {
+                        //         guideMessage.messageID[serverID] = msg.id
+                        //         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
+                        //     })
+                        // }
                         globalFunctions.tableOfContents("Skyblock", serverID)
                             .then(val => message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                                     .send({embed: val})
@@ -84,13 +84,15 @@ module.exports = {
                 serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
                 return message.channel.send("Initialization complete!")
             }
-
         } 
+
+
         // else if (action == "edit") {
-        //     //Get the guide DB and loop over the Message IDs through each of the servers
+            //Get the guide DB and loop over the Message IDs through each of the servers
+            //Edit all messages looped over -- include timestamps
         
         // } else if (action == "delete") {
-        //     //Get the guide DB and loop over the Message IDs through each of the servers
+            //Get the settings DB and loop over the Message IDs through each of the servers
         // }
     }
 }
