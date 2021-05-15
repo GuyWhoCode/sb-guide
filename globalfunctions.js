@@ -130,9 +130,11 @@ module.exports = {
         
         categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
         listEmbed.timestamp = new Date()
-        listEmbed.title = "Category List -- " + category
+        listEmbed.title = "Table of Contents -- " + category
         
         return listEmbed
-        //Currently returns Promise<Pending> -- need to check DBs
+    },
+    msToDay(time){
+        return (((time/1000)/60)/60)/24
     }
 }

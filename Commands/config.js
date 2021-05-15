@@ -124,7 +124,7 @@ module.exports = {
 					//records new entry in database
 				}
 
-				post.post(message, message.guild.id, "initialize")
+				post.post(message, message.guild.id, "initialize", "")
 				return message.channel.send("Settings configured!")
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
@@ -158,6 +158,7 @@ module.exports = {
 					if (msg.content.includes("#")) {
 						configEmbed.fields[3].value = channel
 						dConfirm = true
+						if (configEmbed.fields[2].value == "None" || configEmbed.fields[3].value == "None") return message.channel.send("Jump Searching feature disabled as there is no Skyblock or Dungeon channel to create jumps. Rerun `g!config` to change this setting if unintentional.")
 						return message.channel.send("Type in `none` if you want to disable this option. Type `yes` to enable Jump Searching. For larger servers, it is recommended to turn this on since `g!search` returns the whole guide. With this option enabled, it will return a hyperlink to the corresponding guide.\n**You must have a Skyblock and Dungeon Guide Channel.**")
 					} else if (msg.content.trim().toLowerCase() == "none") {
 						return message.channel.send("Process skipped.")
