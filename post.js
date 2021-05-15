@@ -34,13 +34,13 @@ module.exports = {
                         //         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                         //     })
                         // }
-                        globalFunctions.tableOfContents("Skyblock", serverID)
+                        await globalFunctions.tableOfContents("Skyblock", serverID)
                             .then(val => 
                                 message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                                     .send({embed: val})
                                     .then(msg => findServer[0].sbTable = msg.id))
                                 
-                        globalFunctions.tableOfContents("Dungeons", serverID)
+                        await globalFunctions.tableOfContents("Dungeons", serverID)
                             .then(val => 
                                 message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
                                     .send({embed: val})
