@@ -17,7 +17,7 @@ module.exports = {
                 message.channel.send("Previous Initialization detected. Confirm with `yes` or `no` if you want to resend **all** of the guides. **WARNING** This will not delete the existing guide messages but send new messages.")
                 const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 		        const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})
-                collector.on('collect', msg => {
+                collector.on('collect', async (msg) => {
                     if (globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
                         collector.stop()
                         //Stops the collector after confirmation
