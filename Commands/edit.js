@@ -1,11 +1,12 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
+const post = require("../post.js")
 
 module.exports = {
 	name: 'edit',
 	alises: ["e"],
-	async execute(message, args) {
+	async execute(client, message, args) {
 		var categoryTitle, sectionTitle, categoryMsg, embedMessage, oldMessage, newMsg = ""
 		var categoryConfirm, foundSection, sectionConfirm, received = false
 		var oldMsgID = 0
@@ -173,7 +174,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-					//replacement for post edit function
+					// post.post(client, message, "", "edit", categoryMsg[0].categoryTitle)
 					message.channel.send("Message edited.")
 				
 				} 

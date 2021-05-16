@@ -124,7 +124,7 @@ module.exports = {
 					//records new entry in database
 				}
 
-				post.post(message, message.guild.id, "initialize", "")
+				post.post("", message, message.guild.id, "initialize", "")
 				return message.channel.send("Settings configured!")
 
 			} else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {

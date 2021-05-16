@@ -5,7 +5,7 @@ const {noAlias, cancelAlias} = require("../constants.js")
 module.exports = {
 	name: 'delete',
 	alises: ["d", "del"],
-	async execute(message, args) {
+	async execute(client, message, args) {
 		let messageID = args[0]
 		var channelID = args[1]
 		var sectionConfirm = false

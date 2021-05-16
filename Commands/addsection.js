@@ -9,7 +9,7 @@ const entrySchema = {
 module.exports = {
     name: "addsection",
     alises: ["as", "adds"],
-    async execute(message, args) {
+    async execute(client, message, args) {
 		var sectionName, categoryName, categoryMsg = ""
 		let guideCollection = dbClient.db("skyblockGuide").collection("Guides")
         var categoryConfirm = false

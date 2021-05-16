@@ -9,7 +9,7 @@ const capitalizeString = str => {
 module.exports = {
 	name: 'approve',
 	alises: ["a"],
-	async execute(message, args) {
+	async execute(client, message, args) {
 		var messageID, categoryTitle, sectionTitle, suggestion, categoryMsg, embedMessage = ""
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")

@@ -20,7 +20,7 @@ var categoryEmbed = {
 module.exports = {
 	name: "addcategory",
 	alises: ["ac", "addc"],
-	execute(message, args) {
+	execute(client, message, args) {
 	  	var categoryChannel, msgID, category, categoryName = ""
 		var channelConfirm = false
 		let guideDB = dbClient.db("skyblockGuide").collection("Guides")

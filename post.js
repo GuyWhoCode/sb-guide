@@ -2,7 +2,7 @@ const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("./constants.js")
 module.exports = {
-    async post (message, serverID, action, changedMsg) {
+    async post (client, message, serverID, action, changedMsg) {
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
@@ -100,7 +100,7 @@ module.exports = {
         } else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
             let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
-            // client.guilds.cache.map(server => server.channels.cache.map(channel => channel.type === "id"))
+            client.guilds.cache.map(server => server.channels.cache.map(channel => channel.type === "id"))
         
         } else if (action == "delete") {
             // Get the settings DB and loop over the Message IDs through each of the servers

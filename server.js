@@ -98,8 +98,7 @@ client.on('message', async (message) => {
 		}
 		//establishes cooldowns
 		if (globalFunctions.checkAliases(restrictedCmds, userCmd.name)) {
-			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(message, args)
-			//rewrite the execute command to parse the client so no edge casing
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(client, message, args)
 			else message.channel.send("You do not have permission to run this command!")
 		} else {
 			userCmd.execute(message, args)
