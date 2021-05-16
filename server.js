@@ -23,7 +23,7 @@ client.on('message', async (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 	
-	console.log(client.guilds)
+	client.guilds.cache.map(server => console.log(server.channels.cache))
 	// let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
 	// let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
 	// let server = findServer[0]
