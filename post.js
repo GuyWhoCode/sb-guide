@@ -1,7 +1,6 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("./constants.js")
-const {client} = require("./server.js")
 module.exports = {
     async post (message, serverID, action, changedMsg) {
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
