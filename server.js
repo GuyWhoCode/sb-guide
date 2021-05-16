@@ -1,7 +1,6 @@
 const {Client} = require("discord.js")
 // const fs = require("fs")
 const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
-const prefix = 'g!'
 
 // client.commands = new Discord.Collection()
 // const commandFiles = fs.readdirSync('./Commands').filter(file => file.endsWith('.js'))
@@ -16,7 +15,7 @@ client.once('ready', () => {
 })
 
 client.on('message', async (message) => {
-	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
+	if (message.author.bot) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
 	const data = {
 		name: 'echo',
