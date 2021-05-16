@@ -101,12 +101,6 @@ module.exports = {
         } else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
             let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
-
-            for (let server in Object.keys(guideMessage[0].messageID)) {
-                client.guilds.map(val => {
-                    console.log(val)
-                })
-            }
             
         
         } else if (action == "delete") {
