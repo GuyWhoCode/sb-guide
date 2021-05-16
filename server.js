@@ -1,6 +1,6 @@
-const Discord = require("discord.js")
+const {Client} = require("discord.js")
 // const fs = require("fs")
-const client = new Discord.Client()
+const client = new Client({ intents: ['GUILDS', 'GUILD_MESSAGES'] });
 const prefix = 'g!'
 
 // client.commands = new Discord.Collection()
