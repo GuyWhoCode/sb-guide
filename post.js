@@ -100,7 +100,7 @@ module.exports = {
         } else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
             let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
-            
+            // client.guilds.cache.map(server => server.channels.cache.map(channel => channel.type === "id"))
         
         } else if (action == "delete") {
             // Get the settings DB and loop over the Message IDs through each of the servers

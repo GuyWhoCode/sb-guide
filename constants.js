@@ -12,7 +12,7 @@ const categorySchema = {
 }
 const sbAlias = ["<#772942075301068820>", "sb", "skyblock", 'Skyblock', 'SB', 'SkyBlock']
 const dAlias = ["<#772944394542121031>","d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
-const restrictedCmds = ['addcategory', 'addsection', 'approve', 'delete', 'edit', 'post', 'start', 'pnda', 'ad']
+const restrictedCmds = ['addcategory', 'addsection', 'approve', 'delete', 'edit', 'start', 'pnda', 'ad']
 const verifiedRoles = ['Verified','VIP', 'VIP+', 'MVP', 'MVP+', 'MVP++']
 const cooldownCmds = ['sbsuggest', 'dsuggest', 'update', 'start']
 const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
