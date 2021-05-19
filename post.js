@@ -100,8 +100,32 @@ module.exports = {
         } else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
             let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
-            client.guilds.cache.map(server => server.channels.cache.map(channel => channel.type === "id"))
-        
+            
+            //update the table of contents message if add category is called with the serverID -- which is not being utilized
+            
+            let allServers = await serverInfo.find({}).toArray()
+            client.guilds.cache.map(server => {
+                let serverInfo;
+                allServers.map(val => val.serverID === server.id ? serverInfo = val : undefined)
+
+                server.channels.cache.map(channel => {
+                    if (channel.id === serverInfo.sbGuideChannelID) {
+                        channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+					        .then(msg => {
+                                console.log(msg)
+					        	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					        })
+                    } 
+                    // else if (channel.id === serverInfo.dGuideChannelID) {
+                    //     // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+					//     //     .then(msg => {
+                    //     //         console.log(msg)
+					//     //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					//     //     })
+                    // }
+                })
+            })
+
         } else if (action == "delete") {
             // Get the settings DB and loop over the Message IDs through each of the servers
         }
