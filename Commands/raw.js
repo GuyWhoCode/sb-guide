@@ -62,7 +62,7 @@ module.exports = {
 			} else if (received) {
 				return message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
 			
-			} else if (!received && msg.content.trim().includes("Category:") && msg.content.trim().includes("Section:") && msg.content.trim().split("Section:")[1].trim() != "" && msg.content.trim().split("Category:")[1].trim() != "") {
+			} else if (!received && msg.content.trim().includes("Category:") && msg.content.trim().includes("Section:") && msg.content.trim().split("Section:").length == 1 && msg.content.trim().split("Category:").length == 1) {
 				collector.stop()
 				let guideMsg = processFile(msg.content.trim())
 				if (guideMsg == undefined) return "The file submitted exceeded Discord's embed character limit. See `g!style` for more info."
