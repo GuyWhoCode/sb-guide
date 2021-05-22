@@ -27,12 +27,14 @@ const processFile = file => {
 		if (sectionHeaders[i+1] == undefined) rawContent = fileLines.slice(parseInt(sectionHeaders[i].split("--")[1])+1, fileLines.length-1).join("\n")
 		else rawContent = fileLines.slice(parseInt(sectionHeaders[i].split("--")[1])+1, sectionHeaders[i+1].split("--")[1]).join("\n")
 		
+		if (rawContent.length >= 1024) return undefined
 		let field = {
-			name: sectionHeaders[i].split("--")[0],
+			name: sectionHeaders[i].split("--")[0].split("Section:")[1],
 			value: rawContent
 		}
 		newGuideEmbed.fields.push(field)
 	}
+	if (globalFunctions.embedCharCount(newGuideEmbed) >= 6000) return undefined
 	newGuideEmbed.timestamp = new Date()
 	return newGuideEmbed
 }
@@ -54,16 +56,21 @@ module.exports = {
 				//stops process if given no/cancel alias
 
 			} else if (received && globalFunctions.checkAliases(yesAlias, msg.content.trim())) {
+				collector.stop()
+				message.channel.send("Guide editted.")
+
+			} else if (received) {
 				return message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
 			
-			} else if (!received) {
+			} else if (!received && msg.content.trim().includes("Category:") && msg.content.trim().includes("Section:") && msg.content.trim().split("Section:")[1].trim() != "" && msg.content.trim().split("Category:")[1].trim() != "") {
 				collector.stop()
-				return message.channel.send({embed: processFile(msg.content.trim())})
-			} 
-			// else {
-			// 	return message.channel.send("Invalid formatting.")
-					
-			// }
+				let guideMsg = processFile(msg.content.trim())
+				if (guideMsg == undefined) return "The file submitted exceeded Discord's embed character limit. See `g!style` for more info."
+				return message.channel.send({embed: guideMsg})
+			
+			} else {
+				return message.channel.send("Invalid formatting. Check to see if this format is followed:\n" +  "```Category:\nSection:\n<Start Guide Message Here>```")
+			}
         })
 	},
 }

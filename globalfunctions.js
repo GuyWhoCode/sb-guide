@@ -71,7 +71,8 @@ module.exports = {
         return logEntry
     },
     embedCharCount(embed) {
-        let msg = embed.embedMessage
+        let msg;
+        embed.embedMessage == undefined ? msg = embed : msg = embed.embedMessage 
         var charCount = msg.title.length
         msg.fields.map(val => {
             charCount += (val.name.length + val.value.length)
