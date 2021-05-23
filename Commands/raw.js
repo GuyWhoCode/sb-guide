@@ -33,6 +33,8 @@ module.exports = {
 	name: 'raw',
     alises: ["r"],
 	execute(client, message, args) {
+
+		if (message.author.id != "294470646425976843") return message.channel.send("You do not have permission to send this command for security purposes.")
 		let categoryMsg, categoryName, guideMsg;
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 		message.channel.send("Enter raw file below. To cancel this process, type `no` or `cancel`. Follow this format or else the file will not parse correctly. You can add multiple sections but only have 1 Category.\n" + "```Category:\nSection:\n<Start Guide Message Here>```")
@@ -64,7 +66,7 @@ module.exports = {
 				})
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-				// logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+				// logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
 				logChannel.send({embed: globalFunctions.logAction("Jake Kizard", "191332103110131712", 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
 				//temprarily placed here to give credit for guides written in raw text format
 				return message.channel.send("Message edited.")
