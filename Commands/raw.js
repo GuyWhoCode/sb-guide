@@ -63,7 +63,9 @@ module.exports = {
 				})
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-				logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+				// logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+				logChannel.send({embed: globalFunctions.logAction("Jake Kizard", "191332103110131712", 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+				//temprarily placed here to give credit for guides written in raw text format
 				return message.channel.send("Message edited.")
 
 			} else if (received) {
@@ -82,6 +84,7 @@ module.exports = {
 				guideMsg = processFile(msg.content.trim(), categoryMsg[0].embedMessage)
 				if (guideMsg == undefined) return message.channel.send("The file submitted exceeded Discord's embed character limit. See `g!style` for more info.")
 				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
+				received = true
 				return message.channel.send({embed: guideMsg})
 			
 			} else {
