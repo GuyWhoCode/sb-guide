@@ -37,6 +37,7 @@ module.exports = {
 			//case when the delete channel is skyblock-guide or dungeons-guide-n-tips
 			let guideDB = dbClient.db("skyblockGuide").collection("Guides")
 			let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
+			//error -- unable to find guide due to backend rework
 			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
 
 			

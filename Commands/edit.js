@@ -44,11 +44,11 @@ module.exports = {
 					guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1}).then(m => {
 						if (m.first().id != categoryMsg[0].messageID[message.guild.id])  {
 							categoryMsg[0].messageID[message.guild.id] = m.first().id 
-							guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-							//replacement for post edit function
 							//updates the ID if it does not match in the database
 						}
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
+						guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+						//replacement for post edit function
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
