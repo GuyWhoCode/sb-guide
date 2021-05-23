@@ -34,6 +34,7 @@ module.exports = {
     alises: ["r"],
 	execute(client, message, args) {
 		let categoryMsg, categoryName, guideMsg, newMsg;
+		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 		message.channel.send("Enter raw file below. To cancel this process, type `no` or `cancel`. Follow this format or else the file will not parse correctly. You can add multiple sections but only have 1 Category.\n" + "```Category:\nSection:\n<Start Guide Message Here>```")
 
 		const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
@@ -72,7 +73,6 @@ module.exports = {
 				return message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
 			
 			} else if (!received && msg.content.trim().includes("Category:") && msg.content.trim().includes("Section:") && msg.content.trim().split("Section:").length != 1 && msg.content.trim().split("Category:").length != 1) {
-				let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
 				newMsg = msg.content.trim().split("\n").slice(1, msg.content.trim().split("\n").length).join("\n")
 				categoryName = msg.content.trim().split("\n")[0].split("Category:")[1].trim()
 				categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
