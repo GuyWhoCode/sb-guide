@@ -9,7 +9,13 @@ module.exports = {
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": serverID}).toArray()
         let dTableOfContents = templateEmbed
+        dTableOfContents.title = "Table of Contents -- Dungeons"
+        dTableOfContents.timestamp = new Date()        
+        
         let sbTableOfContents = templateEmbed
+        sbTableOfContents.title = "Table of Contents -- Skyblock"
+        sbTableOfContents.timestamp = new Date()
+
         // let timeDelay = 0
 
         // if (serverID == "587765474297905158" || serverID == "807319824752443472") {} //do nothing
@@ -43,17 +49,18 @@ module.exports = {
                                 guideMessage.category === "Skyblock" 
                                 ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) 
                                 : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
+                                console.log("Operation complete for " + guideMessage.categoryTitle)
 
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                             })
                         }
                         
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                        await message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                             .send({embed: sbTableOfContents})
                             .then(msg => findServer[0].sbTable = msg.id)
                         //Sends Skyblock Table of Contents   
 
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                        await message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
                             .send({embed: dTableOfContents})
                             .then(msg => findServer[0].dTable = msg.id)
                         //Sends Dungeon Table of Contents
@@ -89,13 +96,13 @@ module.exports = {
                         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                     })
                 }
-                
-                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+
+                await message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                     .send({embed: sbTableOfContents})
                     .then(msg => findServer[0].sbTable = msg.id)
                 //Sends Skyblock Table of Contents   
 
-                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                await message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
                     .send({embed: dTableOfContents})
                     .then(msg => findServer[0].dTable = msg.id)
                 //Sends Dungeon Table of Contents
