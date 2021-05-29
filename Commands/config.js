@@ -116,7 +116,7 @@ module.exports = {
 				if (serverSetting != undefined) {
 					if (findServer[0].initialization) newEntry.initialization = true
 					findServer[0].numberConfig == undefined ? newEntry.numberConfig += 1 : newEntry.numberConfig = findServer[0].numberConfig + 1
-					findServer[0].lastUpdated == undefined ? newEntry.lastUpdated = Date.now() : newEntry.lastUpdated = findServer[0].lastUpdated
+					findServer[0].lastUpdated == 0 ? newEntry.lastUpdated = Date.now() : newEntry.lastUpdated = findServer[0].lastUpdated
 					
 					settingsDB.updateOne({"serverID": message.guild.id}, {$set: newEntry})
 					//edge case if entry exists. Updates current entry.

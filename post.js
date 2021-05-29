@@ -1,6 +1,7 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffliates, skycommPartners} = require("./constants.js")
+
 module.exports = {
     async post (client, message, serverID, action, changedMsg) {
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
@@ -35,11 +36,11 @@ module.exports = {
                             
                             if (guideMessage.category === "Skyblock") {
                                 guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                                sbTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                                sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
                                 
                             } else {
                                 guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                                dTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                                dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
                                 
                             } 
 
@@ -82,11 +83,11 @@ module.exports = {
                     
                     if (guideMessage.category === "Skyblock") {
                         guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                        sbTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                        sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
                         
                     } else {
                         guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                        dTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                        dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
                         
                     } 
 
@@ -134,12 +135,26 @@ module.exports = {
 
                         channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
                             .then(msg => {
-                                console.log(msg)
-                                // msg.first().delete()
+                                if (guideMessage[0].sbTable != msg.id) break;
+                                //if the msg id fetched doesn't match, assume the message is lost/deleted
+                                msg.first().delete()
                             })
-                        
-                        //updates the table of contents by deleting the message and then resends it
 
+                        await globalFunctions.tableOfContents("Skyblock", serverID)
+                            .then(val => 
+                                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                                .send({embed: val})
+                                .then(msg => findServer[0].sbTable = msg.id))
+                        
+
+                        await globalFunctions.tableOfContents("Dungeons", serverID)
+                            .then(val => 
+                                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                                    .send({embed: val})
+                                    .then(msg => findServer[0].dTable = msg.id))
+                        //Updates the table of contents by deleting the message and then resends it
+                        await serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
+                        
                     } 
                     // else if (channel.id === serverInfo.dGuideChannelID) {
                     //     // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})

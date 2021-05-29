@@ -107,6 +107,7 @@ client.on('message', async (message) => {
 
 	} catch (error) {
 		message.channel.send("There was an error in excuting that command. Run `g!help` to see a list of possible commands.")
+		console.log(error)
 	}
 
 })
