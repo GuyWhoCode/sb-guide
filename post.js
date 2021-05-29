@@ -135,9 +135,8 @@ module.exports = {
 
                         channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
                             .then(msg => {
-                                if (guideMessage[0].sbTable != msg.id) break;
+                                if (guideMessage[0].sbTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
-                                msg.first().delete()
                             })
 
                         await globalFunctions.tableOfContents("Skyblock", serverID)
