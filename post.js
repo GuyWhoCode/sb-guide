@@ -1,12 +1,13 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
-const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("./constants.js")
+const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffliates, skycommPartners} = require("./constants.js")
 module.exports = {
     async post (client, message, serverID, action, changedMsg) {
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": serverID}).toArray()
+        let sbTableOfContents, dTableOfContents = templateEmbed
         // let timeDelay = 0
 
         // if (serverID == "587765474297905158" || serverID == "807319824752443472") {} //do nothing
@@ -30,7 +31,16 @@ module.exports = {
                         for (let guideMessage of guides) {
                             let guideChannel = "";
                             if (guideMessage.category === "resource") break;
-                            guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                            
+                            if (guideMessage.category === "Skyblock") {
+                                guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                                sbTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                                
+                            } else {
+                                guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                                dTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                                
+                            } 
 
                             guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                                 message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
@@ -39,23 +49,21 @@ module.exports = {
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                             })
                         }
-                        await globalFunctions.tableOfContents("Skyblock", serverID)
-                            .then(val => 
-                                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                                    .send({embed: val})
-                                    .then(msg => findServer[0].sbTable = msg.id))
-                                
-                        await globalFunctions.tableOfContents("Dungeons", serverID)
-                            .then(val => 
-                                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                                    .send({embed: val})
-                                    .then(msg => findServer[0].dTable = msg.id))
                         
-                        
+                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                            .send({embed: sbTableOfContents})
+                            .then(msg => findServer[0].sbTable = msg.id)
+                        //Sends Skyblock Table of Contents   
+
+                        message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                            .send({embed: dTableOfContents})
+                            .then(msg => findServer[0].dTable = msg.id)
+                        //Sends Dungeon Table of Contents
+
                         await serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
-                        //Copied lines 78-91 as Message Collectors do not properly exit after returning
                         return message.channel.send("Initialization complete!")
-                    
+                        //Copied lines 78-111 as Message Collectors do not properly exit after returning
+
                     } else if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())) {
                         collector.stop()
                         //Stops the collector after confirmation
@@ -70,7 +78,16 @@ module.exports = {
                 for (let guideMessage of guides) {
                     let guideChannel = "";
                     if (guideMessage.category === "resource") break;
-                    guideMessage.category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID) : guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                    
+                    if (guideMessage.category === "Skyblock") {
+                        guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                        sbTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                        
+                    } else {
+                        guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                        dTableOfContents.fields.push({name: val.categoryTitle, value: globalFunctions.makeMsgLink(val.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
+                        
+                    } 
 
                     guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                         message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
@@ -79,19 +96,16 @@ module.exports = {
                         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                     })
                 }
-                findServer[0].initialization = true
-                await globalFunctions.tableOfContents("Skyblock", serverID)
-                    .then(val => 
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                            .send({embed: val})
-                            .then(msg => findServer[0].sbTable = msg.id))
-                                
-                await globalFunctions.tableOfContents("Dungeons", serverID)
-                    .then(val => 
-                        message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                            .send({embed: val})
-                            .then(msg => findServer[0].dTable = msg.id))
                 
+                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
+                    .send({embed: sbTableOfContents})
+                    .then(msg => findServer[0].sbTable = msg.id)
+                //Sends Skyblock Table of Contents   
+
+                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
+                    .send({embed: dTableOfContents})
+                    .then(msg => findServer[0].dTable = msg.id)
+                //Sends Dungeon Table of Contents
                 
                 await serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
                 return message.channel.send("Initialization complete!")

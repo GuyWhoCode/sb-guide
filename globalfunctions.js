@@ -1,4 +1,4 @@
-const {categorySchema, suggestionSchema} = require("./constants.js")
+const {categorySchema, suggestionSchema, templateEmbed} = require("./constants.js")
 const {dbClient} = require("./mongodb.js") 
 
 const makeMsgLink = (msgID, categoryID, serverID) => {
@@ -108,19 +108,7 @@ module.exports = {
     },
     makeMsgLink: makeMsgLink,
     async tableOfContents(category, guildID) {
-        let listEmbed = {
-            color: 0x4ea8de,
-            title: 'Placeholder',
-            description: "",
-            fields: [{
-                name: "_ _",
-                value: "_ _"
-            }],
-            footer: {
-                text: 'Skyblock Guides',
-                icon_url: "https://i.imgur.com/184jyne.png",
-            },
-        }
+        let listEmbed = templateEmbed
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
         let categoryList = await categoryCollection.find({"category": category}).toArray()
     
@@ -129,7 +117,7 @@ module.exports = {
         let categoryID = ""
         category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
         
-        await categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
+        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
         listEmbed.timestamp = new Date()
         listEmbed.title = "Table of Contents -- " + category
         

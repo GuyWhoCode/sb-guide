@@ -14,7 +14,7 @@ const sbAlias = ["<#772942075301068820>", "sb", "skyblock", 'Skyblock', 'SB', 'S
 const dAlias = ["<#772944394542121031>","d", "dungeons", "dung", "Dungeons", "D", "dungeon", "Dungeon", "Dung"]
 const restrictedCmds = ['addcategory', 'addsection', 'approve', 'delete', 'edit', 'start', 'pnda', 'style', 'raw']
 const verifiedRoles = ['Verified','VIP', 'VIP+', 'MVP', 'MVP+', 'MVP++']
-const cooldownCmds = ['sbsuggest', 'dsuggest', 'start']
+const cooldownCmds = ['sbsuggest', 'dsuggest', 'start', 'search', 'listcategories']
 const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
 const noAlias = ["no", "NO", "No", "n", "N"]
 const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
@@ -39,7 +39,19 @@ const adEmbed = {
 		icon_url: "https://i.imgur.com/184jyne.png",
 	},
 }
-
+const templateEmbed = {
+    color: 0x4ea8de,
+    title: 'Placeholder',
+    description: "",
+    fields: [{
+        name: "_ _",
+        value: "_ _"
+    }],
+    footer: {
+        text: 'Skyblock Guides',
+        icon_url: "https://i.imgur.com/184jyne.png",
+    },
+}
 module.exports = {
     suggestionSchema: suggestionSchema,
     categorySchema: categorySchema,
@@ -55,4 +67,5 @@ module.exports = {
     adEmbed: adEmbed,
     skycommAffliates: skycommAffliates,
     skycommPartners: skycommPartners,
+    templateEmbed: templateEmbed
 }

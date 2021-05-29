@@ -78,6 +78,7 @@ module.exports = {
 			
 			return message.channel.send("To change the configuration, run `g!config change`")
 		}
+		else if (args[0] == undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
 		else if (args[0].trim().toLowerCase() != "change" && serverSetting != undefined) return message.channel.send("Check the spelling of the command. `g!config change`")
 		//case if the server is found
 
