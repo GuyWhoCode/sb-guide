@@ -109,13 +109,23 @@ module.exports = {
                 allServers.map(val => val.serverID === server.id ? serverInfo = val : undefined)
 
                 server.channels.cache.map(channel => {
-                    // if (channel.id === serverInfo.sbGuideChannelID) {
-                    //     channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
-					//         .then(msg => {
-                    //             console.log(msg)
-					//         	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
-					//         })
-                    // } 
+                    if (channel.id === serverInfo.sbGuideChannelID) {
+                        // channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+					    //     .then(msg => {
+                        //         console.log(msg)
+					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					    //     })
+                        //updates the guide message
+
+                        channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
+                            .then(msg => {
+                                console.log(msg)
+                                // msg.first().delete()
+                            })
+                        
+                        //updates the table of contents by deleting the message and then resends it
+
+                    } 
                     // else if (channel.id === serverInfo.dGuideChannelID) {
                     //     // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
 					//     //     .then(msg => {

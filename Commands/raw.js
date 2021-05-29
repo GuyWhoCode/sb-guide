@@ -5,25 +5,30 @@ const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
 const processFile = (file, oldGuideMsg) => {
 	let fileLines = file.split("\n")
 	let sectionHeaders = fileLines
-		.map((val, index) => val.includes("Section:") || val.toLowerCase().trim().includes("Section:") ? val += "--" + index : undefined)
+		.map((val, index) => val.includes("Section:") ? val += "--" + index : undefined)
 		.filter(val => val != undefined)
+	//Gets the section header by reading every file line and seeing if 'Section:' indicator exists. Stores in a `value--index` format to prevent reading entire file again
 
 	for (var i=0; i<sectionHeaders.length; i++) {
 		let rawContent, sectionName;
 		if (sectionHeaders[i+1] == undefined) rawContent = fileLines.slice(parseInt(sectionHeaders[i].split("--")[1])+1, fileLines.length).join("\n")
 		else rawContent = fileLines.slice(parseInt(sectionHeaders[i].split("--")[1])+1, sectionHeaders[i+1].split("--")[1]).join("\n")
-		
+		//General Process of getting Raw Content: Remove the Category and Section indicators and get the text between each section. There can be multiple sections, so an edge case is used for selecting the last section.
+
 		if (rawContent.length >= 1024) return undefined
-		
+		//Edge case for Discord embed field character limit of 1024.
+
 		sectionName = sectionHeaders[i].split("--")[0].split("Section:")[1].trim()
 		let field = {
 			name: sectionName,
 			value: rawContent
 		}
 		oldGuideMsg.fields.map((val, index) => val.name == sectionName ? oldGuideMsg.fields[index] = field : undefined).filter(val => val != undefined).length == 0 ? oldGuideMsg.fields.push(field) : undefined
-		
+		//Adjusts the existing guide message. If a section in the file matches an existing section, edit the section object. Otherwise, add a new section to the guide message.
+
 	}
 	if (globalFunctions.embedCharCount(oldGuideMsg) >= 6000) return undefined
+	//Edge case for Discord embed character limit of 6000.
 	oldGuideMsg.timestamp = new Date()
 	return oldGuideMsg
 }
@@ -73,9 +78,12 @@ module.exports = {
 
 			} else if (received) {
 				return message.channel.send("Invalid response. Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`.")
-			
+				//Message weeder to prevent any other response besides `yes` or `no`
+
 			} else if (!received && msg.content.trim().includes("Category:") && msg.content.trim().includes("Section:") && msg.content.trim().split("Section:").length != 1 && msg.content.trim().split("Category:").length != 1) {
+				//Various edge cases involved -- See if the `Category:` and `Section:` indicators exist and that they aren't empty
 				categoryName = msg.content.trim().split("\n")[0].split("Category:")[1].trim()
+				//Reads the Category name from the first line
 				categoryMsg = await guidesDB.find({"categoryTitle": { $regex: new RegExp(categoryName, "i") } }).toArray()
 				if (categoryMsg[0] == undefined) {
 					collector.stop()
@@ -85,11 +93,13 @@ module.exports = {
 				guideMsg = processFile(msg.content.trim(), categoryMsg[0].embedMessage)
 				if (guideMsg == undefined) return message.channel.send("The file submitted exceeded Discord's embed character limit. See `g!style` for more info.")
 				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
+				//Translating error message to the user.
 				received = true
 				return message.channel.send({embed: guideMsg})
 			
 			} else {
 				return message.channel.send("Invalid formatting. Check to see if this format is followed:\n" +  "```Category:\nSection:\n<Start Guide Message Here>```")
+				//Catch all edge case when all other conditionals fail
 			}
         })
 	},

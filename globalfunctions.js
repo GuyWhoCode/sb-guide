@@ -129,7 +129,7 @@ module.exports = {
         let categoryID = ""
         category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
         
-        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
+        await categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
         listEmbed.timestamp = new Date()
         listEmbed.title = "Table of Contents -- " + category
         
