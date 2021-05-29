@@ -7,7 +7,8 @@ module.exports = {
         
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": serverID}).toArray()
-        let sbTableOfContents, dTableOfContents = templateEmbed
+        let dTableOfContents = templateEmbed
+        let sbTableOfContents = templateEmbed
         // let timeDelay = 0
 
         // if (serverID == "587765474297905158" || serverID == "807319824752443472") {} //do nothing
