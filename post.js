@@ -34,20 +34,16 @@ module.exports = {
                             let guideChannel = "";
                             if (guideMessage.category === "resource") break;
                             
-                            if (guideMessage.category === "Skyblock") {
-                                guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                                sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
-                                
-                            } else {
-                                guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                                dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
-                                
-                            } 
-
+                            guideMessage.category === "Skyblock" ? (guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)) : (guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID))
+        
                             guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                                 message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                             }).then(msg => {
                                 guideMessage.messageID[serverID] = msg.id
+                                guideMessage.category === "Skyblock" 
+                                ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) 
+                                : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
+
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                             })
                         }
@@ -81,20 +77,15 @@ module.exports = {
                     let guideChannel = "";
                     if (guideMessage.category === "resource") break;
                     
-                    if (guideMessage.category === "Skyblock") {
-                        guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                        sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
-                        
-                    } else {
-                        guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                        dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(guideMessage.messageID[serverID], findServer[0].sbGuideChannelID, serverID)})
-                        
-                    } 
+                    guideMessage.category === "Skyblock" ? (guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)) : (guideChannel = message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID))
 
                     guideChannel.send({embed: guideMessage.embedMessage}).catch(err => {
                         message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                     }).then(msg => {
                         guideMessage.messageID[serverID] = msg.id
+                        guideMessage.category === "Skyblock" 
+                            ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) 
+                            : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
                         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                     })
                 }
@@ -133,36 +124,38 @@ module.exports = {
 					    //     })
                         //updates the guide message
 
-                        channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
+                        await channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
                             .then(msg => {
                                 if (guideMessage[0].sbTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
                             })
 
                         await globalFunctions.tableOfContents("Skyblock", serverID)
-                            .then(val => 
-                                message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
-                                .send({embed: val})
-                                .then(msg => findServer[0].sbTable = msg.id))
-                        
+                            .then(val => channel.send({embed: val}).then(msg => serverInfo[0].sbTable = msg.id))
+                        //Deletes and resends the Skyblock Table of Contents
+                    
+                    } 
+                    else if (channel.id === serverInfo.dGuideChannelID) {
+                        // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+					    //     .then(msg => {
+                        //         console.log(msg)
+					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					    //     })
+
+                        await channel.messages.fetch({around: guideMessage[0].dTable, limit: 1})
+                            .then(msg => {
+                                if (guideMessage[0].dTable == msg.id) msg.first().delete()
+                                //if the msg id fetched doesn't match, assume the message is lost/deleted
+                            })
 
                         await globalFunctions.tableOfContents("Dungeons", serverID)
-                            .then(val => 
-                                message.guild.channels.cache.find(ch => ch.id === findServer[0].dGuideChannelID)
-                                    .send({embed: val})
-                                    .then(msg => findServer[0].dTable = msg.id))
-                        //Updates the table of contents by deleting the message and then resends it
-                        await serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
-                        
-                    } 
-                    // else if (channel.id === serverInfo.dGuideChannelID) {
-                    //     // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
-					//     //     .then(msg => {
-                    //     //         console.log(msg)
-					//     //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
-					//     //     })
-                    // }
+                            .then(val => channel.send({embed: val}).then(msg => serverInfo[0].dTable = msg.id))
+                        //Deletes and resends the Dungeon Table of Contents
+                    }
                 })
+                
+                serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
+                console.log("Operation complete!")
             })
 
         } else if (action == "delete") {
