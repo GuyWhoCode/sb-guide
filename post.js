@@ -46,9 +46,7 @@ module.exports = {
                                 message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                             }).then(msg => {
                                 guideMessage.messageID[serverID] = msg.id
-                                guideMessage.category === "Skyblock" 
-                                ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) 
-                                : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
+                                guideMessage.category === "Skyblock" ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
                                 console.log("Operation complete for " + guideMessage.categoryTitle)
 
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
@@ -90,9 +88,7 @@ module.exports = {
                         message.channel.send("Oops! Something went wrong. If this continues, contact Mason#9718. Error Message: " + err)
                     }).then(msg => {
                         guideMessage.messageID[serverID] = msg.id
-                        guideMessage.category === "Skyblock" 
-                            ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) 
-                            : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
+                        guideMessage.category === "Skyblock" ? (sbTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].sbGuideChannelID, serverID)})) : (dTableOfContents.fields.push({name: guideMessage.categoryTitle, value: globalFunctions.makeMsgLink(msg.id, findServer[0].dGuideChannelID, serverID)}))
                         guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                     })
                 }
@@ -134,10 +130,11 @@ module.exports = {
                         await channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
                             .then(msg => {
                                 if (guideMessage[0].sbTable == msg.id) msg.first().delete()
+                                console.log("SB TOS: " + msg)
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
                             })
 
-                        await globalFunctions.tableOfContents("Skyblock", serverID)
+                        await globalFunctions.tableOfContents("Skyblock", server.id)
                             .then(val => channel.send({embed: val}).then(msg => serverInfo[0].sbTable = msg.id))
                         //Deletes and resends the Skyblock Table of Contents
                     
@@ -153,9 +150,10 @@ module.exports = {
                             .then(msg => {
                                 if (guideMessage[0].dTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
+                                console.log("D TOS: " + msg)
                             })
 
-                        await globalFunctions.tableOfContents("Dungeons", serverID)
+                        await globalFunctions.tableOfContents("Dungeons", server.id)
                             .then(val => channel.send({embed: val}).then(msg => serverInfo[0].dTable = msg.id))
                         //Deletes and resends the Dungeon Table of Contents
                     }
