@@ -108,7 +108,7 @@ module.exports = {
     },
     makeMsgLink: makeMsgLink,
     async tableOfContents(category, guildID) {
-        let listEmbed = templateEmbed
+        let listEmbed = Object.create(templateEmbed)
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
         let categoryList = await categoryCollection.find({"category": category}).toArray()
         categoryList.map(val => console.log(val))

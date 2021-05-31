@@ -8,11 +8,11 @@ module.exports = {
         
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": serverID}).toArray()
-        let dTableOfContents = templateEmbed
+        let dTableOfContents = Object.create(templateEmbed)
         dTableOfContents.title = "Table of Contents -- Dungeons"
         dTableOfContents.timestamp = new Date()        
         
-        let sbTableOfContents = templateEmbed
+        let sbTableOfContents = Object.create(templateEmbed)
         sbTableOfContents.title = "Table of Contents -- Skyblock"
         sbTableOfContents.timestamp = new Date()
 
