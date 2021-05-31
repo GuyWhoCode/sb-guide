@@ -119,28 +119,26 @@ module.exports = {
                 allServers.map(val => val.serverID === server.id ? serverSettings = val : undefined)
 
                 server.channels.cache.map(async(channel) => {
-                    if (channel.id === serverSettings.sbGuideChannelID) {
-                        // channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
-					    //     .then(msg => {
-                        //         console.log(msg)
-					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
-					    //     })
-                        //updates the guide message
+                    // if (channel.id === serverSettings.sbGuideChannelID) {
+                    //     // channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+					//     //     .then(msg => {
+                    //     //         console.log(msg)
+					//     //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
+					//     //     })
+                    //     //updates the guide message
 
-                        await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
-                            .then(msg => {
-                                if (serverInfo.sbTable == msg.id) msg.first().delete()
-                                console.log(msg)
-                                console.log("SB TOS above")
-                                //if the msg id fetched doesn't match, assume the message is lost/deleted
-                            })
+                    //     await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
+                    //         .then(msg => {
+                    //             if (serverInfo.sbTable == msg.id) msg.first().delete()
+                    //             //if the msg id fetched doesn't match, assume the message is lost/deleted
+                    //         })
 
-                        await globalFunctions.tableOfContents("Skyblock", server.id)
-                            .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
-                        //Deletes and resends the Skyblock Table of Contents
+                    //     await globalFunctions.tableOfContents("Skyblock", server.id)
+                    //         .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
+                    //     //Deletes and resends the Skyblock Table of Contents
                     
-                    } 
-                    else if (channel.id === serverInfo.dGuideChannelID) {
+                    // } 
+                    if (channel.id === serverInfo.dGuideChannelID) {
                         // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
 					    //     .then(msg => {
                         //         console.log(msg)
@@ -151,8 +149,6 @@ module.exports = {
                             .then(msg => {
                                 if (serverInfo.dTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
-                                console.log(msg)
-                                console.log("D TOS: " + msg)
                             })
 
                         await globalFunctions.tableOfContents("Dungeons", server.id)
