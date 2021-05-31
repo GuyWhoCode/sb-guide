@@ -1,5 +1,5 @@
 const {dbClient} = require("./mongodb.js")
-const globalFunctions = require("./globalfunctions.js")
+
 const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffliates, skycommPartners} = require("./constants.js")
 
 module.exports = {
@@ -115,11 +115,11 @@ module.exports = {
             
             let allServers = await serverInfo.find({}).toArray()
             client.guilds.cache.map(server => {
-                let serverInfo;
-                allServers.map(val => val.serverID === server.id ? serverInfo = val : undefined)
+                let serverSettings;
+                allServers.map(val => val.serverID === server.id ? serverSettings = val : undefined)
 
                 server.channels.cache.map(async(channel) => {
-                    if (channel.id === serverInfo.sbGuideChannelID) {
+                    if (channel.id === serverSettings.sbGuideChannelID) {
                         // channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
 					    //     .then(msg => {
                         //         console.log(msg)
@@ -127,15 +127,16 @@ module.exports = {
 					    //     })
                         //updates the guide message
 
-                        await channel.messages.fetch({around: guideMessage[0].sbTable, limit: 1})
+                        await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
                             .then(msg => {
-                                if (guideMessage[0].sbTable == msg.id) msg.first().delete()
-                                console.log("SB TOS: " + msg)
+                                if (serverInfo.sbTable == msg.id) msg.first().delete()
+                                console.log(msg)
+                                console.log("SB TOS above")
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
                             })
 
                         await globalFunctions.tableOfContents("Skyblock", server.id)
-                            .then(val => channel.send({embed: val}).then(msg => serverInfo[0].sbTable = msg.id))
+                            .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
                         //Deletes and resends the Skyblock Table of Contents
                     
                     } 
@@ -146,20 +147,21 @@ module.exports = {
 					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					    //     })
 
-                        await channel.messages.fetch({around: guideMessage[0].dTable, limit: 1})
+                        await channel.messages.fetch({around: serverInfo.dTable, limit: 1})
                             .then(msg => {
-                                if (guideMessage[0].dTable == msg.id) msg.first().delete()
+                                if (serverInfo.dTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
+                                console.log(msg)
                                 console.log("D TOS: " + msg)
                             })
 
                         await globalFunctions.tableOfContents("Dungeons", server.id)
-                            .then(val => channel.send({embed: val}).then(msg => serverInfo[0].dTable = msg.id))
+                            .then(val => channel.send({embed: val}).then(msg => serverInfo.dTable = msg.id))
                         //Deletes and resends the Dungeon Table of Contents
                     }
                 })
                 
-                serverInfo.updateOne({"serverID": message.guild.id}, {$set: findServer[0]})
+                serverInfo.updateOne({"serverID": server.id}, {$set: serverInfo})
                 console.log("Operation complete!")
             })
 
@@ -168,3 +170,5 @@ module.exports = {
         }
     }
 }
+const globalFunctions = require("./globalfunctions.js")
+console.log(globalFunctions.tableOfContents("Dungeons", "587765474297905158"))

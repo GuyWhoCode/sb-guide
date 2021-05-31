@@ -111,7 +111,10 @@ module.exports = {
         let listEmbed = templateEmbed
         let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
         let categoryList = await categoryCollection.find({"category": category}).toArray()
-    
+        categoryList.map(val => console.log(val))
+        //debug -- currently returning every single guide
+        console.log("Category: " + category)
+
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": guildID}).toArray()
         let categoryID = ""
