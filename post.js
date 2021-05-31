@@ -157,7 +157,8 @@ module.exports = {
                     }
                 })
                 
-                serverInfo.updateOne({"serverID": server.id}, {$set: serverInfo})
+                console.log(serverInfo)
+                // serverInfo.updateOne({"serverID": server.id}, {$set: serverInfo})
                 console.log("Operation complete!")
             })
 
