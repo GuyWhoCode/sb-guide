@@ -109,7 +109,7 @@ module.exports = {
         
         } else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
-            let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
+            // let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
             
             //update the table of contents message if add category is called with the serverID -- which is not being utilized
             
@@ -120,7 +120,7 @@ module.exports = {
 
                 server.channels.cache.map(async(channel) => {
                     // if (channel.id === serverSettings.sbGuideChannelID) {
-                    //     // channel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+                    //     // channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
 					//     //     .then(msg => {
                     //     //         console.log(msg)
 					//     //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
@@ -138,27 +138,26 @@ module.exports = {
                     //     //Deletes and resends the Skyblock Table of Contents
                     
                     // } 
-                    if (channel.id === serverInfo.dGuideChannelID) {
-                        // guideChannel.messages.fetch({around: guideMessage[0][serverInfo.serverID], limit: 1})
+                    if (channel.id === serverSettings.dGuideChannelID) {
+                        // guideChannel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
 					    //     .then(msg => {
                         //         console.log(msg)
 					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					    //     })
 
-                        await channel.messages.fetch({around: serverInfo.dTable, limit: 1})
+                        await channel.messages.fetch({around: serverSettings.dTable, limit: 1})
                             .then(msg => {
-                                if (serverInfo.dTable == msg.id) msg.first().delete()
+                                if (serverSettings.dTable == msg.id) msg.first().delete()
                                 //if the msg id fetched doesn't match, assume the message is lost/deleted
                             })
 
                         await globalFunctions.tableOfContents("Dungeons", server.id)
-                            .then(val => channel.send({embed: val}).then(msg => serverInfo.dTable = msg.id))
+                            .then(val => channel.send({embed: val}).then(msg => serverSettings.dTable = msg.id))
                         //Deletes and resends the Dungeon Table of Contents
                     }
                 })
                 
-                console.log(serverInfo)
-                // serverInfo.updateOne({"serverID": server.id}, {$set: serverInfo})
+                serverInfo.updateOne({"serverID": server.id}, {$set: serverSettings})
                 console.log("Operation complete!")
             })
 
