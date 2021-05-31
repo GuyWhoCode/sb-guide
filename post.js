@@ -1,5 +1,5 @@
 const {dbClient} = require("./mongodb.js")
-
+const globalFunctions = require("./globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffliates, skycommPartners} = require("./constants.js")
 
 module.exports = {
@@ -170,5 +170,3 @@ module.exports = {
         }
     }
 }
-const globalFunctions = require("./globalfunctions.js")
-console.log(globalFunctions.tableOfContents("Dungeons", "587765474297905158"))
