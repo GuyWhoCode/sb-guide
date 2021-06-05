@@ -1,10 +1,10 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {noAlias, cancelAlias} = require("../constants.js")
+const post = require("../post.js")
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)
 }
-
 
 module.exports = {
 	name: 'approve',
@@ -68,7 +68,9 @@ module.exports = {
 					})
 					
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
-					
+					// post.post(client, message, "", "edit", categoryTitle)
+					//post function
+		
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 					
@@ -166,7 +168,8 @@ module.exports = {
 		})
 		
 		guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-		//replacement for post edit function
+		// post.post(client, message, "", "edit", categoryTitle)
+		//post function
 		let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 		logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 		

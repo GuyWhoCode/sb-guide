@@ -59,8 +59,6 @@ client.on('message', async (message) => {
 	if (!cooldowns.has("sbsuggest")) cooldowns.set("sbsuggest", new Discord.Collection())
 	if (!cooldowns.has("dsuggest")) cooldowns.set("dsuggest", new Discord.Collection())
 	if (!cooldowns.has("start")) cooldowns.set("start", new Discord.Collection())
-	if (!cooldowns.has("listcategories")) cooldowns.set("listcategories", new Discord.Collection())
-	if (!cooldowns.has("search")) cooldowns.set("search", new Discord.Collection())
 
 	const now = Date.now()
 

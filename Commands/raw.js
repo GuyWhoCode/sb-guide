@@ -1,6 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
+const post = require("../post.js")
 
 const processFile = (file, oldGuideMsg) => {
 	let fileLines = file.split("\n")

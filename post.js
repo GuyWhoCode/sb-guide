@@ -9,10 +9,12 @@ module.exports = {
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": serverID}).toArray()
         let dTableOfContents = Object.create(templateEmbed)
+        dTableOfContents.fields = [{name: "_ _", value: "_ _" }]
         dTableOfContents.title = "Table of Contents -- Dungeons"
         dTableOfContents.timestamp = new Date()        
         
         let sbTableOfContents = Object.create(templateEmbed)
+        sbTableOfContents.fields = [{name: "_ _", value: "_ _" }]
         sbTableOfContents.title = "Table of Contents -- Skyblock"
         sbTableOfContents.timestamp = new Date()
 
@@ -107,44 +109,90 @@ module.exports = {
                 return message.channel.send("Initialization complete!")
             }
         
-        } else if (action == "edit") {
+            
+        } 
+
+        else if (action == "edit") {
             // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
             // let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
             
             //update the table of contents message if add category is called with the serverID -- which is not being utilized
             
+            // const queue = (action, name, changedMsg) => {
+            //     let entry = {
+            //         timeChanged: Date.now(),
+            //         actionMade: action,
+            //         categoryName: name,
+            //         changedMessage: changedMsg
+            //     }
+            //     return entry
+            // }
+            
+            // dbClient.connect(async (err) => {
+            //     console.log("Connected to database!")
+            //     let sampleMsg = {
+            //         fields: {name:"wahoo", value:"weee"},
+            //         title: "SampleTest"
+            //     }
+            //     let sampleTitle = "SampleTest"
+                
+            //     let queueDB = dbClient.db("skyblockGuide").collection("updateQueue")
+            //     let checkEntry = await queueDB.find({"categoryName": sampleTitle}).toArray()
+            //     checkEntry[0] == undefined ? queueDB.insertOne(queue("Edit", sampleTitle, sampleMsg)) : queueDB.updateOne(queue("Edit", sampleTitle, sampleMsg))
+            //     //Edge case to see if entry already exists. If it does, update it.
+            
+            //     setTimeout(() => {
+            //         let checkQueue = await queueDB.find({}).toArray()
+            //         checkQueue.map(val => {
+            //             if ((Date.now() - val.timeChanged)/1000/60/60 < 1) break;
+            //             //If an item in the queue was changed less than an hour ago, move onto the next entry
+            //             if (val.actionMade == "Edit") {
+            //                 console.log("I am making an edit for " + val.title)
+            //                 //Do edit action here
+            //             } else {
+            //                 console.log("I am deleting " + val.title)
+            //                 //Do delete action here
+            //             }
+            //             queueDB.deleteOne({"categoryName": val.categoryName})
+            //         })
+            //     }, globalFunctions.timeToMS("5s"))
+            //     //Have the code check every 15 minutes or everytime the command is called.
+            // })
+            //---- In-progress queue system to not constantly delete messages upon edits/deletes
+
+
             let allServers = await serverInfo.find({}).toArray()
             client.guilds.cache.map(server => {
                 let serverSettings;
                 allServers.map(val => val.serverID === server.id ? serverSettings = val : undefined)
 
                 server.channels.cache.map(async(channel) => {
-                    // if (channel.id === serverSettings.sbGuideChannelID) {
+                    if (channel.id === serverSettings.sbGuideChannelID) {
                     //     // channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
 					//     //     .then(msg => {
                     //     //         console.log(msg)
 					//     //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					//     //     })
-                    //     //updates the guide message
+                    //     //updates the guide message or deletes it
 
-                    //     await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
-                    //         .then(msg => {
-                    //             if (serverInfo.sbTable == msg.id) msg.first().delete()
-                    //             //if the msg id fetched doesn't match, assume the message is lost/deleted
-                    //         })
+                        await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
+                            .then(msg => {
+                                if (serverInfo.sbTable == msg.id) msg.first().delete()
+                                //if the msg id fetched doesn't match, assume the message is lost/deleted
+                            })
 
-                    //     await globalFunctions.tableOfContents("Skyblock", server.id)
-                    //         .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
-                    //     //Deletes and resends the Skyblock Table of Contents
+                        await globalFunctions.tableOfContents("Skyblock", server.id)
+                            .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
+                        //Deletes and resends the Skyblock Table of Contents
                     
-                    // } 
+                    } 
                     if (channel.id === serverSettings.dGuideChannelID) {
                         // guideChannel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
 					    //     .then(msg => {
                         //         console.log(msg)
 					    //     	// msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					    //     })
-
+                        //     //updates the guide message or deletes it
                         await channel.messages.fetch({around: serverSettings.dTable, limit: 1})
                             .then(msg => {
                                 if (serverSettings.dTable == msg.id) msg.first().delete()
@@ -161,8 +209,6 @@ module.exports = {
                 console.log("Operation complete!")
             })
 
-        } else if (action == "delete") {
-            // Get the settings DB and loop over the Message IDs through each of the servers
-        }
+        } 
     }
 }
