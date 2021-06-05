@@ -1,4 +1,4 @@
-const globalFunctions = require("./globalfunctions.js")
+const globalFunctions = require("../globalfunctions.js")
 module.exports = {
 	name: 'start',
 	execute(client, message, args) {
