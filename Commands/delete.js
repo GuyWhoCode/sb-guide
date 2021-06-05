@@ -72,7 +72,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', sectionInfo, guideMsg[0].categoryTitle)})
 					guideDB.updateOne({"messageID": guideMsg[0].messageID}, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
-					// post.post(client, message, "", "edit", guideMsg[0].categoryTitle)
+					post.post(client, message, "", "Edit", guideMsg[0].embedMessage)
 					// post function
 					return message.channel.send("Section deleted.")
 
@@ -92,7 +92,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
 					logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({"messageID": messageID}))
-					// post.post(client, message, "", "delete", guideMsg[0].categoryTitle)
+					post.post(client, message, "", "Delete", guideMsg[0].embedMessage)
 					// post function
 		
 

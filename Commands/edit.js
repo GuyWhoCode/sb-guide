@@ -48,7 +48,7 @@ module.exports = {
 						}
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 						guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-						// post.post(client, message, "", "edit", categoryTitle)
+						post.post(client, message, "", "Edit", embedMessage)
 						// post function
 					})
 
@@ -166,7 +166,7 @@ module.exports = {
 						if (m.first().id != categoryMsg[0].messageID[message.guild.id])  {
 							categoryMsg[0].messageID[message.guild.id] = m.first().id 
 							guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-							// post.post(client, message, "", "edit", categoryTitle)
+							post.post(client, message, "", "Edit", embedMessage)
 							// post function
 							//updates the ID if it does not match in the database
 						}
