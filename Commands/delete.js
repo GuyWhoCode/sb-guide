@@ -36,11 +36,12 @@ module.exports = {
 
 		} else if (deleteChannel.name === "skyblock-guide" || deleteChannel.name === "dungeons-guide-n-tips") {
 			//case when the delete channel is skyblock-guide or dungeons-guide-n-tips
+			let identifier = {}
+			identifier["messageID."+ message.guild.id] = messageID
 			let guideDB = dbClient.db("skyblockGuide").collection("Guides")
-			let guideMsg = await guideDB.find({"messageID": messageID}).toArray()
-			//error -- unable to find guide due to backend rework
-			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
+			let guideMsg = await guideDB.find(identifier).toArray()
 
+			if (guideMsg[0] == undefined) return message.channel.send("The given message ID was copied wrong. Please check the Message ID.")
 			
 			const filter = msg => msg.author.id === message.author.id && msg.content.length != 0
 			const collector = message.channel.createMessageCollector(filter, {time: globalFunctions.timeToMS("3m")})	
@@ -65,13 +66,14 @@ module.exports = {
 					guideMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
 					
 					guideMsg[0].embedMessage.timestamp = new Date()
-					guideChannel.messages.fetch({around: guideMsg[0].messageID, limit: 1}).then(m => {
+					guideChannel.messages.fetch({around: guideMsg[0].messageID[message.guild.id], limit: 1}).then(m => {
 						m.first().edit({embed: guideMsg[0].embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', sectionInfo, guideMsg[0].categoryTitle)})
-					guideDB.updateOne({"messageID": guideMsg[0].messageID}, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
+					
+					guideDB.updateOne(identifier, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
 					post.post(client, message, "", "Edit", guideMsg[0].embedMessage)
 					// post function
 					return message.channel.send("Section deleted.")
@@ -91,7 +93,7 @@ module.exports = {
 					collector.stop()
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
-					logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({"messageID": messageID}))
+					logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({identifier}))
 					post.post(client, message, "", "Delete", guideMsg[0].embedMessage)
 					// post function
 		
