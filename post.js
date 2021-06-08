@@ -123,8 +123,8 @@ module.exports = {
         }
         //Queue system for Multi-server edit/delete
         let queueDB = dbClient.db("skyblockGuide").collection("updateQueue")
-        let checkEntry = await queueDB.find({"categoryName": sampleTitle}).toArray()
-        checkEntry[0] == undefined ? queueDB.insertOne(queue(action, sampleTitle, sampleMsg)) : queueDB.updateOne(queue(action, sampleTitle, sampleMsg))
+        let checkEntry = await queueDB.find({"categoryName": changedMsg.title}).toArray()
+        checkEntry[0] == undefined ? queueDB.insertOne(queue(action, changedMsg.title, changedMsg)) : queueDB.updateOne(queue(action, changedMsg.title, changedMsg))
         //Edge case to see if entry already exists. If it does, update it.
         
         // let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()

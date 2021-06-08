@@ -74,7 +74,8 @@ module.exports = {
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 				// logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
-				logChannel.send({embed: globalFunctions.logAction("Jake Kizard", "191332103110131712", 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
+				logChannel.send({embed: globalFunctions.logAction("Jake Kizard", "191332103110131712", 'Edit', "Old Guide Message below.", categoryMsg[0].categoryTitle)})
+				logChannel.send({embed: categoryMsg[0].embedMessage})
 				//temprarily placed here to give credit for guides written in raw text format
 				return message.channel.send("Message edited.")
 

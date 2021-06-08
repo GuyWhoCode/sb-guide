@@ -53,7 +53,7 @@ module.exports = {
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', oldMessage, categoryMsg[0].categoryTitle)})
 					return message.channel.send("Message edited.")
 				
 				} else if (categoryConfirm && sectionConfirm && !received) {
@@ -63,7 +63,7 @@ module.exports = {
 						return message.channel.send("Your edited message is over the max character limit (1024). Please shorten the message.")
 					} else  {
 						received = true
-						return message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
+						return message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n```" + newMsg + "```")
 					}
 					
 				} else if (categoryConfirm && !sectionConfirm) {
@@ -174,9 +174,9 @@ module.exports = {
 					})
 
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', newMsg, categoryMsg[0].categoryTitle)})
+					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', oldMessage, categoryMsg[0].categoryTitle)})
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-					// post.post(client, message, "", "edit", categoryMsg[0].categoryTitle)
+					post.post(client, message, "", "Edit", categoryMsg[0].categoryTitle)
 					message.channel.send("Message edited.")
 				
 				} 
@@ -197,7 +197,7 @@ module.exports = {
 					if (msg.content.length >= 1024) {
 						collector.stop()
 						return message.channel.send("Your edited message is over the max character limit (1024). Please shorten the message.")
-					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n`" + newMsg + "`")
+					} else message.channel.send("Please confirm the new message with `yes`. If you want to quit/cancel, type in `no` or `cancel`. " + "\n```" + newMsg + "```")
 				}
 					
 			})

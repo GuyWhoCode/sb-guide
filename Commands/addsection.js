@@ -51,7 +51,7 @@ module.exports = {
 					.then(msg => {
 						msg.first().edit({embed: msgEmbed})
 					})
-
+					//ERROR around here with Value "[object] [object]" not being snowflake; Discord API Error
 					return message.channel.send("Your section has been added!")					
 					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 95-112 is copied and pasted here.
 

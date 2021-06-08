@@ -59,7 +59,7 @@ module.exports = {
             fields: [
                 {
                     name: user + " (" + id + ") has made a change in `" + category + "`",
-                    value: '**Message:**\n ```' + msg + "```",
+                    value: '**Old Message:**\n ```' + msg + "```",
                 },
                 ],
             footer: {

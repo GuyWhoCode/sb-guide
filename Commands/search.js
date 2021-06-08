@@ -38,7 +38,9 @@ module.exports = {
                 }
                 //Exact case matching: If the entire query closely matches the category title, priorityize it first.
                 else {
-
+                    //LOGIC ERROR in word-by-word searching... Need to modify to consider exact word matching
+                    //Test case:
+                    //g!s money should return Common Money Methods instead of Master Mode
                     let closeness = val.categoryTitle
                         .split(" ")
                         .map(word => distance(query, word, {caseSensitive: false}))
@@ -84,6 +86,7 @@ module.exports = {
                 return results[0].item.embedMessage
             }
             //Implements fuzzy searching as a backup search algorithm when the Jaro-winkler algorithm doesn't give a result
+            //NICE TO HAVE --- need to have an default case. Rather than returning the least best result, return a embed that suggests user to clarify/narrow down search
         }
 
         let guideMessage = parseQuery(searchQuery)
