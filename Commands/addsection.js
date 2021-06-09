@@ -33,7 +33,6 @@ module.exports = {
 
 					let msgEmbed = categoryMsg[0].embedMessage
 					msgEmbed.timestamp = new Date()
-					// include edge case here to remove default value
 					
 					var newEntry = Object.create(entrySchema)
 					newEntry.name = sectionName
@@ -51,7 +50,6 @@ module.exports = {
 					.then(msg => {
 						msg.first().edit({embed: msgEmbed})
 					})
-					//ERROR around here with Value "[object] [object]" not being snowflake; Discord API Error
 					return message.channel.send("Your section has been added!")					
 					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 95-112 is copied and pasted here.
 
@@ -102,7 +100,7 @@ module.exports = {
         channelName === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
         if (categoryMsg[0].category === "resource") guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-resources")
         
-        guideChannel.messages.fetch({around: categoryMsg[0].messageID, limit: 1})
+        guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1})
 		.then(msg => {
 			msg.first().edit({embed: msgEmbed})
         })

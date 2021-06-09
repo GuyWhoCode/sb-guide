@@ -1,5 +1,5 @@
-const {dbClient} = require("../mongodb.js")
-const globalFunctions = require("../globalfunctions.js")
+// const {dbClient} = require("../mongodb.js")
+// const globalFunctions = require("../globalfunctions.js")
 const distance = require('jaro-winkler')
 const Fuse = require('fuse.js')
 const options = {
@@ -36,18 +36,35 @@ module.exports = {
                         possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
                     }
                 }
-                //Exact case matching: If the entire query closely matches the category title, priorityize it first.
-                else {
-                    //LOGIC ERROR in word-by-word searching... Need to modify to consider exact word matching
-                    //Test case:
-                    //g!s money should return Common Money Methods instead of Master Mode
+                //Exact case matching: If the entire query closely matches the category title, prioritize it first.
+                
+                else if (query.includes(" ") && val.categoryTitle.toLowerCase().split(" ").map(titleWord => titleWord = query.split(" ").map(queryWord => queryWord = titleWord.includes(queryWord.toLowerCase())).filter(word => word == true).flat()).flat().filter(word => word == true).length >= 1 && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
+                    if (server.jumpSearchEnabled) {
+                        let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
+                        possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
+                    } else {
+                        possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                    }
+                //Exact word matching: If the query has a word that matches a category title, add it to the possible queries.
+                //If a query has multiple words, check to see if any of the words are in the category title
+
+                } else if (val.categoryTitle.toLowerCase().includes(query.toLowerCase()) && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
+                    if (server.jumpSearchEnabled) {
+                        let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
+                        possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
+                    } else {
+                        possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
+                    }
+                //Exact word matching: If the query has a word that matches a categoryt title, add it to the possible queries.
+                //If a query just has a single word, do this
+                
+                } else {
                     let closeness = val.categoryTitle
                         .split(" ")
                         .map(word => distance(query, word, {caseSensitive: false}))
                         .reduce((prev, current) => prev + current)/(val.categoryTitle.split(" ").length)
                     
                     if (closeness > threshold) {
-                        possibleQueries[val.categoryTitle] = closeness
                         if (server.jumpSearchEnabled) {
                             let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
                             possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
@@ -58,8 +75,7 @@ module.exports = {
                     //Queries with the search algorithm by matching each Category Title word with query and taking average.
                 }
             })
-            //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's title
-
+            //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's titl
             if (Object.keys(possibleQueries).length != 0) {
                 var bestResult = ""
                 Object.keys(possibleQueries)
