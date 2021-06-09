@@ -1,5 +1,5 @@
-// const {dbClient} = require("../mongodb.js")
-// const globalFunctions = require("../globalfunctions.js")
+const {dbClient} = require("../mongodb.js")
+const globalFunctions = require("../globalfunctions.js")
 const distance = require('jaro-winkler')
 const Fuse = require('fuse.js')
 const options = {
@@ -132,6 +132,5 @@ module.exports = {
             message.channel.send({embed: guideMessage})
         }
 
-       
 	}
 }
