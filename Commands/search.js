@@ -39,6 +39,7 @@ module.exports = {
                 //Exact case matching: If the entire query closely matches the category title, prioritize it first.
                 
                 else if (query.includes(" ") && val.categoryTitle.toLowerCase().split(" ").map(titleWord => titleWord = query.split(" ").map(queryWord => queryWord = titleWord.includes(queryWord.toLowerCase())).filter(word => word == true).flat()).flat().filter(word => word == true).length >= 1 && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
+                    possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
                     if (server.jumpSearchEnabled) {
                         let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
                         possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
@@ -49,6 +50,7 @@ module.exports = {
                 //If a query has multiple words, check to see if any of the words are in the category title
 
                 } else if (val.categoryTitle.toLowerCase().includes(query.toLowerCase()) && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
+                    possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
                     if (server.jumpSearchEnabled) {
                         let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
                         possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
@@ -106,10 +108,8 @@ module.exports = {
         }
 
         let guideMessage = parseQuery(searchQuery)
-        console.log(guideMessage)
         if (server.jumpSearchEnabled) {
             let queryResult = guideMessage.split("--")
-            console.log(queryResult)
             let searchEmbed = {
                 color: 0x4ea8de,
                 title: 'Search Result',
