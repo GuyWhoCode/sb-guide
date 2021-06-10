@@ -106,9 +106,10 @@ module.exports = {
         }
 
         let guideMessage = parseQuery(searchQuery)
-        
+        console.log(guideMessage)
         if (server.jumpSearchEnabled) {
             let queryResult = guideMessage.split("--")
+            console.log(queryResult)
             let searchEmbed = {
                 color: 0x4ea8de,
                 title: 'Search Result',
