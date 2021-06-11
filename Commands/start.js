@@ -7,7 +7,7 @@ module.exports = {
 		let testMsg = {
 			color: 5155038,
 			title: 'Master Mode',
-			description: '',
+			description: '_ _',
 			fields: [
 			  { name: '_ _', value: '_ _' },
 			  {
@@ -49,13 +49,13 @@ module.exports = {
 		const collector = message.createReactionCollector(filter, {time: globalFunctions.timeToMS("1m")})
 		collector.on('collect', (reaction, user) => {
 			if (reaction.emoji.name === "⬅️") {
-				message.channel.send("Turning the page to the left!")
+				console.log("Turning the page to the left!")
 				let guideSection = scrollThruMsg(testMsg, "back")
 				guideSection != undefined ? message.channel.send({embed: guideSection}) : undefined
 				message.reactions.removeAll()
 				message.react('➡️').then(() => message.react('⬅️'))
 			} else {
-				message.channel.send("Turning the page to the right!")
+				console.log("Turning the page to the right!")
 				let guideSection = scrollThruMsg(testMsg, "forward")
 				guideSection != undefined ? message.channel.send({embed: guideSection}) : undefined
 				message.reactions.removeAll()
