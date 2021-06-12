@@ -5,9 +5,9 @@ module.exports = {
 		message.channel.send('Bot has started!')
 		
 		let testMsg = {
-			color: 5155038,
+			color: 0x4ea8de,
 			title: 'Master Mode',
-			description: '_ _',
+			description: '',
 			fields: [
 			  { name: '_ _', value: '_ _' },
 			  {
@@ -40,8 +40,8 @@ module.exports = {
 		const scrollThruMsg = (msg, action) => {
 			if (section < 0 || section > (msg.fields.length)) return undefined
 			action == "forward" ? section += 1 : section -= 1
-			return msg.fields[section]
-		
+			msg.fields = msg.fields[section]
+			return msg
 		}
 		
 		message.react('➡️')
