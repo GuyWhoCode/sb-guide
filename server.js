@@ -3,7 +3,7 @@ const fs = require("fs")
 const client = new Discord.Client()
 const prefix = 'g!'
 const {restrictedCmds, verifiedRoles, cooldownCmds, nonSkycommCmds, adEmbed} = require("./constants.js")
-const globalFunction = require("./globalfunctions.js")
+const globalFunctions = require("./globalfunctions.js")
 const {dbClient} = require("./mongodb.js")
 
 client.commands = new Discord.Collection()
@@ -22,11 +22,12 @@ client.once('ready', () => {
 client.on('message', async (message) => {
 	if (!message.content.startsWith(prefix) || message.author.bot) if (!message.content.startsWith(prefix.toUpperCase())) return;
 	//weeds out messages that don't start with the prefix and the author of the message is a bot.
+	
 	let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
 	let findServer = await serverInfo.find({"serverID": message.guild.id}).toArray()
 	let server = findServer[0]
 
-	if (message.channel.name != "bot-testing" && server != undefined) {
+	if (server != undefined) {
 		let rightChannel = false
 		server.botChannelID.split(",").map(val => {
 			if (message.channel.id == val) rightChannel = true
@@ -36,15 +37,13 @@ client.on('message', async (message) => {
 			let rightChannels = server.botChannelID.split(",").map(val => val = "<#" + val + "> ").join(",")
 		
 			message.delete({timeout: 15000})
-			return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: 15000}))
+			return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: globalFunctions.timeToMS("15s")}))
 		}
 	}
 	//wrong channel prevention when server is configurated
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
-
-	// return message.channel.send("This bot is currently under maintenance. See <#772940891354300416> for the reason why. Sorry for the inconvenience! - Mason")
 
 	var args = message.content.slice(prefix.length).trim().split(/ +/)
 	var command = args.shift().toLowerCase()
@@ -68,22 +67,22 @@ client.on('message', async (message) => {
 
 		if (message.guild.id != "587765474297905158" && message.guild.id != "807319824752443472") {
 		//Remove command restriction on Skycomm (home server) and Test Server (private test server)
-			if (globalFunction.checkAliases(nonSkycommCmds, userCmd.name)) {
+			if (globalFunctions.checkAliases(nonSkycommCmds, userCmd.name)) {
 				userCmd.execute(message, args)
 			} else {
 				message.channel.send({embed: adEmbed})
-				//sends message advertising skycomm.
+				//sends message advertising Skycomm.
 			}
 			return undefined
 		}
 		//protocal when a server is not Skycomm.
 
-		if (globalFunction.checkAliases(cooldownCmds, userCmd.name)) {
+		if (globalFunctions.checkAliases(cooldownCmds, userCmd.name)) {
 			const timestamp = cooldowns.get(userCmd.name)
 			var cooldown = 0
 			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) cooldown = 0
-			else if (message.member.roles.cache.find(role => globalFunction.checkAliases(verifiedRoles, role.name))) cooldown = globalFunction.timeToMS("1m")
-			else cooldown = globalFunction.timeToMS("3m")
+			else if (message.member.roles.cache.find(role => globalFunctions.checkAliases(verifiedRoles, role.name))) cooldown = globalFunctions.timeToMS("1m")
+			else cooldown = globalFunctions.timeToMS("3m")
 
 			if (timestamp.has(message.author.id)) {
 				const expiration = timestamp.get(message.author.id) + cooldown
@@ -98,8 +97,8 @@ client.on('message', async (message) => {
 			}
 		}
 		//establishes cooldowns
-		if (globalFunction.checkAliases(restrictedCmds, userCmd.name)) {
-			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(message, args)
+		if (globalFunctions.checkAliases(restrictedCmds, userCmd.name)) {
+			if (message.member.roles.cache.find(role => role.name == "Discord Staff" || role.name == "Discord Management" || role.name == "Contributor")) userCmd.execute(client, message, args)
 			else message.channel.send("You do not have permission to run this command!")
 		} else {
 			userCmd.execute(message, args)
@@ -107,7 +106,8 @@ client.on('message', async (message) => {
 		//checking roles to allow users with certain roles (Contributor or Discord Staff) to access restrictive commands
 
 	} catch (error) {
-		message.channel.send("There was an error in excuting that command.")
+		message.channel.send("There was an error in excuting that command. Run `g!help` to see a list of possible commands.")
+		console.log(error)
 	}
 
 })

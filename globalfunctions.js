@@ -1,5 +1,9 @@
-const {categorySchema, suggestionSchema} = require("./constants.js")
-  
+const {categorySchema, suggestionSchema, templateEmbed} = require("./constants.js")
+const {dbClient} = require("./mongodb.js") 
+
+const makeMsgLink = (msgID, categoryID, serverID) => {
+    return "[Jump](https://discord.com/channels/" + serverID + "/" + categoryID + "/" + msgID + ")"
+}
 module.exports = {
     translateCategoryName(name) {
         if (name.includes("_")) {
@@ -18,11 +22,13 @@ module.exports = {
         entry.user = user
         return entry
     },
-    makeNewEntry(msg, title, id, category) {
+    makeNewEntry(msg, title, id, category, serverID) {
+        let messageObject = {}
+        messageObject[serverID] = id
         let entry = Object.create(categorySchema)
         entry.embedMessage = msg
-        entry.categoryTitle = title
-        entry.messageID = id
+        entry.categoryTitle = title 
+        entry.messageID = messageObject
         entry.category = category
         return entry
     },
@@ -53,7 +59,7 @@ module.exports = {
             fields: [
                 {
                     name: user + " (" + id + ") has made a change in `" + category + "`",
-                    value: '**Message:**\n ```' + msg + "```",
+                    value: '**Old Message:**\n ```' + msg + "```",
                 },
                 ],
             footer: {
@@ -65,7 +71,8 @@ module.exports = {
         return logEntry
     },
     embedCharCount(embed) {
-        let msg = embed.embedMessage
+        let msg;
+        embed.embedMessage == undefined ? msg = embed : msg = embed.embedMessage 
         var charCount = msg.title.length
         msg.fields.map(val => {
             charCount += (val.name.length + val.value.length)
@@ -98,5 +105,26 @@ module.exports = {
     },
     escapeRegex(text) {
         return text.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, "\\$&");
+    },
+    makeMsgLink: makeMsgLink,
+    async tableOfContents(category, guildID) {
+        let listEmbed = Object.create(templateEmbed)
+        listEmbed.fields = [{name: "_ _", value: "_ _" }]
+        let categoryCollection = dbClient.db("skyblockGuide").collection("Guides")
+        let categoryList = await categoryCollection.find({"category": category}).toArray()
+
+        let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
+        let findServer = await serverInfo.find({"serverID": guildID}).toArray()
+        let categoryID = ""
+        category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
+        
+        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
+        listEmbed.timestamp = new Date()
+        listEmbed.title = "Table of Contents -- " + category
+        
+        return listEmbed
+    },
+    msToDay(time){
+        return (((time/1000)/60)/60)/24
     }
 }

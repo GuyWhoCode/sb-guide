@@ -27,25 +27,9 @@ module.exports = {
 					value: 'Adds a Dungeon Guide Suggestion to <#772944441643630602> to be approved by a Contributor.\n\u200b',
 				},
 				{
-					name: '`g!addcategory <#Guide Channel> <Category Name>`',
-					value: 'Adds a new Guide message to their respective channels.\n\u200b',
+					name: '`g!style`',
+					value: 'Shows Style Guidelines for Contributors to follow and the editting commands they can use.',
 				},
-				{
-					name: '`g!addsection <Category-Name> <Section Name>`',
-					value: 'Adds a new Guide Section to a Category Message.\n\u200b',
-				},
-				{
-					name: '`g!approve <Suggestion Message ID> <Category-Name> <Section Name>`',
-					value: 'Approves a suggestion made in <#772944441643630602> by editing the Skyblock or Dungeons Guide message.\n\u200b',
-				},
-				{
-					name: '`g!delete <Message ID> <#Channel>`',
-					value: 'Deletes suggestions from <#772944441643630602> and specific sections from any of the Guides.\n\u200b',
-				},
-				{
-					name: '`g!edit <Message ID> <#Channel>`',
-					value: 'Edits a Section of the Guide based on the Message ID supplied.',
-				}
 			],
 			footer: {
 				text: 'SkyBlock Guides',
@@ -60,7 +44,7 @@ module.exports = {
 			helpEmbed.fields = helpEmbed.fields.slice(0,5)
 		}
 		
-		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.com/invite/hysky)**"})
+		helpEmbed.fields.push({name: "_ _", value: "**Powered by the [Skyblock Community](https://discord.gg/8tYAVEU)**"})
 		helpEmbed.timestamp = new Date()
 		message.channel.send({embed: helpEmbed})
 	},

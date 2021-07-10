@@ -20,7 +20,7 @@ var categoryEmbed = {
 module.exports = {
 	name: "addcategory",
 	alises: ["ac", "addc"],
-	execute(message, args) {
+	execute(client, message, args) {
 	  	var categoryChannel, msgID, category, categoryName = ""
 		var channelConfirm = false
 		let guideDB = dbClient.db("skyblockGuide").collection("Guides")
@@ -34,12 +34,11 @@ module.exports = {
 			collector.on('collect', async(msg) => {
 				if (globalFunctions.checkAliases(noAlias, msg.content.trim()) || globalFunctions.checkAliases(cancelAlias, msg.content.trim())){
 					collector.stop()
-					message.channel.send("Process canceled.")
-					return undefined
+					return message.channel.send("Process canceled.")
 					//stops process if given no/cancel alias
 
 				} else if (channelConfirm) {
-					categoryTitle = globalFunctions.translateCategoryName(msg.content.trim())
+					categoryName = globalFunctions.translateCategoryName(msg.content.trim())
 					
 					collector.stop()
 					//Stops prompting the user
@@ -63,9 +62,10 @@ module.exports = {
 
 					categoryChannel.send({ embed: categoryEmbed }).then(msg => msgID = msg.id)
 
-					let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category)
+					let newEntry = globalFunctions.makeNewEntry(categoryEmbed, categoryName, msgID, category, message.guild.id)
 					guideDB.insertOne(newEntry)
 					//Since Discord.js does not like exitting out of the Message collector after ending it, the same code from lines 98-118 is copied and pasted here.
+					return message.channel.send("Your category has been created!")
 
 				} else if (!channelConfirm) {
 					if (globalFunctions.checkAliases(sbAlias, msg.content.trim()) == false && globalFunctions.checkAliases(dAlias, msg.content.trim()) == false) return message.channel.send("Incorrect input. Type in a Guide Channel or its corresponding Alias.")
@@ -73,8 +73,7 @@ module.exports = {
 
 					channelConfirm = true
 					category = msg.content.trim()
-					message.channel.send("Enter the name of the new Guide (Category).")
-					return undefined
+					return message.channel.send("Enter the name of the new Guide (Category).")
 					//if a valid alias of the guide channel is given, run this portion of the code
 				} 
 			})

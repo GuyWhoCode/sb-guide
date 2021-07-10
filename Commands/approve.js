@@ -1,15 +1,15 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {noAlias, cancelAlias} = require("../constants.js")
+const post = require("../post.js")
 const capitalizeString = str => {
 	return str[0].toUpperCase() + str.substring(1)
 }
 
-
 module.exports = {
 	name: 'approve',
 	alises: ["a"],
-	async execute(message, args) {
+	async execute(client, message, args) {
 		var messageID, categoryTitle, sectionTitle, suggestion, categoryMsg, embedMessage = ""
 		let suggestionDB = dbClient.db("skyblockGuide").collection("suggestions")
 		let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
@@ -43,14 +43,15 @@ module.exports = {
 					//returns an error if the provided Section Name did not match anything in the Guide message
 					sectionTitle = globalFunctions.translateCategoryName(msg.content.trim())
 					
+					collector.stop()
+					//Stops prompting the user
+
 					if (suggestion[0].section != categoryMsg[0].category || capitalizeString(suggestion[0].section) != categoryMsg[0].category) return message.channel.send("The suggestion that you have tried to approve does not match with the category's guide. Make sure that Skyblock Suggestions are approved for the Skyblock Guide and that Dungeon Suggestions are approved for the Dungeons Guide.")
 					//edge case when the suggestion trying to be approved is in the wrong section
 					if (globalFunctions.embedCharCount(categoryMsg[0]) >= 6000) return message.channel.send("Error. Approving the following suggestion exceeds the embed character limit (6000). Use `g!e` to shorten the embed.")
 					//edge case when embed exceeds limit
 					if (fieldError) return message.channel.send("Error. Approving the following suggestion exceeds the field character limit (1024). Use `g!e` to shorten the embed.")
 					//edge case when field value exceeds character limit
-					collector.stop()
-					//Stops prompting the user
 
 					let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 					suggestionChannel.messages.fetch({around: messageID, limit: 1})
@@ -61,13 +62,15 @@ module.exports = {
 					var guideChannel = ""
 					embedMessage.timestamp = new Date()
 					categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-					guideChannel.messages.fetch({around: messageID, limit: 1})
+					guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1})
 					.then(msg => {
 						msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 					})
 					
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
-					
+					post.post(client, message, "", "Edit", embedMessage)
+					//post function
+		
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 					
@@ -149,6 +152,7 @@ module.exports = {
 		}
 		//**Default command.** Format: g!approve <Suggestion ID> <Category-Name> <Section-Name>
 		
+
 		let suggestionChannel = message.guild.channels.cache.find(ch => ch.name === "suggested-guide-changes")
 		suggestionChannel.messages.fetch({around: messageID, limit: 1})
 		.then(msg => {
@@ -158,13 +162,14 @@ module.exports = {
 		var guideChannel = ""
 		embedMessage.timestamp = new Date()
 		categoryMsg[0].category === "Skyblock" ? guideChannel = message.guild.channels.cache.find(ch => ch.name === "skyblock-guide") : guideChannel = message.guild.channels.cache.find(ch => ch.name === "dungeons-guide-n-tips")
-		guideChannel.messages.fetch({around: messageID, limit: 1})
+		guideChannel.messages.fetch({around: categoryMsg[0].messageID[message.guild.id], limit: 1})
 		.then(msg => {
 			msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)});
 		})
 		
-		guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": messageID, "category": categoryMsg[0].category}})
-		
+		guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
+		post.post(client, message, "", "Edit", embedMessage)
+		//post function
 		let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 		logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Approve', embedMessage.fields[approveMsgIndex].value, categoryMsg[0].categoryTitle)})
 		
