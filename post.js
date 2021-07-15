@@ -54,7 +54,7 @@ module.exports = {
                                 guidesDB.updateOne({"categoryTitle": guideMessage.categoryTitle}, {$set: {"embedMessage": guideMessage.embedMessage, "categoryTitle": guideMessage.categoryTitle, "messageID": guideMessage.messageID, "category": guideMessage.category}})
                             })
                         }
-                        
+
                         await message.guild.channels.cache.find(ch => ch.id === findServer[0].sbGuideChannelID)
                             .send({embed: sbTableOfContents})
                             .then(msg => findServer[0].sbTable = msg.id)
@@ -111,86 +111,88 @@ module.exports = {
         } 
 
 
-        
-        const queue = (performedAction, name, updatedMsg) => {
-            let entry = {
-                timeChanged: Date.now(),
-                actionMade: performedAction,
-                categoryName: name,
-                changedMessage: updatedMsg
-            }
-            return entry
-        }
-        //Queue system for Multi-server edit/delete
-        let queueDB = dbClient.db("skyblockGuide").collection("updateQueue")
-        let checkEntry = await queueDB.find({"categoryName": changedMsg.title}).toArray()
-        checkEntry[0] == undefined ? queueDB.insertOne(queue(action, changedMsg.title, changedMsg)) : queueDB.updateOne(queue(action, changedMsg.title, changedMsg))
-        //Edge case to see if entry already exists. If it does, update it.
-        
-        // let guideMessage = await guidesDB.find({"categoryTitle": changedMsg}).toArray()
 
-        // setTimeout(() => {
-        //     let checkQueue = await queueDB.find({}).toArray()
-        //     checkQueue.map(val => {
-        //         if ((Date.now() - val.timeChanged)/1000/60/60 < 1) break;
-        //         //If an item in the queue was changed less than an hour ago, move onto the next entry
-        //         // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
-                
-        //         let allServers = await serverInfo.find({}).toArray()
-        //         client.guilds.cache.map(server => {
-        //             let serverSettings;
-        //             allServers.map(val => val.serverID === server.id ? serverSettings = val : undefined)
-        //             server.channels.cache.map(async(channel) => {
-        //                 if (channel.id === serverSettings.sbGuideChannelID) {
-        //                     // if (guideMessage[0].messageID[server.id] == undefined) return channel.send(guideMessage[0].embedMessage)
-        //                     // //If a Guide has not been posted, post it instead of trying to edit nothing
-        //                     // channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
-		//         		    //     .then(msg => {
-		//         		    //     	val.actionMade == "Edit" ? msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)}) : msg.first().delete()
-        //                     //         //If the action is edit, edit the message. Otherwise, delete it.
-        //                     //     })
+        // const queue = (performedAction, name, updatedMsg) => {
+        //     let entry = {
+        //         timeChanged: Date.now(),
+        //         actionMade: performedAction,
+        //         categoryName: name,
+        //         changedMessage: updatedMsg
+        //     }
+        //     return entry
+        // }
+        // //Queue system for Multi-server edit/delete
+        // let queueDB = dbClient.db("skyblockGuide").collection("updateQueue")
+        // let checkEntry = await queueDB.find({"categoryName": changedMsg.title}).toArray()
+        // checkEntry[0] == undefined ? undefined : ( (Date.now() - checkEntry[0].timeChanged)/1000/60/60 < 1 ? queueDB.insertOne(queue(action, changedMsg.title, changedMsg)) : queueDB.updateOne(queue(action, changedMsg.title, changedMsg)))
+        //Edge case to see if entry already exists and the entry is updated in less than an hour. If it does, update it.
+       
+        setTimeout(() => {
+            let checkQueue = await queueDB.find({}).toArray()
+            checkQueue.map(val => {
+                if ((Date.now() - val.timeChanged)/1000/60/60 < 1) break;
+                //If an item in the queue was changed less than an hour ago, move onto the next entry
+                // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
+                let guideMessage = await guidesDB.find({"categoryTitle": val.categoryName}).toArray()
+                let allServers = await serverInfo.find({}).toArray()
+                client.guilds.cache.map(server => {
+                    let serverSettings;
+                    allServers.map(val => val.serverID === server.id ? serverSettings = val : undefined)
+                    if (serverSettings.sbGuideChannelID === undefined || serverSettings.sbGuideChannelID === undefined) break;
+                    //If a server does not have guide channels, skip the process of updating
+                    server.channels.cache.map(async(channel) => {
+                        if (channel.id === serverSettings.sbGuideChannelID) {
+                            if (guideMessage[0].messageID[server.id] == undefined) return channel.send(guideMessage[0].embedMessage)
+                            //DO -- thennable instance to save message id in the guide message
+                            //If a Guide has not been posted, post it instead of trying to edit nothing
+                            channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
+		        		        .then(msg => {
+		        		        	val.actionMade == "Edit" ? msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)}) : msg.first().delete()
+                                    //If the action is edit, edit the message. Otherwise, delete it.
+                                })
 
-        //                     await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
-        //                         .then(msg => {
-        //                             if (serverInfo.sbTable == msg.id) msg.first().delete()
-        //                             //if the msg id fetched doesn't match, assume the message is lost/deleted
-        //                         })
+                            await channel.messages.fetch({around: serverSettings.sbTable, limit: 1})
+                                .then(msg => {
+                                    if (serverInfo.sbTable == msg.id) msg.first().delete()
+                                    //if the msg id fetched doesn't match, assume the message is lost/deleted
+                                })
 
-        //                     await globalFunctions.tableOfContents("Skyblock", server.id)
-        //                         .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
-        //                     //Deletes and resends the Skyblock Table of Contents
-        //                 } 
+                            await globalFunctions.tableOfContents("Skyblock", server.id)
+                                .then(val => channel.send({embed: val}).then(msg => serverInfo.sbTable = msg.id))
+                            //Deletes and resends the Skyblock Table of Contents
+                        } 
 
-        //                 if (channel.id === serverSettings.dGuideChannelID) {
-        //                     // if (guideMessage[0].messageID[server.id] == undefined) return channel.send(guideMessage[0].embedMessage)
-        //                     // //If a Guide has not been posted, post it instead of trying to edit nothing
-        //                     // channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
-		//         		    //     .then(msg => {
-		//         		    //     	val.actionMade == "Edit" ? msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)}) : msg.first().delete()
-        //                     //         //If the action is edit, edit the message. Otherwise, delete it.
-        //                     //     })
+                        if (channel.id === serverSettings.dGuideChannelID) {
+                            if (guideMessage[0].messageID[server.id] == undefined) return channel.send(guideMessage[0].embedMessage)
+                            //If a Guide has not been posted, post it instead of trying to edit nothing
+                            //DO -- thennable instance to save message id in the guide message
+                            channel.messages.fetch({around: guideMessage[0].messageID[server.id], limit: 1})
+		        		        .then(msg => {
+		        		        	val.actionMade == "Edit" ? msg.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)}) : msg.first().delete()
+                                    //If the action is edit, edit the message. Otherwise, delete it.
+                                    //DO -- know when to differentiate between edit and delete in the guides db
+                                })
                             
-        //                     await channel.messages.fetch({around: serverSettings.dTable, limit: 1})
-        //                         .then(msg => {
-        //                             if (serverSettings.dTable == msg.id) msg.first().delete()
-        //                             //if the msg id fetched doesn't match, assume the message is lost/deleted
-        //                         })
+                            await channel.messages.fetch({around: serverSettings.dTable, limit: 1})
+                                .then(msg => {
+                                    if (serverSettings.dTable == msg.id) msg.first().delete()
+                                    //if the msg id fetched doesn't match, assume the message is lost/deleted
+                                })
 
-        //                     await globalFunctions.tableOfContents("Dungeons", server.id)
-        //                         .then(val => channel.send({embed: val}).then(msg => serverSettings.dTable = msg.id))
-        //                     //Deletes and resends the Dungeon Table of Contents
-        //                 }
-        //             })
+                            await globalFunctions.tableOfContents("Dungeons", server.id)
+                                .then(val => channel.send({embed: val}).then(msg => serverSettings.dTable = msg.id))
+                            //Deletes and resends the Dungeon Table of Contents
+                        }
+                    })
 
-        //             serverInfo.updateOne({"serverID": server.id}, {$set: serverSettings})
-        //             console.log("Operation complete!")
-        //         })
+                    serverInfo.updateOne({"serverID": server.id}, {$set: serverSettings})
+                    console.log("Operation complete!")
+                })
                 
-                
-                
-        //         queueDB.deleteOne({"categoryName": val.categoryName})
-        //     })
-        // }, globalFunctions.timeToMS("5s"))
+                queueDB.deleteOne({"categoryName": val.categoryName})
+
+            })
+        }, globalFunctions.timeToMS("15s"))
         //Have the code check every 15 minutes or everytime the command is called.
     }
 }

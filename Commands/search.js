@@ -48,6 +48,7 @@ module.exports = {
                     }
                 //Exact word matching: If the query has a word that matches a category title, add it to the possible queries.
                 //If a query has multiple words, check to see if any of the words are in the category title
+                //Code structure: Check every word and map over it for exact word matching. If it matches, return a boolean and convert array of T/F into a single boolean w/ filter
 
                 } else if (val.categoryTitle.toLowerCase().includes(query.toLowerCase()) && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
                     possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
@@ -57,7 +58,7 @@ module.exports = {
                     } else {
                         possibleQueries[val.categoryTitle + " embed"] = val.embedMessage
                     }
-                //Exact word matching: If the query has a word that matches a categoryt title, add it to the possible queries.
+                //Exact word matching: If the query has a word that matches a category title, add it to the possible queries.
                 //If a query just has a single word, do this
                 
                 } else {
@@ -77,7 +78,7 @@ module.exports = {
                     //Queries with the search algorithm by matching each Category Title word with query and taking average.
                 }
             })
-            //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's titl
+            //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's title
             if (Object.keys(possibleQueries).length != 0) {
                 var bestResult = ""
                 Object.keys(possibleQueries)
@@ -130,7 +131,44 @@ module.exports = {
 
         } else {
             guideMessage.timestamp = new Date()
-            message.channel.send({embed: guideMessage})
+            let section = 0
+            const scrollThruMsg = (msg, action) => {
+                let newMsg = Object.create(msg)
+                //Instance of the msg to prevent accidentally setting the argument since it needs to be preserved for future scrolling
+                action == "forward" ? section += 1 : section -= 1
+                newMsg.fields = msg.fields[section]
+                if (newMsg.fields === undefined) {
+                    section -= 1 
+                    return undefined
+                } else if (newMsg.fields.name === "_ _") {
+                    section += 1	
+                    return undefined
+                }
+                return newMsg
+            }
+
+            message.channel.send({embed: scrollThruMsg(guideMessage, "forward")}).then((msg) => {
+            	msg.react('➡️')
+            	const filter = (reaction, user) => {return ['⬅️', '➡️'].includes(reaction.emoji.name) && user.id === message.author.id}
+            	const collector = msg.createReactionCollector(filter, {time: globalFunctions.timeToMS("3m")})
+
+            	collector.on('collect', reaction => {
+            		let guideSection;
+            		reaction.emoji.name === "⬅️" ? guideSection = scrollThruMsg(guideMessage, "back") : guideSection = scrollThruMsg(guideMessage, "forward")
+
+            		guideSection != undefined ? msg.edit({embed: guideSection}) : undefined
+            		msg.reactions.removeAll()
+            		msg.react('⬅️').then(() => msg.react('➡️'))
+            		// msg is an instance of message, the main library.
+            		// Flow: when a reaction is collected, scroll left or right based on the reaction; reset all reactions; resend reactions
+            	})
+
+            	collector.on('end', () => {
+            		msg.reactions.removeAll()
+            		// once the time limit has been reached, clear all reactions to prevent any confusion
+            	})
+            })
+            //Reaction Scroller
         }
 
 	}

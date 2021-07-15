@@ -95,14 +95,13 @@ module.exports = {
 
 				guideMsg = processFile(msg.content.trim(), categoryMsg[0].embedMessage)
 				if (guideMsg == undefined) return message.channel.send("The file submitted exceeded Discord's embed character limit. See `g!style` for more info.")
-				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
 				//Translating error message to the user.
+				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
 				received = true
 				return message.channel.send({embed: guideMsg})
 			
 			} else {
 				return message.channel.send("Invalid formatting. Check to see if this format is followed:\n" +  "```Category:\nSection:\n<Start Guide Message Here>```")
-				//Catch all edge case when all other conditionals fail
 			}
         })
 	},

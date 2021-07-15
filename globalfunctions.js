@@ -115,10 +115,12 @@ module.exports = {
 
         let serverInfo = dbClient.db("skyblockGuide").collection("Settings")
         let findServer = await serverInfo.find({"serverID": guildID}).toArray()
-        let categoryID = ""
+        let categoryID, msgLink = ""
         category === "Skyblock" ? categoryID = findServer[0].sbGuideChannelID : categoryID = findServer[0].dGuideChannelID
         
-        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: makeMsgLink(val.messageID[guildID], categoryID, guildID)}))
+        findServer[0].sbGuideChannelID == "None" || findServer[0].dGuideChannelID == "None" ? msgLink = "_ _" : msgLink = makeMsgLink(val.messageID[guildID], categoryID, guildID)
+        categoryList.map(val => listEmbed.fields.push({name: val.categoryTitle, value: msgLink}))
+        //When there is no guide channel, list the category titles without a message link
         listEmbed.timestamp = new Date()
         listEmbed.title = "Table of Contents -- " + category
         
