@@ -1,17 +1,10 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const distance = require('jaro-winkler')
-const Fuse = require('fuse.js')
-const options = {
-    includeScore: true,
-    shouldSort: true,
-    keys: ["categoryTitle", "embedMessage.fields.name"]
-}
-const threshold = 0.60
 const aliasList = ["query", "s"]
 
 module.exports = {
-    name: "search",
+    name: "searching",
     alises: aliasList,
     async execute(message, args) {
         if (args.length == 0) return globalFunctions.commandHelpEmbed("Search", aliasList, Date.now(), "g!search money", "Returns the Common Money Making Guide")
@@ -22,10 +15,9 @@ module.exports = {
         let server = serverSettings[0]
         let guidesDB = dbClient.db("skyblockGuide").collection("Guides")
         let guide = await guidesDB.find({}).toArray()
-        let fuseSearch = new Fuse(guide, options)
         
         const parseQuery = query => {
-            possibleQueries = {}
+            let possibleQueries = {}
             guide.map(val => {
                 if (distance(query, val.categoryTitle, {caseSensitive: false}) > 0.70 || val.categoryTitle == query) {
                     possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
@@ -37,8 +29,7 @@ module.exports = {
                     }
                 }
                 //Exact case matching: If the entire query closely matches the category title, prioritize it first.
-                
-                else if (query.includes(" ") && val.categoryTitle.toLowerCase().split(" ").map(titleWord => titleWord = query.split(" ").map(queryWord => queryWord = titleWord.includes(queryWord.toLowerCase())).filter(word => word == true).flat()).flat().filter(word => word == true).length >= 1 && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
+                else if (query.includes(" ") && val.categoryTitle.toLowerCase().split(" ").map(titleWord => titleWord = query.split("\\ ").map(queryWord => queryWord = titleWord.includes(queryWord.toLowerCase().trim())).filter(word => word == true).flat()).flat().filter(word => word == true).length >= 1 && distance(query, val.categoryTitle, {caseSensitive: false}) > 0.50) {
                     possibleQueries[val.categoryTitle] = distance(query, val.categoryTitle, {caseSensitive: false})
                     if (server.jumpSearchEnabled) {
                         let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
@@ -68,6 +59,7 @@ module.exports = {
                         .reduce((prev, current) => prev + current)/(val.categoryTitle.split(" ").length)
                     
                     if (closeness > threshold) {
+						possibleQueries[val.categoryTitle] = closeness
                         if (server.jumpSearchEnabled) {
                             let categoryID = val.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
                             possibleQueries[val.categoryTitle + " embed"] = globalFunctions.makeMsgLink(val.messageID[message.guild.id], categoryID, message.guild.id)
@@ -78,7 +70,6 @@ module.exports = {
                     //Queries with the search algorithm by matching each Category Title word with query and taking average.
                 }
             })
-            //Implements the Jaro-winkler search algorithm by comparing the search query string to the guide's title
             if (Object.keys(possibleQueries).length != 0) {
                 var bestResult = ""
                 Object.keys(possibleQueries)
@@ -93,19 +84,8 @@ module.exports = {
                 } else {
                     return possibleQueries[bestResult + " embed"]
                 }
-                
             }
             //Sorts out the results by picking the highest rated one and returns the corresponding guide embed message
-            
-            let results = fuseSearch.search(query)
-            if (server.jumpSearchEnabled) {
-                let categoryID = results[0].item.category == "Skyblock" ? server.sbGuideChannelID : server.dGuideChannelID
-                return results[0].item.categoryTitle + "--" + globalFunctions.makeMsgLink(results[0].item.messageID[message.guild.id], categoryID, message.guild.id)
-            } else {
-                return results[0].item.embedMessage
-            }
-            //Implements fuzzy searching as a backup search algorithm when the Jaro-winkler algorithm doesn't give a result
-            //NICE TO HAVE --- need to have an default case. Rather than returning the least best result, return a embed that suggests user to clarify/narrow down search
         }
 
         let guideMessage = parseQuery(searchQuery)
@@ -128,6 +108,28 @@ module.exports = {
                 timestamp: new Date()
             }
             message.channel.send({embed: searchEmbed})
+
+        } else if (guideMessage === undefined) {
+            let defaultEmbed = {
+                color: 0xcc0000,
+                title: 'Search Result',
+                fields: [
+                    {
+                        name: "Error:",
+                        value: "The query cannot be matched to any guide."
+                    },
+                    {
+                        name: "Way to Narrow Search",
+                        value: "Try using key words like `money` or `combat` instead of killing and cash.\n" + "If this error continues, use `g!lc` for a list of guide names."
+                    },
+                    ],
+                footer: {
+                    text: 'Skyblock Guides',
+                    icon_url: "https://i.imgur.com/184jyne.png",
+                },
+                timestamp: new Date()
+            }
+            message.channel.send({embed: defaultEmbed})
 
         } else {
             guideMessage.timestamp = new Date()

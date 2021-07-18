@@ -1,7 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const post = require("../post.js")
-const {yesAlias, noAlias, cancelAlias, skycommAffliates, skycommPartners} = require("../constants.js")
+const {yesAlias, noAlias, cancelAlias, skycommAffiliates, skycommPartners} = require("../constants.js")
 
 module.exports = {
     name: "config",
@@ -66,8 +66,8 @@ module.exports = {
 			
 			if (message.guild.id == "587765474297905158" || message.guild.id == "807319824752443472") {
 				configEmbed.fields[5].value = "Origin Server -- No delay on Guide changes"
-			} else if (globalFunctions.checkAliases(skycommAffliates, message.guild.id)) {
-				configEmbed.fields[5].value = "Affliate -- 1 day delay on Guide changes"
+			} else if (globalFunctions.checkAliases(skycommAffiliates, message.guild.id)) {
+				configEmbed.fields[5].value = "Affiliate -- 1 day delay on Guide changes"
 			} else if (globalFunctions.checkAliases(skycommPartners, message.guild.id)) {
 				configEmbed.fields[5].value = "Partner -- 2 day delay on Guide changes"
 			} else {

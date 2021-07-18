@@ -1,6 +1,6 @@
 const {dbClient} = require("./mongodb.js")
 const globalFunctions = require("./globalfunctions.js")
-const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffliates, skycommPartners} = require("./constants.js")
+const {yesAlias, noAlias, cancelAlias, templateEmbed, skycommAffiliates, skycommPartners} = require("./constants.js")
 
 module.exports = {
     async post (client, message, serverID, action, changedMsg) {
@@ -21,7 +21,7 @@ module.exports = {
         // let timeDelay = 0
 
         // if (serverID == "587765474297905158" || serverID == "807319824752443472") {} //do nothing
-        // else if (globalFunctions.checkAliases(skycommAffliates, serverID)) timeDelay = 1
+        // else if (globalFunctions.checkAliases(skycommAffiliates, serverID)) timeDelay = 1
         // else if (globalFunctions.checkAliases(skycommPartners, serverID)) timeDelay = 2
         // else timeDelay = 3
 
@@ -193,6 +193,6 @@ module.exports = {
 
         //     })
         // }, globalFunctions.timeToMS("15s"))
-        //Have the code check every 15 minutes or everytime the command is called.
+        //Have the code check every 15 minutes or every time the command is called.
     }
 }

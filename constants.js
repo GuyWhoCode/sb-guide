@@ -19,7 +19,7 @@ const yesAlias = ["yes", "Yes", "YES", "y", 'Y']
 const noAlias = ["no", "NO", "No", "n", "N"]
 const cancelAlias = ["cancel", "Cancel", "CANCEL", "c", "C"]
 const nonSkycommCmds = ["help", "config", "listcategories", "search"]
-const skycommAffliates = ["591143899335229450", "450878205294018560", "594851373229670422", "606681165524369408"]
+const skycommAffiliates = ["591143899335229450", "450878205294018560", "594851373229670422", "606681165524369408"]
 const skycommPartners = ["652148034448261150", "571031549550788618", "727426780381577291"]
 const adEmbed = {
 	color: 0x4ea8de,
@@ -65,7 +65,7 @@ module.exports = {
     cooldownCmds: cooldownCmds,
     nonSkycommCmds: nonSkycommCmds,
     adEmbed: adEmbed,
-    skycommAffliates: skycommAffliates,
+    skycommAffiliates: skycommAffiliates,
     skycommPartners: skycommPartners,
     templateEmbed: templateEmbed
 }
