@@ -1,13 +1,13 @@
 {
   "name": "skyblock-guide",
-  "version": "2.6.0",
+  "version": "3.0.0",
   "description": "Discord Bot made for updating Skyblock Guides",
   "main": "server.js",
   "dependencies": {
     "discord.js": "^12.4.1",
     "fs": "0.0.1-security",
     "jaro-winkler": "^0.2.8",
-    "mongodb": "^3.6.3",
+    "mongodb": "^4.0.0",
     "ws": "^7.4.6"
   },
   "devDependencies": {},

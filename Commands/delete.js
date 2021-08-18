@@ -1,7 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {noAlias, cancelAlias} = require("../constants.js")
-const post = require("../post.js")
+// const post = require("../post.js")
 
 module.exports = {
 	name: 'delete',
@@ -74,7 +74,7 @@ module.exports = {
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', sectionInfo, guideMsg[0].categoryTitle)})
 					
 					guideDB.updateOne(identifier, {$set: {"embedMessage": guideMsg[0].embedMessage, "categoryTitle": guideMsg[0].categoryTitle, "messageID": guideMsg[0].messageID, "category": guideMsg[0].category}})
-					post.post(client, message, "", "Edit", guideMsg[0].embedMessage)
+					// post.post(client, message, "", "Edit", guideMsg[0].embedMessage)
 					// post function
 					return message.channel.send("Section deleted.")
 
@@ -94,7 +94,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Delete', "See below.", deleteChannel.name)})
 					logChannel.send({embed: guideMsg[0].embedMessage}).then(()=> guideDB.deleteOne({identifier}))
-					post.post(client, message, "", "Delete", guideMsg[0].embedMessage)
+					// post.post(client, message, "", "Delete", guideMsg[0].embedMessage)
 					// post function
 		
 
