@@ -40,7 +40,7 @@ client.on('message', async (message) => {
 			return message.reply("Wrong channel. Please use " + rightChannels).then(msg => msg.delete({ timeout: globalFunctions.timeToMS("15s")}))
 		}
 	}
-	//wrong channel prevention when server is configurated
+	//wrong channel prevention when server is configured
 
 	if (message.member.roles.cache.find(role => role.name == "Guide Locked")) return message.channel.send("You have been locked from suggesting anything.")
 	//weeds out messages that are sent by users who have been locked for moderation purposes.
@@ -75,7 +75,7 @@ client.on('message', async (message) => {
 			}
 			return undefined
 		}
-		//protocal when a server is not Skycomm.
+		//protocol when a server is not Skycomm.
 
 		if (globalFunctions.checkAliases(cooldownCmds, userCmd.name)) {
 			const timestamp = cooldowns.get(userCmd.name)
@@ -106,7 +106,7 @@ client.on('message', async (message) => {
 		//checking roles to allow users with certain roles (Contributor or Discord Staff) to access restrictive commands
 
 	} catch (error) {
-		message.channel.send("There was an error in excuting that command. Run `g!help` to see a list of possible commands.")
+		message.channel.send("There was an error in executing that command. Run `g!help` to see a list of possible commands.")
 		console.log(error)
 	}
 

@@ -1,26 +1,24 @@
 {
   "name": "skyblock-guide",
-  "version": "1.0.0",
-  "description": "Discord Bot made for updating Skyblock Guide",
+  "version": "3.0.0",
+  "description": "Discord Bot made for updating Skyblock Guides",
   "main": "server.js",
   "dependencies": {
     "discord.js": "^12.4.1",
     "fs": "0.0.1-security",
-    "fuse.js": "^6.4.6",
     "jaro-winkler": "^0.2.8",
-    "mongodb": "^3.6.3",
+    "mongodb": "^4.0.0",
     "ws": "^7.4.6"
   },
   "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/GuyWhoCode/sb-guide.git"
   },
-  "author": "",
+  "author": "GuyWhoCodes",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/GuyWhoCode/sb-guide/issues"

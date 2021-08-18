@@ -1,7 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
-const post = require("../post.js")
+// const post = require("../post.js")
 
 const processFile = (file, oldGuideMsg) => {
 	let fileLines = file.split("\n")
@@ -67,14 +67,13 @@ module.exports = {
 						//updates the ID if it does not match in the database
 					}
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryName, "i") }}, {$set: {"embedMessage": guideMsg, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-					post.post(client, message, "", "Edit", guideMsg)
+					// post.post(client, message, "", "Edit", guideMsg)
 					//post function 
 					m.first().edit({embed: guideMsg}).then(me => {message.channel.send("ID: " + me.id)})
 				})
 
 				let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
-				// logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
-				logChannel.send({embed: globalFunctions.logAction("Jake Kizard", "191332103110131712", 'Edit', "Old Guide Message below.", categoryMsg[0].categoryTitle)})
+				logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', "See text file uploaded", categoryMsg[0].categoryTitle)})
 				logChannel.send({embed: categoryMsg[0].embedMessage})
 				//temprarily placed here to give credit for guides written in raw text format
 				return message.channel.send("Message edited.")
@@ -95,14 +94,13 @@ module.exports = {
 
 				guideMsg = processFile(msg.content.trim(), categoryMsg[0].embedMessage)
 				if (guideMsg == undefined) return message.channel.send("The file submitted exceeded Discord's embed character limit. See `g!style` for more info.")
-				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
 				//Translating error message to the user.
+				message.channel.send("Please confirm that the editted Guide message below is correct with `yes` or `no`.")
 				received = true
 				return message.channel.send({embed: guideMsg})
 			
 			} else {
 				return message.channel.send("Invalid formatting. Check to see if this format is followed:\n" +  "```Category:\nSection:\n<Start Guide Message Here>```")
-				//Catch all edge case when all other conditionals fail
 			}
         })
 	},

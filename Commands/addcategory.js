@@ -87,7 +87,7 @@ module.exports = {
 			category = args[0]
 			categoryName = args.slice(1, args.length).join(" ").trim()
 			if (globalFunctions.checkAliases(sbAlias, category) == false && globalFunctions.checkAliases(dAlias, category) == false) return message.channel.send("You are missing an argument! Please use the right format. `g!addcategory <#Guide Channel> <Category Name>`")
-	  		//checks if provided alias does not match list of alises
+	  		//checks if provided alias does not match list of aliases
 			
 		}
 		//**Default command.** Format: g!ac <#Guide-Channel> <Category-Name>

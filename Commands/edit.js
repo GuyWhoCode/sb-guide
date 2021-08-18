@@ -1,7 +1,7 @@
 const {dbClient} = require("../mongodb.js")
 const globalFunctions = require("../globalfunctions.js")
 const {yesAlias, noAlias, cancelAlias} = require("../constants.js")
-const post = require("../post.js")
+// const post = require("../post.js")
 
 module.exports = {
 	name: 'edit',
@@ -48,7 +48,7 @@ module.exports = {
 						}
 						m.first().edit({embed: embedMessage}).then(me => {message.channel.send("ID: " + me.id)})
 						guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-						post.post(client, message, "", "Edit", embedMessage)
+						// post.post(client, message, "", "Edit", embedMessage)
 						// post function
 					})
 
@@ -166,7 +166,7 @@ module.exports = {
 						if (m.first().id != categoryMsg[0].messageID[message.guild.id])  {
 							categoryMsg[0].messageID[message.guild.id] = m.first().id 
 							guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-							post.post(client, message, "", "Edit", embedMessage)
+							// post.post(client, message, "", "Edit", embedMessage)
 							// post function
 							//updates the ID if it does not match in the database
 						}
@@ -176,7 +176,7 @@ module.exports = {
 					let logChannel = message.guild.channels.cache.find(ch => ch.name === "guide-log")
 					logChannel.send({embed: globalFunctions.logAction(message.author.username, message.author.id, 'Edit', oldMessage, categoryMsg[0].categoryTitle)})
 					guidesDB.updateOne({"categoryTitle": { $regex: new RegExp(categoryTitle, "i") }}, {$set: {"embedMessage": embedMessage, "categoryTitle": categoryMsg[0].categoryTitle, "messageID": categoryMsg[0].messageID, "category": categoryMsg[0].category}})
-					post.post(client, message, "", "Edit", categoryMsg[0].categoryTitle)
+					// post.post(client, message, "", "Edit", categoryMsg[0].categoryTitle)
 					message.channel.send("Message edited.")
 				
 				} 
