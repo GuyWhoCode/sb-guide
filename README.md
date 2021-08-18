@@ -21,6 +21,8 @@ A multitude of settings are available for server owners. See the command `g!conf
 
 ### Dependencies:
 - Node JS
-- Discord JS
+- Discord JS (Version 12.4)
 - File System (Node JS)
-- MongoDB
+- MongoDB 4
+- Jaro-Winkler
+- Nodemon (local environment testing)
