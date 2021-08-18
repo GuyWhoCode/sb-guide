@@ -130,7 +130,7 @@ module.exports = {
         setTimeout( async() => {
             let checkQueue = await queueDB.find({}).toArray()
             checkQueue.map(val => {
-                if ((Date.now() - val.timeChanged)/1000/60/60 < 1) break;
+                // if ((Date.now() - val.timeChanged)/1000/60/60 < 1) return;
                 //If an item in the queue was changed less than an hour ago, move onto the next entry
                 // if (globalFunctions.msToDay(Date.now()) - globalFunctions.msToDay(findServer[0].lastUpdated) < timeDelay) return undefined;
                 let guideMessage = await guidesDB.find({"categoryTitle": val.categoryName}).toArray()
