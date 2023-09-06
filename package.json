@@ -7,7 +7,7 @@
     "discord.js": "^12.4.1",
     "fs": "0.0.1-security",
     "jaro-winkler": "^0.2.8",
-    "mongodb": "^4.0.0",
+    "mongodb": "^4.17.0",
     "ws": "^7.4.6"
   },
   "devDependencies": {},
